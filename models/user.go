@@ -13,7 +13,7 @@ type User struct {
 	Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Name      string        `json:"name"`
 	Salt      string        `json:"salt"`
-	Key       string        `json:"-"`
+	Key       string        `json:"key"`
 	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
 }
 
