@@ -19,11 +19,6 @@ func LogRequest(handler http.Handler) http.Handler {
 	})
 }
 
-type User struct {
-	Name string
-	Shit string
-}
-
 func main() {
 	programName := filepath.Base(os.Args[0])
 
@@ -41,19 +36,8 @@ func main() {
 	// Setup Server
 	config.SetupRoutes()
 
-	config.SetupMongo()
+	config.SetupMongo("localhost")
 	defer config.ShutdownMongo()
-
-	/*
-		session := config.MongoSession.Copy()
-
-		err := session.DB("test").C("users").Insert(&User{Name: "Nick", Shit: "worked"})
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		session.Close()
-	*/
 
 	// Start serving requests
 	serving_url := fmt.Sprintf("%s:%d", *host, *port)
