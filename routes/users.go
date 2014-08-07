@@ -17,10 +17,10 @@ func Users(w http.ResponseWriter, r *http.Request) {
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
 
-	user, err := models.CreateUser()
+	user, err := models.CreateUser(r.FormValue("name"))
 
 	if err != nil {
-		w.WriteHeader(404)
+		w.WriteHeader(401)
 	} else {
 		bytes, _ := user.ToJson()
 

@@ -11,19 +11,22 @@ import (
 
 type User struct {
 	Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Salt      string
-	Key       string
-	CreatedAt time.Time `json:"created_at"`
+	Name      string        `json:"name"`
+	Salt      string        `json:"salt"`
+	Key       string        `json:"-"`
+	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
 }
 
 func (u *User) ToJson() ([]byte, error) {
 	return json.MarshalIndent(*u, "", "    ")
 }
 
-func CreateUser() (User, error) {
+func CreateUser(name string) (User, error) {
 	session := db.NewSession()
+	defer session.Close()
 
 	user := User{
+		Name:      name,
 		Salt:      util.RandomString(12),
 		Key:       util.RandomString(64),
 		CreatedAt: time.Now(),
@@ -35,7 +38,7 @@ func CreateUser() (User, error) {
 		return user, err
 	}
 
-	if err := usersCollection.Find(bson.M{"salt": user.Salt}).One(user); err != nil {
+	if err := usersCollection.Find(bson.M{"salt": user.Salt}).One(&user); err != nil {
 		return user, err
 	}
 
