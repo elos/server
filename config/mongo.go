@@ -8,13 +8,13 @@ import (
 
 var MongoSession *mgo.Session
 
-func SetupMongo() *mgo.Session {
+func SetupMongo(addr string) *mgo.Session {
 	var err error
 
-	if MongoSession, err = mgo.Dial("localhost"); err != nil {
+	if MongoSession, err = mgo.Dial(addr); err != nil {
 		log.Fatal(err)
 	} else {
-		log.Printf("Mongo session %v created", MongoSession)
+		log.Printf("Mongo session created")
 	}
 
 	return MongoSession
