@@ -2,12 +2,11 @@ package models
 
 import (
 	"encoding/json"
+	"time"
 
-	"github.com/elos/server/config"
+	"github.com/elos/server/db"
 	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2/bson"
-
-	"time"
 )
 
 type User struct {
@@ -22,7 +21,7 @@ func (u *User) ToJson() ([]byte, error) {
 }
 
 func CreateUser() (User, error) {
-	session := config.MongoSession.Copy()
+	session := db.NewSession()
 
 	user := User{
 		Salt:      util.RandomString(12),

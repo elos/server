@@ -3,23 +3,22 @@ package config
 import (
 	"log"
 
+	"github.com/elos/server/db"
 	"gopkg.in/mgo.v2"
 )
 
-var MongoSession *mgo.Session
-
 func SetupMongo(addr string) *mgo.Session {
-	var err error
+	session, err := db.Connect(addr)
 
-	if MongoSession, err = mgo.Dial(addr); err != nil {
+	if err != nil {
 		log.Fatal(err)
 	} else {
 		log.Printf("Mongo session created")
 	}
 
-	return MongoSession
+	return session
 }
 
 func ShutdownMongo() {
-	MongoSession.Close()
+	db.Close()
 }
