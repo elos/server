@@ -5,8 +5,14 @@ import "gopkg.in/mgo.v2"
 var PrimarySession *mgo.Session
 
 func Connect(addr string) (*mgo.Session, error) {
+	// Close any existing connection
 	Close()
-	return mgo.Dial(addr)
+
+	var err error
+
+	PrimarySession, err = mgo.Dial(addr)
+
+	return PrimarySession, err
 }
 
 func Close() {
