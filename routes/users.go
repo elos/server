@@ -1,9 +1,11 @@
 package routes
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/elos/server/models"
+	"github.com/elos/server/util"
 )
 
 func Users(w http.ResponseWriter, r *http.Request) {
@@ -12,17 +14,20 @@ func Users(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
 		postHandler(w, r)
+	default:
+		util.InvalidMethod(w)
+		return
 	}
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
-
 	user, err := models.CreateUser(r.FormValue("name"))
 
 	if err != nil {
-		w.WriteHeader(401)
+		log.Print(err)
+		util.ServerError(w, err)
 	} else {
-		bytes, _ := user.ToJson()
+		bytes, _ := util.ToJson(user)
 
 		// Default status is 200
 		w.Write(bytes)

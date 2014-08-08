@@ -1,7 +1,6 @@
 package models
 
 import (
-	"encoding/json"
 	"time"
 
 	"github.com/elos/server/db"
@@ -19,10 +18,6 @@ type User struct {
 
 func UsersCollection(s *mgo.Session) *mgo.Collection {
 	return s.DB("test").C("users")
-}
-
-func (u *User) ToJson() ([]byte, error) {
-	return json.MarshalIndent(*u, "", "    ")
 }
 
 func CreateUser(name string) (User, error) {

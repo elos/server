@@ -20,11 +20,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		getHandler(w, r)
 	default:
-		util.ErrorResponse(w,
-			405,
-			405,
-			"Method not allowed",
-			"The only allowed method to this route is a GET websocket upgrade request")
+		util.InvalidMethod(w)
 		return
 	}
 
@@ -39,13 +35,13 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Printf("%s", err)
-		http.Error(w, "Server Error", 500)
+		util.ServerError(w, err)
 	}
 
 	if authenticated {
 		w.WriteHeader(200)
 
-		bytes, _ := user.ToJson()
+		bytes, _ := util.ToJson(user)
 		w.Write(bytes)
 
 		return

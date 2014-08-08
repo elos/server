@@ -1,7 +1,6 @@
 package util
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 )
@@ -13,14 +12,7 @@ type ApiError struct {
 	DeveloperMessage string `json:"developer_message"`
 }
 
-func (e *ApiError) ToJson() ([]byte, error) {
-	// Always pretty-print JSON
-	return json.MarshalIndent(*e, "", "    ")
-}
-
 func ErrorResponse(w http.ResponseWriter, status int, code int, message string, dMessage string) {
-	w.WriteHeader(status)
-
 	apiError := ApiError{
 		Status:           status,
 		Code:             code,
@@ -28,9 +20,7 @@ func ErrorResponse(w http.ResponseWriter, status int, code int, message string, 
 		DeveloperMessage: dMessage,
 	}
 
-	bytes, _ := apiError.ToJson()
-
-	w.Write(bytes)
+	ResourceResponse(w, status, apiError)
 }
 
 func NotFound(w http.ResponseWriter) {
