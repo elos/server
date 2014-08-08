@@ -19,7 +19,11 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		getHandler(w, r)
 	default:
-		http.Error(w, "Method not allowed", 405)
+		models.ErrorResponse(w,
+			405,
+			405,
+			"Method not allowed",
+			"The only allowed method to this route is a GET websocket upgrade request")
 		return
 	}
 
