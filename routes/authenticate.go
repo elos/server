@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/elos/server/models"
+	"github.com/elos/server/util"
 	"github.com/gorilla/websocket"
 )
 
@@ -19,7 +20,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		getHandler(w, r)
 	default:
-		models.ErrorResponse(w,
+		util.ErrorResponse(w,
 			405,
 			405,
 			"Method not allowed",
@@ -33,9 +34,6 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 
 	id := r.Header.Get("Elos-ID")
 	key := r.Header.Get("Elos-Key")
-	log.Print("hey there")
-	log.Printf(id)
-	log.Printf(key)
 
 	user, authenticated, err := models.AuthenticateUser(id, key)
 
