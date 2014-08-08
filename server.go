@@ -9,15 +9,8 @@ import (
 	"path/filepath"
 
 	"github.com/elos/server/config"
+	"github.com/elos/server/util"
 )
-
-// Request wrapper that each request
-func LogRequest(handler http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("%s %s %s", r.RemoteAddr, r.Method, r.URL)
-		handler.ServeHTTP(w, r)
-	})
-}
 
 func main() {
 	programName := filepath.Base(os.Args[0])
@@ -44,5 +37,5 @@ func main() {
 
 	log.Printf("Serving at http://%s", serving_url)
 
-	log.Fatal(http.ListenAndServe(serving_url, LogRequest(http.DefaultServeMux)))
+	log.Fatal(http.ListenAndServe(serving_url, util.LogRequest(http.DefaultServeMux)))
 }
