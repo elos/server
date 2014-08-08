@@ -1,8 +1,10 @@
 package routes
 
 import (
+	"log"
 	"net/http"
 
+	"github.com/elos/server/models"
 	"github.com/gorilla/websocket"
 )
 
@@ -24,16 +26,40 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 }
 
 func getHandler(w http.ResponseWriter, r *http.Request) {
-	// var ws *websocket.Conn
 
-	/*
-		if ws, err := upgrader.Upgrade(w, r, nil); err != nil {
-			log.Println(err)
-			return
-		}
-	*/
+	id := r.Header.Get("Elos-ID")
+	key := r.Header.Get("Elos-Key")
+	log.Print("hey there")
+	log.Printf(id)
+	log.Printf(key)
 
-	// authenticate
+	user, authenticated, err := models.AuthenticateUser(id, key)
 
-	// send to hub
+	if err != nil {
+		log.Printf("%s", err)
+		http.Error(w, "Server Error", 500)
+	}
+
+	if authenticated {
+		w.WriteHeader(200)
+
+		bytes, _ := user.ToJson()
+		w.Write(bytes)
+
+		return
+		/*
+			var ws *websocket.Conn
+
+			if ws, err := upgrader.Upgrade(w, r, nil); err != nil {
+				log.Println(err)
+				return
+			}
+		*/
+
+		// send to hub
+	} else {
+		w.WriteHeader(401)
+		return
+	}
+
 }
