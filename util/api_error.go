@@ -1,7 +1,8 @@
-package models
+package util
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -30,4 +31,16 @@ func ErrorResponse(w http.ResponseWriter, status int, code int, message string, 
 	bytes, _ := apiError.ToJson()
 
 	w.Write(bytes)
+}
+
+func NotFound(w http.ResponseWriter) {
+	ErrorResponse(w, 404, 404, "Not Found", "Perhaps you have an incorrect id?")
+}
+
+func ServerError(w http.ResponseWriter, err error) {
+	ErrorResponse(w, 500, 500, "Server Error", fmt.Sprintf("%s", err))
+}
+
+func InvalidMethod(w http.ResponseWriter) {
+	ErrorResponse(w, 405, 405, "Invalid Method", "Perhaps you meant to GET instead of POST? Or vice versa?")
 }
