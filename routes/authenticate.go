@@ -57,9 +57,13 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 		// util.ServerError(w, err)
 	}
 
+	protocol := http.Header{
+		"Sec-WebSocket-Protocol": []string{r.Header.Get("Sec-WebSocket-Protocol")},
+	}
+
 	if authenticated {
 		log.Print("authenticated")
-		ws, err := upgrader.Upgrade(w, r, r.Header)
+		ws, err := upgrader.Upgrade(w, r, protocol)
 
 		if err != nil {
 			log.Println(err)

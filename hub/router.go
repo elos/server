@@ -58,4 +58,7 @@ func Route(e Envelope, hc HubConnection) {
 		log.Printf("Structured data: %v", v)
 		PrimaryHub.SendJson(hc.User, v)
 	*/
+
+	// Echo
+	PrimaryHub.SendJson(hc.User, e)
 }
