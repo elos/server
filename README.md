@@ -16,7 +16,7 @@ Create a user
 Websocket
 ---------
 ``` javascript
-  var connection = new WebSocket('ws://localhost:8000/v1/authenticate', "id-key");
+  var connection = new WebSocket('ws://localhost:8000/v1/authenticate', "#{id}-#{key}"); // don't mind the ruby interpolation
   connection.onmessage = function(event) { console.log(JSON.parse(event.data)) };
   msg = {action: "POST", data:{user: {name: "Nick Landolfi"}}}; // example
   connection.send(JSON.stringify(msg));
