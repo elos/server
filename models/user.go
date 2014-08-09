@@ -10,9 +10,10 @@ import (
 )
 
 type User struct {
-	Model
-	Name string `json:"name"`
-	Key  string `json:"key"`
+	Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	Name      string        `json:"name"`
+	Key       string        `json:"key"`
+	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
 }
 
 func UsersCollection(s *mgo.Session) *mgo.Collection {
@@ -24,9 +25,9 @@ func CreateUser(name string) (User, error) {
 	defer session.Close()
 
 	user := User{
-		Name:  name,
-		Key:   util.RandomString(64),
-		Model: Model{CreatedAt: time.Now()},
+		Name:      name,
+		Key:       util.RandomString(64),
+		CreatedAt: time.Now(),
 	}
 
 	usersCollection := UsersCollection(session)
