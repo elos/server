@@ -15,11 +15,11 @@ Create a user
 
 Websocket
 ---------
-
-  var connection = new WebSocket('ws://localhost:8000/v1/authenticate', "id-key")
-  connection.onmessage = function(event) { console.log(JSON.parse(event.Data)) }
-  msg = {action: "POST", data:{user: {name: "Nick Landolfi"}}} .// example
-  connection.send(JSON.stringify(msg))
-
+``` javascript
+  var connection = new WebSocket('ws://localhost:8000/v1/authenticate', "id-key");
+  connection.onmessage = function(event) { console.log(JSON.parse(event.Data)) };
+  msg = {action: "POST", data:{user: {name: "Nick Landolfi"}}}; // example
+  connection.send(JSON.stringify(msg));
+```
 
 
