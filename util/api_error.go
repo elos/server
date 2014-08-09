@@ -32,5 +32,15 @@ func ServerError(w http.ResponseWriter, err error) {
 }
 
 func InvalidMethod(w http.ResponseWriter) {
-	ErrorResponse(w, 405, 405, "Invalid Method", "Perhaps you meant to GET instead of POST? Or vice versa?")
+	ErrorResponse(w, 405, 405, "Invalid Method",
+		"Perhaps you meant to GET instead of POST? Or vice versa?")
+}
+
+func Unauthorized(w http.ResponseWriter) {
+	ErrorResponse(w, 401, 401, "Unauthroized", "Check your key")
+}
+
+func WebSocketFailed(w http.ResponseWriter) {
+	ErrorResponse(w, 400, 400, "WebSocket Failed",
+		"We were unable to process your websocket request, perhaps it was not spec-valid?")
 }

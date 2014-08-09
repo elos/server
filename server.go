@@ -26,11 +26,13 @@ func main() {
 		flag.PrintDefaults()
 	}
 
-	// Setup Server
+	// Setup
 	config.SetupRoutes()
 
 	config.SetupMongo("localhost")
 	defer config.ShutdownMongo()
+
+	config.SetupHub()
 
 	// Start serving requests
 	serving_url := fmt.Sprintf("%s:%d", *host, *port)

@@ -3,7 +3,9 @@ package routes
 import (
 	"log"
 	"net/http"
+	"strings"
 
+	"github.com/elos/server/hub"
 	"github.com/elos/server/models"
 	"github.com/elos/server/util"
 	"github.com/gorilla/websocket"
@@ -27,37 +29,47 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 }
 
 func getHandler(w http.ResponseWriter, r *http.Request) {
+	tokens := strings.Split(r.Header.Get("Sec-WebSocket-Protocol"), "-")
 
-	id := r.Header.Get("Elos-ID")
-	key := r.Header.Get("Elos-Key")
+	if len(tokens) != 2 {
+		return
+	}
+
+	id := tokens[0]
+	key := tokens[1]
+
+	log.Print(r.FormValue("foo"))
+
+	/*
+		id := r.FormValue("id")
+		key := r.FormValue("key")
+	*/
+
+	if id == "" {
+		return
+	}
 
 	user, authenticated, err := models.AuthenticateUser(id, key)
 
 	if err != nil {
 		log.Printf("%s", err)
-		util.ServerError(w, err)
+		return
+		// util.ServerError(w, err)
 	}
 
 	if authenticated {
-		w.WriteHeader(200)
+		log.Print("authenticated")
+		ws, err := upgrader.Upgrade(w, r, r.Header)
 
-		bytes, _ := util.ToJson(user)
-		w.Write(bytes)
+		if err != nil {
+			log.Println(err)
+			return
+		}
 
-		return
-		/*
-			var ws *websocket.Conn
-
-			if ws, err := upgrader.Upgrade(w, r, nil); err != nil {
-				log.Println(err)
-				return
-			}
-		*/
-
-		// send to hub
+		hub.NewConnection(user, ws)
 	} else {
-		w.WriteHeader(401)
 		return
+		// util.Unauthorized(w)
 	}
 
 }

@@ -2,7 +2,7 @@ package util
 
 import "crypto/rand"
 
-const PotentialBytes = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyx_-"
+const PotentialBytes = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyx_"
 
 func RandomString(n int) string {
 
