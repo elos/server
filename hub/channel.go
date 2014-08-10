@@ -1,15 +1,10 @@
 package hub
 
-import (
-	"log"
-
-	"github.com/gorilla/websocket"
-)
+import "github.com/gorilla/websocket"
 
 type HubChannel struct {
 	Sockets []*websocket.Conn
-
-	Send chan []byte
+	Send    chan []byte
 }
 
 func (hc *HubChannel) AddSocket(s *websocket.Conn) {
@@ -36,9 +31,6 @@ func DeleteSocket(slice []*websocket.Conn, value *websocket.Conn) {
 }
 
 func (hc *HubChannel) WriteJson(v interface{}) []error {
-	log.Print("HUB channel write json", *hc)
-	log.Print("hc.Sockets", hc.Sockets)
-
 	var errs []error
 
 	for _, socket := range hc.Sockets {

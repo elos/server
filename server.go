@@ -9,6 +9,8 @@ import (
 	"path/filepath"
 
 	"github.com/elos/server/config"
+	"github.com/elos/server/hub"
+	"github.com/elos/server/routes"
 	"github.com/elos/server/util"
 )
 
@@ -18,7 +20,7 @@ func main() {
 	var (
 		host    = flag.String("h", "127.0.0.1", "IP Address to bind to")
 		port    = flag.Int("p", 8000, "Port to listen on")
-		verbose = flag.Bool("v", false, "Whether to print verbose logs")
+		verbose = flag.Bool("v", true, "Whether to print verbose logs")
 	)
 
 	flag.Usage = func() {
@@ -29,7 +31,11 @@ func main() {
 
 	// Setup
 	config.SetupRoutes()
-	config.Verbose = verbose
+
+	// Configure verbosity for each package
+	config.Verbose = *verbose
+	routes.Verbose = *verbose
+	hub.Verbose = *verbose
 
 	config.SetupMongo("localhost")
 	defer config.ShutdownMongo()

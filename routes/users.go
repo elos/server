@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/elos/server/config"
 	"github.com/elos/server/models"
 	"github.com/elos/server/util"
 )
@@ -25,7 +24,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("An error occurred while creating the user, err: %s", err)
 		util.ServerError(w, err)
 	} else {
-		if config.Verbose {
+		if Verbose {
 			log.Print("User was successfully created: %v", user)
 		}
 

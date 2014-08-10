@@ -13,26 +13,24 @@ type HubConnection struct {
 }
 
 func NewConnection(user models.User, socket *websocket.Conn) {
-	log.Printf("NEWCONNECTION")
+	// Create a new connection wrapper for the user. socket connection pair
 	connection := HubConnection{
 		User:   user,
 		Socket: socket,
 	}
 
-	log.Printf("hey")
-
+	// Register our connection with the hub
 	PrimaryHub.Register <- connection
 
-	log.Printf("there")
-
+	// Start reading messages from the socket
 	go connection.Read()
 }
 
 func (hc *HubConnection) Read() {
-	log.Printf("READ")
+	// When we break our loop, close the connection
 	defer hc.Close()
 
-	// add read limit and deadline
+	// TODO add read limit and deadline
 
 	for {
 		var e Envelope
@@ -40,6 +38,10 @@ func (hc *HubConnection) Read() {
 		err := hc.Socket.ReadJSON(&e)
 
 		if err != nil {
+			if Verbose {
+				log.Print("An error occurred while reading a HubConnection, err: %s", err)
+			}
+
 			/*
 				If there was an error break inf. loop
 				Function then completes, and defer is called
@@ -47,6 +49,7 @@ func (hc *HubConnection) Read() {
 			break
 		}
 
+		// Handle the message
 		go Route(e, *hc)
 	}
 }
