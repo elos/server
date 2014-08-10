@@ -9,8 +9,6 @@ import (
 	"path/filepath"
 
 	"github.com/elos/server/config"
-	"github.com/elos/server/hub"
-	"github.com/elos/server/routes"
 	"github.com/elos/server/util"
 )
 
@@ -29,19 +27,19 @@ func main() {
 		flag.PrintDefaults()
 	}
 
-	config.SetupRoutes()
-
-	config.Verbose = verbose
-	routes.Verbose = verbose
-	hub.Verbose = verbose
-
+	config.SetVerbosity(*verbose)
 	config.SetupMongo("localhost")
-	defer config.ShutdownMongo()
-
+	config.SetupRoutes()
 	config.SetupHub()
 
-	// Start serving requests
-	serving_url := fmt.Sprintf("%s:%d", *host, *port)
+	defer config.ShutdownMongo()
+	defer config.ShutdownHub()
+
+	StartServer(*host, *port)
+}
+
+func StartServer(host string, port int) {
+	serving_url := fmt.Sprintf("%s:%d", host, port)
 
 	log.Printf("Serving at http://%s", serving_url)
 
