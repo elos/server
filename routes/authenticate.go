@@ -32,6 +32,7 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	tokens := strings.Split(r.Header.Get("Sec-WebSocket-Protocol"), "-")
 
 	if len(tokens) != 2 {
+		util.Unauthorized(w)
 		return
 	}
 
@@ -46,6 +47,7 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	*/
 
 	if id == "" {
+		util.Unauthorized(w)
 		return
 	}
 
@@ -72,8 +74,8 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 
 		hub.NewConnection(user, ws)
 	} else {
+		util.Unauthorized(w)
 		return
-		// util.Unauthorized(w)
 	}
 
 }
