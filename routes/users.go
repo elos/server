@@ -4,19 +4,17 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/elos/server/config"
 	"github.com/elos/server/models"
 	"github.com/elos/server/util"
 )
 
 func Users(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-
 	switch r.Method {
 	case "POST":
 		postHandler(w, r)
 	default:
 		util.InvalidMethod(w)
-		return
 	}
 }
 
@@ -24,12 +22,13 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	user, err := models.CreateUser(r.FormValue("name"))
 
 	if err != nil {
-		log.Print(err)
+		log.Printf("An error occurred while creating the user, err: %s", err)
 		util.ServerError(w, err)
 	} else {
-		bytes, _ := util.ToJson(user)
+		if config.Verbose {
+			log.Print("User was successfully created: %v", user)
+		}
 
-		// Default status is 200
-		w.Write(bytes)
+		util.ResourceResponse(w, 201, user)
 	}
 }

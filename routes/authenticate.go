@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/elos/server/config"
 	"github.com/elos/server/hub"
 	"github.com/elos/server/models"
 	"github.com/elos/server/util"
@@ -17,36 +18,45 @@ var upgrader = websocket.Upgrader{
 }
 
 func Authenticate(w http.ResponseWriter, r *http.Request) {
-
 	switch r.Method {
 	case "GET":
 		getHandler(w, r)
 	default:
 		util.InvalidMethod(w)
-		return
 	}
-
 }
 
 func getHandler(w http.ResponseWriter, r *http.Request) {
+	// Use the WebSocket protocol header to identify and authenticate the user
 	tokens := strings.Split(r.Header.Get("Sec-WebSocket-Protocol"), "-")
 
 	if len(tokens) != 2 {
+		if config.Verbose {
+			log.Print("The length of the tokens extrapolated from Sec-Websocket-Protocol was not 2")
+		}
+
 		util.Unauthorized(w)
 		return
 	}
 
-	id := tokens[0]
-	key := tokens[1]
+	var (
+		id  string = tokens[0]
+		key string = tokens[1]
+	)
 
-	log.Print(r.FormValue("foo"))
-
+	// Query Parameter Method of Authentication
 	/*
 		id := r.FormValue("id")
 		key := r.FormValue("key")
 	*/
 
+	// Prevents an error that should be dealt with within AuthenticateUser
+	// The empty string breaks the authenticate function
 	if id == "" {
+		if config.Verbose {
+			log.Print("The id extrapolated from the Sec-Websocket-Protocol was: \"\"")
+		}
+
 		util.Unauthorized(w)
 		return
 	}
@@ -54,9 +64,9 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	user, authenticated, err := models.AuthenticateUser(id, key)
 
 	if err != nil {
-		log.Printf("%s", err)
+		log.Printf("An error occurred during authentication, err: %s", err)
+		util.ServerError(w, err)
 		return
-		// util.ServerError(w, err)
 	}
 
 	protocol := http.Header{
@@ -64,16 +74,28 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if authenticated {
-		log.Print("authenticated")
+		if config.Verbose {
+			log.Printf("User with id %s was authenticated", id)
+		}
+
 		ws, err := upgrader.Upgrade(w, r, protocol)
 
 		if err != nil {
-			log.Println(err)
+			log.Printf("An error occurred while upgrading to the websocket protocol, err: %s", err)
+			// gorilla/websocket handles response to client
 			return
+		}
+
+		if config.Verbose {
+			log.Printf("User with id %s just connected over websocket", id)
 		}
 
 		hub.NewConnection(user, ws)
 	} else {
+		if config.Verbose {
+			log.Printf("User with id %s failed authentication", id)
+		}
+
 		util.Unauthorized(w)
 		return
 	}
