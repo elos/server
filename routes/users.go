@@ -24,7 +24,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("An error occurred while creating the user, err: %s", err)
 		util.ServerError(w, err)
 	} else {
-		if Verbose {
+		if *Verbose {
 			log.Print("User was successfully created: %v", user)
 		}
 

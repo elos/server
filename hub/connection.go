@@ -38,7 +38,7 @@ func (hc *HubConnection) Read() {
 		err := hc.Socket.ReadJSON(&e)
 
 		if err != nil {
-			if Verbose {
+			if *Verbose {
 				log.Print("An error occurred while reading a HubConnection, err: %s", err)
 			}
 

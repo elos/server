@@ -1,3 +1,3 @@
 package routes
 
-var Verbose bool
+var Verbose *bool

@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var Verbose bool
+var Verbose *bool
 
 /*
 	A hub maintains a set of connections, and broadcasts
@@ -59,18 +59,18 @@ func (h *Hub) Run() {
 	for {
 		select {
 		case c := <-h.Register:
-			if Verbose {
+			if *Verbose {
 				log.Print("Hub is registering a new socket for User id %s", c.User.Id.String())
 			}
 
 			h.FindOrCreateChannel(c.User.Id.String()).AddSocket(c.Socket)
 
-			if Verbose {
+			if *Verbose {
 				log.Printf("New socket registered for User id %s", c.User.Id.String())
 			}
 
 		case c := <-h.Unregister:
-			if Verbose {
+			if *Verbose {
 				log.Print("Hub is UNregistering a new socket for User id %s", c.User.Id.String())
 			}
 
@@ -82,7 +82,7 @@ func (h *Hub) Run() {
 				channel.RemoveSocket(c.Socket)
 			}
 
-			if Verbose {
+			if *Verbose {
 				log.Print("One socket removed for User id %s", c.User.Id.String())
 			}
 		}

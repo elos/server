@@ -30,7 +30,7 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	tokens := strings.Split(r.Header.Get("Sec-WebSocket-Protocol"), "-")
 
 	if len(tokens) != 2 {
-		if Verbose {
+		if *Verbose {
 			log.Print("The length of the tokens extrapolated from Sec-Websocket-Protocol was not 2")
 		}
 
@@ -52,7 +52,7 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	// Prevents an error that should be dealt with within AuthenticateUser
 	// The empty string breaks the authenticate function
 	if id == "" {
-		if Verbose {
+		if *Verbose {
 			log.Print("The id extrapolated from the Sec-Websocket-Protocol was: \"\"")
 		}
 
@@ -73,7 +73,7 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if authenticated {
-		if Verbose {
+		if *Verbose {
 			log.Printf("User with id %s was authenticated", id)
 		}
 
@@ -85,13 +85,13 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		if Verbose {
+		if *Verbose {
 			log.Printf("User with id %s just connected over websocket", id)
 		}
 
 		hub.NewConnection(user, ws)
 	} else {
-		if Verbose {
+		if *Verbose {
 			log.Printf("User with id %s failed authentication", id)
 		}
 

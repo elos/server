@@ -29,13 +29,11 @@ func main() {
 		flag.PrintDefaults()
 	}
 
-	// Setup
 	config.SetupRoutes()
 
-	// Configure verbosity for each package
-	config.Verbose = *verbose
-	routes.Verbose = *verbose
-	hub.Verbose = *verbose
+	config.Verbose = verbose
+	routes.Verbose = verbose
+	hub.Verbose = verbose
 
 	config.SetupMongo("localhost")
 	defer config.ShutdownMongo()

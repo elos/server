@@ -1,3 +1,3 @@
 package config
 
-var Verbose bool
+var Verbose *bool
