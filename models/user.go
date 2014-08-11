@@ -21,8 +21,6 @@ type User struct {
 
 	// Links
 	EventIds []bson.ObjectId `json:"event_ids", bson:"event_ids"`
-	// FriendId  bson.ObjectId
-	// FamilyIds []bson.ObjectId
 }
 
 func (u *User) GetId() bson.ObjectId {
@@ -58,68 +56,6 @@ func (u *User) AddEvent(e *Event) error {
 
 	return u.Save()
 }
-
-/*
-// --- EXPERIMENTAL TRACE BULLETS {{{
-func (u *User) Get(k db.Key) db.Property {
-	if u.GetId() == bson.ObjectIdHex("") {
-		return nil
-	}
-
-	if err := db.PopulateById(UserKind, u); err != nil {
-		return nil
-	}
-
-	switch k {
-	case "Id":
-		return u.Id
-	case "CreatedAt":
-		return u.CreatedAt
-	case "Name":
-		return u.Name
-	case "Key":
-		return u.Key
-	// Example OneLink
-	case "Friend":
-		if u.FriendId == bson.ObjectIdHex("") {
-			return nil
-		}
-
-		friend := &User{Id: u.FriendId}
-
-		if err := db.LinkOne(UserKind, friend); err != nil {
-			return nil
-		}
-
-		return friend
-	// Example Many Link
-	case "Family":
-		users := make([]*User, len(u.FamilyIds))
-
-		for i, id := range u.FamilyIds {
-			users[i] = &User{Id: id}
-			db.LinkOne(UserKind, users[i])
-		}
-
-		return users
-	default:
-		return nil
-	}
-}
-
-func (u *User) Set(key db.Key, value db.Property) error {
-	switch key {
-	case "Name":
-		u.Name = value.(string)
-	case "Friend":
-	default:
-		return nil
-	}
-	return u.Save()
-}
-
-// --- }}}
-*/
 
 func CreateUser(name string) (*User, error) {
 	user := User{
