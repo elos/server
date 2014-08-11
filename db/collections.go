@@ -7,7 +7,8 @@ import (
 const PrimaryDatabase = "test"
 
 var Collections = map[Kind]string{
-	"user": "users",
+	"user":  "users",
+	"event": "events",
 }
 
 func Database(s *mgo.Session) *mgo.Database {

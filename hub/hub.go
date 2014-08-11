@@ -5,6 +5,7 @@ import (
 
 	"github.com/elos/server/models"
 	"github.com/gorilla/websocket"
+	"gopkg.in/mgo.v2/bson"
 )
 
 var Verbose *bool
@@ -15,7 +16,7 @@ var Verbose *bool
 */
 type Hub struct {
 	// Registered connections
-	Channels map[string]*HubChannel
+	Channels map[bson.ObjectId]*HubChannel
 
 	// Channel to register new HubConnections
 	Register chan HubConnection
@@ -29,13 +30,13 @@ var PrimaryHub *Hub
 
 func CreateHub() *Hub {
 	return &Hub{
-		Channels:   make(map[string]*HubChannel),
+		Channels:   make(map[bson.ObjectId]*HubChannel),
 		Register:   make(chan HubConnection),
 		Unregister: make(chan HubConnection),
 	}
 }
 
-func (h *Hub) FindOrCreateChannel(id string) *HubChannel {
+func (h *Hub) FindOrCreateChannel(id bson.ObjectId) *HubChannel {
 	// Lookup the channel by id
 	_, present := h.Channels[id]
 
@@ -60,22 +61,22 @@ func (h *Hub) Run() {
 		select {
 		case c := <-h.Register:
 			if *Verbose {
-				log.Print("Hub is registering a new socket for User id %s", c.User.Id.String())
+				log.Print("Hub is registering a new socket for User id %s", c.User.Id)
 			}
 
-			h.FindOrCreateChannel(c.User.Id.String()).AddSocket(c.Socket)
+			h.FindOrCreateChannel(c.User.Id).AddSocket(c.Socket)
 
 			if *Verbose {
-				log.Printf("New socket registered for User id %s", c.User.Id.String())
+				log.Printf("New socket registered for User id %s", c.User.Id)
 			}
 
 		case c := <-h.Unregister:
 			if *Verbose {
-				log.Print("Hub is UNregistering a new socket for User id %s", c.User.Id.String())
+				log.Print("Hub is UNregistering a new socket for User id %s", c.User.Id)
 			}
 
 			// Lookup the channel registered for the user
-			channel := h.Channels[c.User.Id.String()]
+			channel := h.Channels[c.User.Id]
 
 			if channel != nil {
 				// Remove the specified socket if the channel exists
@@ -83,12 +84,12 @@ func (h *Hub) Run() {
 			}
 
 			if *Verbose {
-				log.Print("One socket removed for User id %s", c.User.Id.String())
+				log.Print("One socket removed for User id %s", c.User.Id)
 			}
 		}
 	}
 }
 
 func (h *Hub) SendJson(user models.User, v interface{}) {
-	h.Channels[user.Id.String()].WriteJson(v)
+	h.Channels[user.Id].WriteJson(v)
 }

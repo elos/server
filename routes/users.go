@@ -11,13 +11,13 @@ import (
 func Users(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
-		postHandler(w, r)
+		usersPostHandler(w, r)
 	default:
 		util.InvalidMethod(w)
 	}
 }
 
-func postHandler(w http.ResponseWriter, r *http.Request) {
+func usersPostHandler(w http.ResponseWriter, r *http.Request) {
 	user, err := models.CreateUser(r.FormValue("name"))
 
 	if err != nil {

@@ -20,16 +20,43 @@ type User struct {
 	Key  string `json:"key"`
 
 	// Links
+	EventIds []bson.ObjectId `json:"event_ids", bson:"event_ids"`
 	// FriendId  bson.ObjectId
 	// FamilyIds []bson.ObjectId
 }
 
 func (u *User) GetId() bson.ObjectId {
-	return (*u).Id
+	return u.Id
 }
 
 func (u *User) Save() error {
 	return db.Save(UserKind, u)
+}
+
+func (u *User) EventIdsHash() map[bson.ObjectId]bool {
+	hash := make(map[bson.ObjectId]bool, len(u.EventIds))
+
+	for _, id := range u.EventIds {
+		hash[id] = true
+	}
+
+	return hash
+}
+
+func (u *User) AddEvent(e *Event) error {
+	eventId := e.GetId()
+
+	if u.EventIdsHash()[eventId] {
+		return nil
+	}
+
+	u.EventIds = append(u.EventIds, eventId)
+
+	if e.UserId != u.Id {
+		e.SetUser(u)
+	}
+
+	return u.Save()
 }
 
 /*
