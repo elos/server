@@ -24,10 +24,8 @@ func eventsPostHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("An error occurred while create the event, err: %s", err)
 		util.ServerError(w, err)
 	} else {
-		if *Verbose {
-			log.Print("Event was successfully created: %v", event)
-			log.Print("Event user", event.GetUser())
-		}
+		util.Logf("Event was successfully created: %v", event)
+		util.Log("Event user", event.GetUser())
 
 		util.ResourceResponse(w, 201, event)
 	}

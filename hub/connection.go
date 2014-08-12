@@ -1,9 +1,8 @@
 package hub
 
 import (
-	"log"
-
 	"github.com/elos/server/models"
+	"github.com/elos/server/util"
 	"github.com/gorilla/websocket"
 )
 
@@ -38,9 +37,7 @@ func (hc *HubConnection) Read() {
 		err := hc.Socket.ReadJSON(&e)
 
 		if err != nil {
-			if *Verbose {
-				log.Print("An error occurred while reading a HubConnection, err: %s", err)
-			}
+			util.Logf("An error occurred while reading a HubConnection, err: %s", err)
 
 			/*
 				If there was an error break inf. loop

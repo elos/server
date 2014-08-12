@@ -1,14 +1,11 @@
 package hub
 
 import (
-	"log"
-
 	"github.com/elos/server/models"
+	"github.com/elos/server/util"
 	"github.com/gorilla/websocket"
 	"gopkg.in/mgo.v2/bson"
 )
-
-var Verbose *bool
 
 /*
 	A hub maintains a set of connections, and broadcasts
@@ -60,20 +57,14 @@ func (h *Hub) Run() {
 	for {
 		select {
 		case c := <-h.Register:
-			if *Verbose {
-				log.Print("Hub is registering a new socket for User id %s", c.User.Id)
-			}
+			util.Logf("Hub is registering a new socket for User id %s", c.User.Id)
 
 			h.FindOrCreateChannel(c.User.Id).AddSocket(c.Socket)
 
-			if *Verbose {
-				log.Printf("New socket registered for User id %s", c.User.Id)
-			}
+			util.Logf("New socket registered for User id %s", c.User.Id)
 
 		case c := <-h.Unregister:
-			if *Verbose {
-				log.Print("Hub is UNregistering a new socket for User id %s", c.User.Id)
-			}
+			util.Logf("Hub is UNregistering a new socket for User id %s", c.User.Id)
 
 			// Lookup the channel registered for the user
 			channel := h.Channels[c.User.Id]
@@ -83,9 +74,7 @@ func (h *Hub) Run() {
 				channel.RemoveSocket(c.Socket)
 			}
 
-			if *Verbose {
-				log.Print("One socket removed for User id %s", c.User.Id)
-			}
+			util.Logf("One socket removed for User id %s", c.User.Id)
 		}
 	}
 }
