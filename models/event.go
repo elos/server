@@ -4,9 +4,10 @@ import (
 	"time"
 
 	"github.com/elos/server/db"
-	"github.com/elos/server/hub"
 	"gopkg.in/mgo.v2/bson"
 )
+
+// --- Defintion {{{
 
 const EventKind db.Kind = "event"
 
@@ -38,9 +39,7 @@ func (e *Event) Save() error {
 	return err
 }
 
-func (e *Event) DidSave() {
-	hub.PrimaryHermes.Send <- e
-}
+// --- }}}
 
 func (e *Event) Concerned() []*bson.ObjectId {
 	a := make([]*bson.ObjectId, 1)
@@ -48,6 +47,7 @@ func (e *Event) Concerned() []*bson.ObjectId {
 	return a
 }
 
+// --- Etc {{{
 func (e *Event) GetUser() *User {
 	user := User{}
 
@@ -89,3 +89,5 @@ func CreateEvent(name string /*startTime time.Time, endTime time.Time,*/, userId
 		return &event, nil
 	}
 }
+
+// --- }}}

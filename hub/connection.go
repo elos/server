@@ -50,8 +50,10 @@ func (hc *HubConnection) Read() {
 			break
 		}
 
+		e.Agent = hc.Agent
+
 		// Handle the message
-		go Route(e, *hc)
+		go Route(&e, hc)
 	}
 }
 

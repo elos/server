@@ -4,10 +4,11 @@ import (
 	"time"
 
 	"github.com/elos/server/db"
-	"github.com/elos/server/hub"
 	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2/bson"
 )
+
+// --- Definition {{{
 
 const UserKind db.Kind = "user"
 
@@ -38,9 +39,7 @@ func (u *User) Save() error {
 	return err
 }
 
-func (u *User) DidSave() {
-	hub.PrimaryHermes.Send <- u
-}
+// --- }}}
 
 func (u *User) Concerned() []*bson.ObjectId {
 	a := make([]*bson.ObjectId, 1)
@@ -48,6 +47,7 @@ func (u *User) Concerned() []*bson.ObjectId {
 	return a
 }
 
+// --- Etc {{{
 func (u *User) EventIdsHash() map[*bson.ObjectId]bool {
 	hash := make(map[*bson.ObjectId]bool, len(u.EventIds))
 
@@ -119,3 +119,5 @@ func FindUserBy(field string, value interface{}) (User, error) {
 
 	return user, nil
 }
+
+// --- }}}

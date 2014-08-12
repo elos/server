@@ -1,9 +1,18 @@
 package hub
 
+import (
+	"fmt"
+
+	"github.com/elos/server/db"
+	"github.com/elos/server/models"
+	"github.com/elos/server/util"
+	"gopkg.in/mgo.v2/bson"
+)
+
 type Envelope struct {
 	Agent  Agent
-	Action string                 `json:"action"`
-	Data   map[string]interface{} `json:"data"`
+	Action string                  `json:"action"`
+	Data   map[db.Kind]interface{} `json:"data"`
 }
 
 /*
@@ -35,25 +44,70 @@ func UsersSerializer(data []byte) []*models.User {
 }
 */
 
-func Route(e Envelope, hc HubConnection) {
-	/*
-		Serializers := map[string]Serializer{
-			"user":  UserSerializer,
-			"users": UsersSerializer,
+func Route(e *Envelope, hc *HubConnection) error {
+	switch e.Action {
+	case "POST":
+		return postHandler(e, hc)
+	case "GET":
+		return getHandler(e, hc)
+	case "DELETE":
+		return nil
+		// haha, can't delete >:)
+	default:
+		return fmt.Errorf("Action not recognized")
+	}
+}
+
+func postHandler(e *Envelope, hc *HubConnection) error {
+	// Echo
+	PrimaryHub.SendJson(hc.Agent, e)
+	return nil
+}
+
+func getHandler(e *Envelope, hc *HubConnection) error {
+	for kind, data := range e.Data {
+		id := bson.ObjectIdHex(data.(map[string]interface{})["id"].(string))
+		var (
+			err   error
+			model db.Model
+		)
+
+		util.Logf("Id determined: %v", id)
+
+		switch kind {
+		case models.UserKind:
+			util.Log("Determined to be user")
+			model = &models.User{
+				Id: id,
+			}
+
+			err = db.PopulateById(models.UserKind, model)
+
+			util.Logf("User looks like %#v", model)
+		case models.EventKind:
+			util.Log("Determined to be event")
+			model = &models.Event{
+				Id: id,
+			}
+
+			err = db.PopulateById(models.EventKind, model)
+		default:
+			util.Log("Determined to be undetermined")
+			PrimaryHub.SendJson(hc.Agent, util.ApiError{400, 400, "Bad", "Stuff"})
 		}
 
-		log.Printf("Envelope: %v", e)
-
-		var v []interface{}
-		for key, _ := range e.Data {
-			bytes, _ := json.Marshal(e.Data[key])
-			v := Serializers[key](bytes)
+		if err != nil {
+			util.Log("Error populating the data for getHandler")
+			PrimaryHub.SendJson(hc.Agent, util.ApiError{400, 400, "Bad", "Stuff"})
+			return fmt.Errorf("There was a error, deal with it")
 		}
 
-		log.Printf("Structured data: %v", v)
-		PrimaryHub.SendJson(hc.User, v)
-	*/
+		util.Logf("MODEL: %#v", model)
+
+		PrimaryHub.SendJson(hc.Agent, model)
+	}
 
 	// Echo
 	PrimaryHub.SendJson(hc.Agent, e)
+	return nil
 }

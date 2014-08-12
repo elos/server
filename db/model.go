@@ -12,4 +12,5 @@ type Property interface {
 type Model interface {
 	GetId() *bson.ObjectId
 	Save() error
+	Concerned() []*bson.ObjectId
 }
