@@ -1,20 +1,24 @@
 package hub
 
 import (
-	"github.com/elos/server/models"
 	"github.com/elos/server/util"
 	"github.com/gorilla/websocket"
+	"gopkg.in/mgo.v2/bson"
 )
 
+type Agent interface {
+	GetId() *bson.ObjectId
+}
+
 type HubConnection struct {
-	User   models.User
+	Agent  Agent
 	Socket *websocket.Conn
 }
 
-func NewConnection(user models.User, socket *websocket.Conn) {
-	// Create a new connection wrapper for the user. socket connection pair
+func NewConnection(agent Agent, socket *websocket.Conn) {
+	// Create a new connection wrapper for the agent. socket connection pair
 	connection := HubConnection{
-		User:   user,
+		Agent:  agent,
 		Socket: socket,
 	}
 

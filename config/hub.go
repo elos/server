@@ -7,8 +7,7 @@ import (
 )
 
 func SetupHub() {
-	hub.PrimaryHub = hub.CreateHub()
-	go hub.PrimaryHub.Run()
+	hub.Setup()
 }
 
 func ShutdownHub() {

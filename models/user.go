@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/elos/server/db"
+	"github.com/elos/server/hub"
 	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -23,19 +24,35 @@ type User struct {
 	EventIds []bson.ObjectId `json:"event_ids", bson:"event_ids"`
 }
 
-func (u *User) GetId() bson.ObjectId {
-	return u.Id
+func (u *User) GetId() *bson.ObjectId {
+	return &u.Id
 }
 
 func (u *User) Save() error {
-	return db.Save(UserKind, u)
+	err := db.Save(UserKind, u)
+
+	if err != nil {
+		u.DidSave()
+	}
+
+	return err
 }
 
-func (u *User) EventIdsHash() map[bson.ObjectId]bool {
-	hash := make(map[bson.ObjectId]bool, len(u.EventIds))
+func (u *User) DidSave() {
+	hub.PrimaryHermes.Send <- u
+}
+
+func (u *User) Concerned() []*bson.ObjectId {
+	a := make([]*bson.ObjectId, 1)
+	a[0] = &u.Id
+	return a
+}
+
+func (u *User) EventIdsHash() map[*bson.ObjectId]bool {
+	hash := make(map[*bson.ObjectId]bool, len(u.EventIds))
 
 	for _, id := range u.EventIds {
-		hash[id] = true
+		hash[&id] = true
 	}
 
 	return hash
@@ -48,7 +65,7 @@ func (u *User) AddEvent(e *Event) error {
 		return nil
 	}
 
-	u.EventIds = append(u.EventIds, eventId)
+	u.EventIds = append(u.EventIds, *eventId)
 
 	if e.UserId != u.Id {
 		e.SetUser(u)

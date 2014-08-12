@@ -1,10 +1,10 @@
 package models
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/elos/server/db"
+	"github.com/elos/server/hub"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -24,12 +24,28 @@ type Event struct {
 	UserId bson.ObjectId `json:"user_id" bson:"user_id"`
 }
 
-func (e *Event) GetId() bson.ObjectId {
-	return e.Id
+func (e *Event) GetId() *bson.ObjectId {
+	return &e.Id
 }
 
 func (e *Event) Save() error {
-	return db.Save(EventKind, e)
+	err := db.Save(EventKind, e)
+
+	if err != nil {
+		e.DidSave()
+	}
+
+	return err
+}
+
+func (e *Event) DidSave() {
+	hub.PrimaryHermes.Send <- e
+}
+
+func (e *Event) Concerned() []*bson.ObjectId {
+	a := make([]*bson.ObjectId, 1)
+	a[0] = &e.UserId
+	return a
 }
 
 func (e *Event) GetUser() *User {
@@ -47,13 +63,9 @@ func (e *Event) GetUser() *User {
 }
 
 func (e *Event) SetUser(user *User) error {
-	if user.GetId() == "" {
-		return fmt.Errorf("Empty object id for user")
-	}
+	e.UserId = *user.GetId()
 
-	e.UserId = user.GetId()
-
-	if !user.EventIdsHash()[e.Id] {
+	if !user.EventIdsHash()[&e.Id] {
 		user.AddEvent(e)
 	}
 

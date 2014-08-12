@@ -1,18 +1,12 @@
 package hub
 
-import (
-	"encoding/json"
-
-	"github.com/elos/server/models"
-	"gopkg.in/mgo.v2/bson"
-)
-
 type Envelope struct {
-	User   bson.ObjectId
+	Agent  Agent
 	Action string                 `json:"action"`
 	Data   map[string]interface{} `json:"data"`
 }
 
+/*
 type Serializer func(data []byte) []interface{}
 
 func UserSerializer(data []byte) []*models.User {
@@ -39,6 +33,7 @@ func UsersSerializer(data []byte) []*models.User {
 
 	return a
 }
+*/
 
 func Route(e Envelope, hc HubConnection) {
 	/*
@@ -60,5 +55,5 @@ func Route(e Envelope, hc HubConnection) {
 	*/
 
 	// Echo
-	PrimaryHub.SendJson(hc.User, e)
+	PrimaryHub.SendJson(hc.Agent, e)
 }

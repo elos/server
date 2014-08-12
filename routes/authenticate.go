@@ -81,7 +81,7 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 
 		util.Logf("User with id %s just connected over websocket", id)
 
-		hub.NewConnection(user, ws)
+		hub.NewConnection(&user, ws)
 	} else {
 		util.Logf("User with id %s failed authentication", id)
 

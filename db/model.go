@@ -10,6 +10,6 @@ type Property interface {
 }
 
 type Model interface {
-	GetId() bson.ObjectId
+	GetId() *bson.ObjectId
 	Save() error
 }
