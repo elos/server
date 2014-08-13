@@ -21,7 +21,7 @@ func Setup() {
 */
 type Hub struct {
 	// Registered connections
-	Channels map[*bson.ObjectId]*HubChannel
+	Channels map[bson.ObjectId]*HubChannel
 
 	// Channel to register new HubConnections
 	Register chan HubConnection
@@ -32,7 +32,7 @@ type Hub struct {
 
 func New() *Hub {
 	return &Hub{
-		Channels:   make(map[*bson.ObjectId]*HubChannel),
+		Channels:   make(map[bson.ObjectId]*HubChannel),
 		Register:   make(chan HubConnection),
 		Unregister: make(chan HubConnection),
 	}
@@ -46,13 +46,13 @@ func (h *Hub) Run() {
 	for {
 		select {
 		case c := <-h.Register:
-			util.Logf("Hub is registering a new socket for agent id %s", c.Agent.GetId())
+			util.Logf("[Hub] Registering a new socket for agent id %s", c.Agent.GetId())
 
 			h.FindOrCreateChannel(c.Agent.GetId()).AddSocket(c.Socket)
 
-			util.Logf("New socket registered for agent id %s", c.Agent.GetId())
+			util.Logf("[Hub] New socket registered for agent id %s", c.Agent.GetId())
 		case c := <-h.Unregister:
-			util.Logf("Hub is UNregistering a new socket for Agent id %s", c.Agent.GetId())
+			util.Logf("[Hub] Unregistering a socket for agent id %s", c.Agent.GetId())
 
 			// Lookup the channel registered for the agent
 			channel := h.Channels[c.Agent.GetId()]
@@ -62,22 +62,24 @@ func (h *Hub) Run() {
 				channel.RemoveSocket(c.Socket)
 			}
 
-			util.Logf("One socket removed for Agent id %s", c.Agent.GetId())
+			util.Logf("[Hub] One socket removed for agent id %s", c.Agent.GetId())
 		case m := <-models.ModelUpdates:
-			util.Log("Hub recieved a model from ModelUpdates")
+			util.Log("[Hub] Recieved a model from ModelUpdates")
 			recipientIds := m.Concerned()
 
 			for _, recipientId := range recipientIds {
 				c := h.Channels[recipientId]
-				c.WriteJson(m)
+				if c != nil {
+					c.WriteJson(m)
+				}
 			}
 
-			util.Log("Hub sent out the updated model")
+			util.Log("[Hub] Sent out the updated model")
 		}
 	}
 }
 
-func (h *Hub) FindOrCreateChannel(id *bson.ObjectId) *HubChannel {
+func (h *Hub) FindOrCreateChannel(id bson.ObjectId) *HubChannel {
 	// Lookup the channel by id
 	_, present := h.Channels[id]
 
@@ -94,7 +96,5 @@ func (h *Hub) FindOrCreateChannel(id *bson.ObjectId) *HubChannel {
 }
 
 func (h *Hub) SendJson(agent Agent, v interface{}) {
-	util.Logf("SendJson sending %v to agent: %v", v, agent)
 	h.Channels[agent.GetId()].WriteJson(v)
-	util.Log("SendJson sent")
 }

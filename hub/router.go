@@ -6,6 +6,7 @@ import (
 	"github.com/elos/server/db"
 	"github.com/elos/server/models"
 	"github.com/elos/server/util"
+	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -97,12 +98,12 @@ func getHandler(e *Envelope, hc *HubConnection) error {
 		}
 
 		if err != nil {
-			util.Log("Error populating the data for getHandler")
-			PrimaryHub.SendJson(hc.Agent, util.ApiError{400, 400, "Bad", "Stuff"})
-			return fmt.Errorf("There was a error, deal with it")
+			if err == mgo.ErrNotFound {
+				PrimaryHub.SendJson(hc.Agent, util.ApiError{404, 404, "Not Found", "Bad id?"})
+			}
+			PrimaryHub.SendJson(hc.Agent, util.ApiError{400, 400, "Error!", fmt.Sprintf("Error: %s", e)})
+			return err
 		}
-
-		util.Logf("MODEL: %#v", model)
 
 		PrimaryHub.SendJson(hc.Agent, model)
 	}

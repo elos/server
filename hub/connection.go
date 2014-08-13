@@ -7,7 +7,7 @@ import (
 )
 
 type Agent interface {
-	GetId() *bson.ObjectId
+	GetId() bson.ObjectId
 }
 
 type HubConnection struct {

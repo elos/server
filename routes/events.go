@@ -21,11 +21,10 @@ func eventsPostHandler(w http.ResponseWriter, r *http.Request) {
 	event, err := models.CreateEvent(r.FormValue("name"), r.FormValue("user_id"))
 
 	if err != nil {
-		log.Printf("An error occurred while create the event, err: %s", err)
+		log.Printf("[Routes] An error occurred while create the event, err: %s", err)
 		util.ServerError(w, err)
 	} else {
-		util.Logf("Event was successfully created: %v", event)
-		util.Log("Event user", event.GetUser())
+		util.Logf("[Routes] Event was successfully created: %v", event)
 
 		util.ResourceResponse(w, 201, event)
 	}

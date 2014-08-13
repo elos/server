@@ -25,14 +25,14 @@ type Event struct {
 	UserId bson.ObjectId `json:"user_id" bson:"user_id"`
 }
 
-func (e *Event) GetId() *bson.ObjectId {
-	return &e.Id
+func (e *Event) GetId() bson.ObjectId {
+	return e.Id
 }
 
 func (e *Event) Save() error {
 	err := db.Save(EventKind, e)
 
-	if err != nil {
+	if err == nil {
 		e.DidSave()
 	}
 
@@ -41,9 +41,9 @@ func (e *Event) Save() error {
 
 // --- }}}
 
-func (e *Event) Concerned() []*bson.ObjectId {
-	a := make([]*bson.ObjectId, 1)
-	a[0] = &e.UserId
+func (e *Event) Concerned() []bson.ObjectId {
+	a := make([]bson.ObjectId, 1)
+	a[0] = e.UserId
 	return a
 }
 
@@ -63,9 +63,9 @@ func (e *Event) GetUser() *User {
 }
 
 func (e *Event) SetUser(user *User) error {
-	e.UserId = *user.GetId()
+	e.UserId = user.GetId()
 
-	if !user.EventIdsHash()[&e.Id] {
+	if !user.EventIdsHash()[e.Id] {
 		user.AddEvent(e)
 	}
 
@@ -81,7 +81,13 @@ func CreateEvent(name string /*startTime time.Time, endTime time.Time,*/, userId
 		EndTime:   endTime,*/
 	}
 
-	event.SetUser(&User{Id: bson.ObjectIdHex(userId)})
+	user := User{
+		Id: bson.ObjectIdHex(userId),
+	}
+
+	db.PopulateById(UserKind, &user)
+
+	event.SetUser(&user)
 
 	if err := event.Save(); err != nil {
 		return nil, err

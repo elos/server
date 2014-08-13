@@ -24,7 +24,13 @@ func PopulateById(k Kind, v Model) error {
 
 	collection := CollectionFor(session, k)
 
-	return collection.FindId(v.GetId()).One(v)
+	err := collection.FindId(v.GetId()).One(v)
+
+	if err != nil {
+		log.Printf("There was an error populating the %s model, error: %v", k, err)
+	}
+
+	return err
 }
 
 func FindId(k Kind, v Model) error {
