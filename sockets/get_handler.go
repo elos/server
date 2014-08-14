@@ -19,7 +19,7 @@ func getHandler(e *Envelope, hc *Connection) {
 			model.SetId(id)
 		}
 
-		err = db.PopulateById(kind, model)
+		err = db.PopulateById(model)
 
 		if err != nil {
 			if err == mgo.ErrNotFound {

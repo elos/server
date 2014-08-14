@@ -7,9 +7,14 @@ import (
 )
 
 type Envelope struct {
-	Agent  Agent
+	Agent  Agent                              `json:"agent,omitempty"`
 	Action string                             `json:"action"`
 	Data   map[db.Kind]map[string]interface{} `json:"data"`
+}
+
+type Package struct {
+	Action string               `json:"action"`
+	Data   map[db.Kind]db.Model `json:"data"`
 }
 
 func Route(e *Envelope, hc *Connection) {

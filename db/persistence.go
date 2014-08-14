@@ -7,7 +7,8 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func Save(k Kind, v Model) error {
+func Save(v Model) error {
+	k := v.Kind()
 	log.Printf("\nThe database is trying to save a model:\n %#v", v)
 	log.Printf("The id the db is tring to save is %s", v.GetId())
 
@@ -33,7 +34,9 @@ func Save(k Kind, v Model) error {
 	return err
 }
 
-func PopulateById(k Kind, v Model) error {
+func PopulateById(v Model) error {
+	k := v.Kind()
+
 	session := NewSession()
 	defer session.Close()
 
@@ -48,6 +51,6 @@ func PopulateById(k Kind, v Model) error {
 	return err
 }
 
-func FindId(k Kind, v Model) error {
-	return PopulateById(k, v)
+func FindId(v Model) error {
+	return PopulateById(v)
 }

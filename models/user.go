@@ -34,7 +34,7 @@ func (u *User) GetId() bson.ObjectId {
 }
 
 func (u *User) Save() error {
-	err := db.Save(UserKind, u)
+	err := db.Save(u)
 
 	if err == nil {
 		u.DidSave()
@@ -49,6 +49,10 @@ func (u *User) Concerned() []bson.ObjectId {
 	a := make([]bson.ObjectId, 1)
 	a[0] = u.Id
 	return a
+}
+
+func (u *User) Kind() db.Kind {
+	return UserKind
 }
 
 func (u *User) EventIdsHash() map[bson.ObjectId]bool {
@@ -102,7 +106,7 @@ func AuthenticateUser(id string, key string) (User, bool, error) {
 	}
 
 	// Find a user that has specified id
-	if err := db.FindId(UserKind, &user); err != nil {
+	if err := db.FindId(&user); err != nil {
 		return user, false, err
 	}
 
@@ -132,7 +136,7 @@ func FindUser(id bson.ObjectId) (*User, error) {
 		Id: id,
 	}
 
-	err := db.PopulateById(UserKind, user)
+	err := db.PopulateById(user)
 
 	return user, err
 }

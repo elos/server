@@ -1,6 +1,7 @@
 package sockets
 
 import (
+	"github.com/elos/server/db"
 	"github.com/elos/server/models"
 	"github.com/elos/server/util"
 	"github.com/gorilla/websocket"
@@ -64,13 +65,20 @@ func (h *Hub) Run() {
 
 			util.Logf("[Hub] One socket removed for agent id %s", c.Agent.GetId())
 		case m := <-models.ModelUpdates:
+			p := &Package{
+				Action: "POST",
+				Data: map[db.Kind]db.Model{
+					m.Kind(): m,
+				},
+			}
+
 			util.Log("[Hub] Recieved a model from ModelUpdates")
 			recipientIds := m.Concerned()
 
 			for _, recipientId := range recipientIds {
 				c := h.Channels[recipientId]
 				if c != nil {
-					c.WriteJSON(m)
+					c.WriteJSON(p)
 				}
 			}
 

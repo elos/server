@@ -13,6 +13,7 @@ type Model interface {
 	// Basic
 	SetId(bson.ObjectId)
 	GetId() bson.ObjectId
+	Kind() Kind
 
 	// Persistence
 	Save() error

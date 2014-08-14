@@ -31,10 +31,14 @@ func (e *Event) SetId(id bson.ObjectId) {
 	e.Id = id
 }
 
+func (e *Event) Kind() db.Kind {
+	return EventKind
+}
+
 func (e *Event) Save() error {
 	e.SyncRelationships()
 
-	err := db.Save(EventKind, e)
+	err := db.Save(e)
 
 	if err == nil {
 		e.DidSave()
@@ -69,7 +73,7 @@ func (e *Event) GetUser() *User {
 
 	user.Id = e.UserId
 
-	db.PopulateById(UserKind, &user)
+	db.PopulateById(&user)
 
 	return &user
 }
@@ -92,7 +96,7 @@ func CreateEvent(name string /*startTime time.Time, endTime time.Time,*/, userId
 		Id: bson.ObjectIdHex(userId),
 	}
 
-	db.PopulateById(UserKind, &user)
+	db.PopulateById(&user)
 
 	event.SetUser(&user)
 
