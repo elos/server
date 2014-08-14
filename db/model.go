@@ -10,7 +10,13 @@ type Property interface {
 }
 
 type Model interface {
+	// Basic
+	SetId(bson.ObjectId)
 	GetId() bson.ObjectId
+
+	// Persistence
 	Save() error
+
+	// For model updates
 	Concerned() []bson.ObjectId
 }

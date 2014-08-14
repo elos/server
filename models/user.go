@@ -25,6 +25,10 @@ type User struct {
 	EventIds []bson.ObjectId `json:"event_ids", bson:"event_ids"`
 }
 
+func (u *User) SetId(id bson.ObjectId) {
+	u.Id = id
+}
+
 func (u *User) GetId() bson.ObjectId {
 	return u.Id
 }
@@ -47,7 +51,6 @@ func (u *User) Concerned() []bson.ObjectId {
 	return a
 }
 
-// --- Etc {{{
 func (u *User) EventIdsHash() map[bson.ObjectId]bool {
 	hash := make(map[bson.ObjectId]bool, len(u.EventIds))
 
@@ -119,5 +122,3 @@ func FindUserBy(field string, value interface{}) (User, error) {
 
 	return user, nil
 }
-
-// --- }}}

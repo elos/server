@@ -27,6 +27,10 @@ func (e *Event) GetId() bson.ObjectId {
 	return e.Id
 }
 
+func (e *Event) SetId(id bson.ObjectId) {
+	e.Id = id
+}
+
 func (e *Event) Save() error {
 	err := db.Save(EventKind, e)
 
