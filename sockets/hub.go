@@ -70,7 +70,7 @@ func (h *Hub) Run() {
 			for _, recipientId := range recipientIds {
 				c := h.Channels[recipientId]
 				if c != nil {
-					c.WriteJson(m)
+					c.WriteJSON(m)
 				}
 			}
 
@@ -95,6 +95,6 @@ func (h *Hub) FindOrCreateChannel(id bson.ObjectId) *Channel {
 	return h.Channels[id]
 }
 
-func (h *Hub) SendJson(agent Agent, v interface{}) {
-	h.Channels[agent.GetId()].WriteJson(v)
+func (h *Hub) SendJSON(agent Agent, v interface{}) {
+	h.Channels[agent.GetId()].WriteJSON(v)
 }
