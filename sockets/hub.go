@@ -1,4 +1,4 @@
-package hub
+package sockets
 
 import (
 	"github.com/elos/server/models"
@@ -11,7 +11,7 @@ import (
 var PrimaryHub *Hub
 
 func Setup() {
-	PrimaryHub = New()
+	PrimaryHub = NewHub()
 	go PrimaryHub.Run()
 }
 
@@ -21,20 +21,20 @@ func Setup() {
 */
 type Hub struct {
 	// Registered connections
-	Channels map[bson.ObjectId]*HubChannel
+	Channels map[bson.ObjectId]*Channel
 
-	// Channel to register new HubConnections
-	Register chan HubConnection
+	// Channel to register new Connections
+	Register chan Connection
 
-	// Channel to unregister stale/closed HubConnections
-	Unregister chan HubConnection
+	// Channel to unregister stale/closed Connections
+	Unregister chan Connection
 }
 
-func New() *Hub {
+func NewHub() *Hub {
 	return &Hub{
-		Channels:   make(map[bson.ObjectId]*HubChannel),
-		Register:   make(chan HubConnection),
-		Unregister: make(chan HubConnection),
+		Channels:   make(map[bson.ObjectId]*Channel),
+		Register:   make(chan Connection),
+		Unregister: make(chan Connection),
 	}
 }
 
@@ -79,13 +79,13 @@ func (h *Hub) Run() {
 	}
 }
 
-func (h *Hub) FindOrCreateChannel(id bson.ObjectId) *HubChannel {
+func (h *Hub) FindOrCreateChannel(id bson.ObjectId) *Channel {
 	// Lookup the channel by id
 	_, present := h.Channels[id]
 
 	// If the channel is not present, create it
 	if !present {
-		h.Channels[id] = &HubChannel{
+		h.Channels[id] = &Channel{
 			Sockets: make([]*websocket.Conn, 0),
 			Send:    make(chan []byte),
 		}

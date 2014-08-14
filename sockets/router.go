@@ -1,4 +1,4 @@
-package hub
+package sockets
 
 import (
 	"fmt"
@@ -45,7 +45,7 @@ func UsersSerializer(data []byte) []*models.User {
 }
 */
 
-func Route(e *Envelope, hc *HubConnection) error {
+func Route(e *Envelope, hc *Connection) error {
 	switch e.Action {
 	case "POST":
 		return postHandler(e, hc)
@@ -59,13 +59,13 @@ func Route(e *Envelope, hc *HubConnection) error {
 	}
 }
 
-func postHandler(e *Envelope, hc *HubConnection) error {
+func postHandler(e *Envelope, hc *Connection) error {
 	// Echo
 	PrimaryHub.SendJson(hc.Agent, e)
 	return nil
 }
 
-func getHandler(e *Envelope, hc *HubConnection) error {
+func getHandler(e *Envelope, hc *Connection) error {
 	for kind, data := range e.Data {
 		id := bson.ObjectIdHex(data.(map[string]interface{})["id"].(string))
 		var (
@@ -73,27 +73,27 @@ func getHandler(e *Envelope, hc *HubConnection) error {
 			model db.Model
 		)
 
-		util.Logf("Id determined: %v", id)
+		util.Logf("[Hub] Id determined: %v", id)
 
 		switch kind {
 		case models.UserKind:
-			util.Log("Determined to be user")
+			util.Log("[Hub] Determined to be user")
 			model = &models.User{
 				Id: id,
 			}
 
 			err = db.PopulateById(models.UserKind, model)
 
-			util.Logf("User looks like %#v", model)
+			util.Logf("[Hub] User looks like %#v", model)
 		case models.EventKind:
-			util.Log("Determined to be event")
+			util.Log("[Hub] Determined to be event")
 			model = &models.Event{
 				Id: id,
 			}
 
 			err = db.PopulateById(models.EventKind, model)
 		default:
-			util.Log("Determined to be undetermined")
+			util.Log("[Hub] Determined to be undetermined")
 			PrimaryHub.SendJson(hc.Agent, util.ApiError{400, 400, "Bad", "Stuff"})
 		}
 

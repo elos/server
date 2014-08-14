@@ -30,10 +30,10 @@ func main() {
 	config.SetVerbosity(*verbose)
 	config.SetupMongo("localhost")
 	config.SetupRoutes()
-	config.SetupHub()
+	config.SetupSockets()
 
 	defer config.ShutdownMongo()
-	defer config.ShutdownHub()
+	defer config.ShutdownSockets()
 
 	StartServer(*host, *port)
 }

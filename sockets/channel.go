@@ -1,17 +1,17 @@
-package hub
+package sockets
 
 import "github.com/gorilla/websocket"
 
-type HubChannel struct {
+type Channel struct {
 	Sockets []*websocket.Conn
 	Send    chan []byte
 }
 
-func (hc *HubChannel) AddSocket(s *websocket.Conn) {
+func (hc *Channel) AddSocket(s *websocket.Conn) {
 	hc.Sockets = append(hc.Sockets, s)
 }
 
-func (hc *HubChannel) RemoveSocket(s *websocket.Conn) {
+func (hc *Channel) RemoveSocket(s *websocket.Conn) {
 	DeleteSocket(hc.Sockets, s)
 }
 
@@ -30,7 +30,7 @@ func DeleteSocket(slice []*websocket.Conn, value *websocket.Conn) {
 	a = a[:i+copy(a[i:], a[i+1:])]
 }
 
-func (hc *HubChannel) WriteJson(v interface{}) []error {
+func (hc *Channel) WriteJson(v interface{}) []error {
 	var errs []error
 
 	for _, socket := range hc.Sockets {

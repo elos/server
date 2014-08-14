@@ -1,4 +1,4 @@
-package hub
+package sockets
 
 import (
 	"github.com/elos/server/util"
@@ -6,18 +6,20 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// Any type that satisfies this interface
+// can register with the hub
 type Agent interface {
 	GetId() bson.ObjectId
 }
 
-type HubConnection struct {
+type Connection struct {
 	Agent  Agent
 	Socket *websocket.Conn
 }
 
 func NewConnection(agent Agent, socket *websocket.Conn) {
 	// Create a new connection wrapper for the agent. socket connection pair
-	connection := HubConnection{
+	connection := Connection{
 		Agent:  agent,
 		Socket: socket,
 	}
@@ -29,7 +31,7 @@ func NewConnection(agent Agent, socket *websocket.Conn) {
 	go connection.Read()
 }
 
-func (hc *HubConnection) Read() {
+func (hc *Connection) Read() {
 	// When we break our loop, close the connection
 	defer hc.Close()
 
@@ -41,10 +43,10 @@ func (hc *HubConnection) Read() {
 		err := hc.Socket.ReadJSON(&e)
 
 		if err != nil {
-			util.Logf("An error occurred while reading a HubConnection, err: %s", err)
+			util.Logf("[Hub] An error occurred while reading a Connection, err: %s", err)
 
 			/*
-				If there was an error break inf. loop
+				If there was an error break inf. loop.
 				Function then completes, and defer is called
 			*/
 			break
@@ -57,7 +59,7 @@ func (hc *HubConnection) Read() {
 	}
 }
 
-func (hc *HubConnection) Close() {
+func (hc *Connection) Close() {
 	PrimaryHub.Unregister <- *hc
 	hc.Socket.Close()
 }

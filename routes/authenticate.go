@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/elos/server/hub"
 	"github.com/elos/server/models"
+	"github.com/elos/server/sockets"
 	"github.com/elos/server/util"
 	"github.com/gorilla/websocket"
 )
@@ -81,7 +81,7 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 
 		util.Logf("User with id %s just connected over websocket", id)
 
-		hub.NewConnection(&user, ws)
+		sockets.NewConnection(&user, ws)
 	} else {
 		util.Logf("User with id %s failed authentication", id)
 
