@@ -11,7 +11,6 @@ func Connect(addr string) (*mgo.Session, error) {
 	Close()
 
 	var err error
-
 	PrimarySession, err = mgo.Dial(addr)
 
 	return PrimarySession, err

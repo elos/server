@@ -7,8 +7,6 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// --- Defintion {{{
-
 const EventKind db.Kind = "event"
 
 type Event struct {
@@ -39,15 +37,12 @@ func (e *Event) Save() error {
 	return err
 }
 
-// --- }}}
-
 func (e *Event) Concerned() []bson.ObjectId {
 	a := make([]bson.ObjectId, 1)
 	a[0] = e.UserId
 	return a
 }
 
-// --- Etc {{{
 func (e *Event) GetUser() *User {
 	user := User{}
 
@@ -95,5 +90,3 @@ func CreateEvent(name string /*startTime time.Time, endTime time.Time,*/, userId
 		return &event, nil
 	}
 }
-
-// --- }}}
