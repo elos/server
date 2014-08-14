@@ -32,6 +32,8 @@ func (e *Event) SetId(id bson.ObjectId) {
 }
 
 func (e *Event) Save() error {
+	e.SyncRelationships()
+
 	err := db.Save(EventKind, e)
 
 	if err == nil {
@@ -39,6 +41,17 @@ func (e *Event) Save() error {
 	}
 
 	return err
+}
+
+// Manages the relationship on the other models
+func (e *Event) SyncRelationships() error {
+	user, err := FindUser(e.UserId)
+
+	if err != nil {
+		return err
+	}
+
+	return user.AddEvent(e)
 }
 
 func (e *Event) Concerned() []bson.ObjectId {
@@ -63,11 +76,6 @@ func (e *Event) GetUser() *User {
 
 func (e *Event) SetUser(user *User) error {
 	e.UserId = user.GetId()
-
-	if !user.EventIdsHash()[e.Id] {
-		user.AddEvent(e)
-	}
-
 	return e.Save()
 }
 

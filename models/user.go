@@ -62,6 +62,10 @@ func (u *User) EventIdsHash() map[bson.ObjectId]bool {
 }
 
 func (u *User) AddEvent(e *Event) error {
+	if u.EventIdsHash()[e.Id] {
+		return nil
+	}
+
 	eventId := e.GetId()
 
 	if u.EventIdsHash()[eventId] {
@@ -110,15 +114,25 @@ func AuthenticateUser(id string, key string) (User, bool, error) {
 	return user, true, nil
 }
 
-func FindUserBy(field string, value interface{}) (User, error) {
-	user := User{}
+func FindUserBy(field string, value interface{}) (*User, error) {
+	user := &User{}
 
 	session := db.NewSession()
 	defer session.Close()
 
-	if err := db.CollectionFor(session, UserKind).Find(bson.M{field: value}).One(&user); err != nil {
+	if err := db.CollectionFor(session, UserKind).Find(bson.M{field: value}).One(user); err != nil {
 		return user, err
 	}
 
 	return user, nil
+}
+
+func FindUser(id bson.ObjectId) (*User, error) {
+	user := &User{
+		Id: id,
+	}
+
+	err := db.PopulateById(UserKind, user)
+
+	return user, err
 }

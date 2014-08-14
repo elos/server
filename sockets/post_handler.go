@@ -2,6 +2,7 @@ package sockets
 
 import (
 	"encoding/json"
+	"log"
 
 	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2/bson"
@@ -20,14 +21,22 @@ func postHandler(e *Envelope, hc *Connection) {
 		bytes, err := json.Marshal(data)
 		if err != nil {
 			PrimaryHub.SendJSON(hc.Agent, util.ApiError{400, 400, "Error re-marshalling json data", "I need to check maself"})
+			return
 		}
 		if err := json.Unmarshal(bytes, model); err != nil {
 			PrimaryHub.SendJSON(hc.Agent, util.ApiError{400, 400, "Error unmarshalling json into struct for model", "Check yoself"})
+			return
 		}
+
+		model.SetId(bson.NewObjectId())
+
+		log.Printf("Model %#v:", model)
+		log.Printf("ID: %s", model.GetId())
 
 		err = model.Save()
 		if err != nil {
 			PrimaryHub.SendJSON(hc.Agent, util.ApiError{400, 400, "Error saving the model", "Check yoself"})
+			return
 		}
 
 		// It will go out through the db too, through concerned automaticall
