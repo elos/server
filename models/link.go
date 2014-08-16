@@ -1,12 +1,6 @@
 package models
 
-import (
-	"fmt"
-
-	"github.com/elos/server/db"
-	"gopkg.in/mgo.v2/bson"
-)
-
+/*
 type Link struct {
 	Id   bson.ObjectId `json:"id" bson:"id"`
 	Kind db.Kind       `json:"=" bson:"-"`
@@ -26,3 +20,4 @@ func (l *Link) Populate() (db.Model, error) {
 
 	return model, nil
 }
+*/

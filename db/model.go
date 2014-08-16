@@ -14,6 +14,7 @@ type Model interface {
 
 	// Persistence
 	Save() error
+	Link(string, Model)
 
 	// For model updates
 	Concerned() []bson.ObjectId
