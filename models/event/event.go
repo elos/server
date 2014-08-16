@@ -8,6 +8,8 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+const Kind db.Kind = models.EventKind
+
 func New() *models.Event {
 	return &models.Event{}
 }

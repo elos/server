@@ -10,6 +10,8 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+const Kind db.Kind = models.UserKind
+
 func New() *models.User {
 	return &models.User{}
 }
