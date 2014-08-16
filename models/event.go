@@ -82,27 +82,3 @@ func (e *Event) SetUser(user *User) error {
 	e.UserId = user.GetId()
 	return e.Save()
 }
-
-func CreateEvent(name string /*startTime time.Time, endTime time.Time,*/, userId string) (*Event, error) {
-	event := Event{
-		Id:        bson.NewObjectId(),
-		CreatedAt: time.Now(),
-		Name:      name,
-		/*StartTime: startTime,
-		EndTime:   endTime,*/
-	}
-
-	user := User{
-		Id: bson.ObjectIdHex(userId),
-	}
-
-	db.PopulateById(&user)
-
-	event.SetUser(&user)
-
-	if err := event.Save(); err != nil {
-		return nil, err
-	} else {
-		return &event, nil
-	}
-}
