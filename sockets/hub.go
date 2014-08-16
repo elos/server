@@ -2,7 +2,6 @@ package sockets
 
 import (
 	"github.com/elos/server/db"
-	"github.com/elos/server/models"
 	"github.com/elos/server/util"
 	"github.com/gorilla/websocket"
 	"gopkg.in/mgo.v2/bson"
@@ -64,7 +63,7 @@ func (h *Hub) Run() {
 			}
 
 			util.Logf("[Hub] One socket removed for agent id %s", c.Agent.GetId())
-		case m := <-models.ModelUpdates:
+		case m := <-db.ModelUpdates:
 			p := &Package{
 				Action: "POST",
 				Data: map[db.Kind]db.Model{

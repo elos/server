@@ -2,6 +2,8 @@ package db
 
 import "log"
 
+var ModelUpdates chan Model = make(chan Model)
+
 func Save(m Model) error {
 	session := NewSession()
 	defer session.Close()
@@ -13,6 +15,10 @@ func Save(m Model) error {
 
 	if err != nil {
 		log.Printf("Error saving record of kind %s, err: %s", m.Kind(), err)
+	}
+
+	if err == nil {
+		ModelUpdates <- m
 	}
 
 	return err
