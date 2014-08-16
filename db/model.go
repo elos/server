@@ -19,3 +19,8 @@ type Model interface {
 	// For model updates
 	Concerned() []bson.ObjectId
 }
+
+type Link struct {
+	Id   bson.ObjectId `json:"id" bson:"id"`
+	Kind Kind          `json:"=" bson:"-"`
+}
