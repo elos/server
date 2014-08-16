@@ -124,7 +124,7 @@ func FindUserBy(field string, value interface{}) (*User, error) {
 	session := db.NewSession()
 	defer session.Close()
 
-	if err := db.CollectionFor(session, UserKind).Find(bson.M{field: value}).One(user); err != nil {
+	if err := db.CollectionFor(session, user).Find(bson.M{field: value}).One(user); err != nil {
 		return user, err
 	}
 

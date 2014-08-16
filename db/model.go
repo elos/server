@@ -6,9 +6,6 @@ type Kind string
 
 type Key string
 
-type Property interface {
-}
-
 type Model interface {
 	// Basic
 	SetId(bson.ObjectId)
