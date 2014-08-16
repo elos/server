@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/elos/server/models"
+	"github.com/elos/server/models/user"
 	"github.com/elos/server/util"
 )
 
@@ -18,7 +18,7 @@ func Users(w http.ResponseWriter, r *http.Request) {
 }
 
 func usersPostHandler(w http.ResponseWriter, r *http.Request) {
-	user, err := models.CreateUser(r.FormValue("name"))
+	user, err := user.Create(r.FormValue("name"))
 
 	if err != nil {
 		log.Printf("An error occurred while creating the user, err: %s", err)

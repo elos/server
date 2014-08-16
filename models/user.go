@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/elos/server/db"
-	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -83,39 +82,6 @@ func (u *User) AddEvent(e *Event) error {
 	}
 
 	return u.Save()
-}
-
-func CreateUser(name string) (*User, error) {
-	user := User{
-		Id:        bson.NewObjectId(),
-		CreatedAt: time.Now(),
-		Name:      name,
-		Key:       util.RandomString(64),
-	}
-
-	if err := user.Save(); err != nil {
-		return nil, err
-	} else {
-		return &user, nil
-	}
-}
-
-func AuthenticateUser(id string, key string) (User, bool, error) {
-	user := User{
-		Id: bson.ObjectIdHex(id),
-	}
-
-	// Find a user that has specified id
-	if err := db.FindId(&user); err != nil {
-		return user, false, err
-	}
-
-	// Check if the key matches the supplied one
-	if user.Key != key {
-		return user, false, nil
-	}
-
-	return user, true, nil
 }
 
 func FindUserBy(field string, value interface{}) (*User, error) {
