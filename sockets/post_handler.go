@@ -4,13 +4,14 @@ import (
 	"encoding/json"
 	"log"
 
+	"github.com/elos/server/models"
 	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2/bson"
 )
 
 func postHandler(e *Envelope, hc *Connection) {
 	for kind, data := range e.Data {
-		model, err := Serialize(kind, data)
+		model, err := models.Type(kind)
 
 		if err != nil {
 			PrimaryHub.SendJSON(hc.Agent, util.ApiError{400, 400, "Oh shit", ""})

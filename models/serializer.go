@@ -1,4 +1,4 @@
-package sockets
+package models
 
 import (
 	"fmt"
@@ -8,7 +8,13 @@ import (
 	"github.com/elos/server/models/user"
 )
 
-func Serialize(kind db.Kind, data map[string]interface{}) (db.Model, error) {
+func Map(m db.Model) map[db.Kind]db.Model {
+	return map[db.Kind]db.Model{
+		m.Kind(): m,
+	}
+}
+
+func Type(kind db.Kind) (db.Model, error) {
 	var model db.Model
 
 	switch kind {
