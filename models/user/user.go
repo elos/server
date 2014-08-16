@@ -16,7 +16,7 @@ func New() *models.User {
 	return &models.User{}
 }
 
-func Create(name string) (*models.User, error) {
+func Create(name string) (db.Model, error) {
 	user := models.User{
 		Id:        bson.NewObjectId(),
 		CreatedAt: time.Now(),
@@ -31,7 +31,7 @@ func Create(name string) (*models.User, error) {
 	}
 }
 
-func Authenticate(id string, key string) (*models.User, bool, error) {
+func Authenticate(id string, key string) (db.Model, bool, error) {
 	user, err := Find(bson.ObjectIdHex(id))
 
 	if err != nil {

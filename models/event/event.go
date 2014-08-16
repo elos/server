@@ -14,7 +14,7 @@ func New() *models.Event {
 	return &models.Event{}
 }
 
-func Create(name string, userId string) (*models.Event, error) {
+func Create(name string, userId string) (db.Model, error) {
 	event := &models.Event{
 		Id:        bson.ObjectIdHex(userId),
 		CreatedAt: time.Now(),
@@ -34,7 +34,7 @@ func Create(name string, userId string) (*models.Event, error) {
 	}
 }
 
-func Find(id bson.ObjectId) (*models.Event, error) {
+func Find(id bson.ObjectId) (db.Model, error) {
 
 	event := New()
 	event.Id = id

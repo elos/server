@@ -20,6 +20,7 @@ type Event struct {
 	EndTime   time.Time `json:"end_time" bson:"end_time"`
 
 	// Links
+	User   Link          `json:"user" bson:"user"`
 	UserId bson.ObjectId `json:"user_id" bson:"user_id"`
 }
 
