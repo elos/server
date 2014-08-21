@@ -17,19 +17,19 @@ type Package struct {
 	Data   map[db.Kind]db.Model `json:"data"`
 }
 
-func Route(e *Envelope, hc *Connection) {
+func Route(e *Envelope, c *Connection) {
 	switch e.Action {
 	case "POST":
-		go postHandler(e, hc)
+		go postHandler(e, c)
 	case "GET":
-		go getHandler(e, hc)
+		go getHandler(e, c)
 	case "DELETE":
-		go deleteHandler(e, hc)
+		go deleteHandler(e, c)
 	default:
 		log.Printf("Action not recognized")
 	}
 }
 
-func deleteHandler(e *Envelope, hc *Connection) {
-	PrimaryHub.SendJSON(hc.Agent, e) // Echo
+func deleteHandler(e *Envelope, c *Connection) {
+	PrimaryHub.SendJSON(c.Agent, e) // Echo
 }

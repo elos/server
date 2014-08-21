@@ -8,12 +8,12 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func getHandler(e *Envelope, hc *Connection) {
+func getHandler(e *Envelope, c *Connection) {
 	for kind, data := range e.Data {
 		model, err := models.Type(kind)
 
 		if err != nil {
-			PrimaryHub.SendJSON(hc.Agent, util.ApiError{400, 400, "Oh shit", ""})
+			PrimaryHub.SendJSON(c.Agent, util.ApiError{400, 400, "Oh shit", ""})
 		}
 
 		if id := bson.ObjectIdHex(data["id"].(string)); id != bson.ObjectId("") {
@@ -25,12 +25,12 @@ func getHandler(e *Envelope, hc *Connection) {
 		if err != nil {
 			if err == mgo.ErrNotFound {
 				// Handle the error here
-				PrimaryHub.SendJSON(hc.Agent, util.ApiError{404, 404, "Not Found", "Bad id?"})
+				PrimaryHub.SendJSON(c.Agent, util.ApiError{404, 404, "Not Found", "Bad id?"})
 			}
 			// Otherwise we don't know
-			PrimaryHub.SendJSON(hc.Agent, util.ApiError{400, 400, "Oh shit", ""})
+			PrimaryHub.SendJSON(c.Agent, util.ApiError{400, 400, "Oh shit", ""})
 		}
 
-		PrimaryHub.SendJSON(hc.Agent, model)
+		PrimaryHub.SendJSON(c.Agent, model)
 	}
 }

@@ -19,7 +19,7 @@ type Connection struct {
 
 func NewConnection(agent Agent, socket *websocket.Conn) {
 	// Create a new connection wrapper for the agent. socket connection pair
-	connection := Connection{
+	connection := &Connection{
 		Agent:  agent,
 		Socket: socket,
 	}
@@ -60,6 +60,6 @@ func (hc *Connection) Read() {
 }
 
 func (hc *Connection) Close() {
-	PrimaryHub.Unregister <- *hc
+	PrimaryHub.Unregister <- hc
 	hc.Socket.Close()
 }

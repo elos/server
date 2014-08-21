@@ -25,17 +25,17 @@ type Hub struct {
 	Channels map[bson.ObjectId]*Channel
 
 	// Channel to register new Connections
-	Register chan Connection
+	Register chan *Connection
 
 	// Channel to unregister stale/closed Connections
-	Unregister chan Connection
+	Unregister chan *Connection
 }
 
 func NewHub() *Hub {
 	return &Hub{
 		Channels:   make(map[bson.ObjectId]*Channel),
-		Register:   make(chan Connection),
-		Unregister: make(chan Connection),
+		Register:   make(chan *Connection),
+		Unregister: make(chan *Connection),
 	}
 }
 
