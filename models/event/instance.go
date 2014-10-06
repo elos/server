@@ -6,31 +6,7 @@ import (
 )
 
 func (e *Event) Save() error {
-	e.SyncRelationships()
-
-	err := db.Save(e)
-
-	if err == nil {
-		// e.DidSave()
-	}
-
-	return err
-}
-
-// Manages the relationship on the other models
-func (e *Event) SyncRelationships() error {
-	/*
-		model, err := models.FindUser(e.UserId)
-
-		if err != nil {
-			return err
-		}
-
-		model.Link("event", e)
-	*/
-
-	// TODO: fix
-	return nil
+	return db.Save(e)
 }
 
 func (e *Event) Concerned() []bson.ObjectId {
@@ -42,7 +18,9 @@ func (e *Event) Concerned() []bson.ObjectId {
 func (e *Event) Link(property string, model db.Model) {
 	switch property {
 	case "user":
-		if e.UserId == model.GetId() {
+		id := model.GetId()
+
+		if e.UserId == id {
 			return
 		}
 
