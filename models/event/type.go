@@ -7,6 +7,8 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// Definition {{{
+
 const Kind db.Kind = "event"
 
 type Event struct {
@@ -24,75 +26,9 @@ type Event struct {
 	UserId bson.ObjectId `json:"user_id" bson:"user_id"`
 }
 
-func (e *Event) GetId() bson.ObjectId {
-	return e.Id
-}
+// }}}
 
-func (e *Event) SetId(id bson.ObjectId) {
-	e.Id = id
-}
-
-func (e *Event) Kind() db.Kind {
-	return Kind
-}
-
-func (e *Event) Save() error {
-	e.SyncRelationships()
-
-	err := db.Save(e)
-
-	if err == nil {
-		// e.DidSave()
-	}
-
-	return err
-}
-
-// Manages the relationship on the other models
-func (e *Event) SyncRelationships() error {
-	/*
-		model, err := models.FindUser(e.UserId)
-
-		if err != nil {
-			return err
-		}
-
-		model.Link("event", e)
-	*/
-
-	// TODO: fix
-	return nil
-}
-
-func (e *Event) Concerned() []bson.ObjectId {
-	a := make([]bson.ObjectId, 1)
-	a[0] = e.UserId
-	return a
-}
-
-func (e *Event) Link(property string, model db.Model) {
-	switch property {
-	case "user":
-		if e.UserId == model.GetId() {
-			return
-		}
-
-		e.UserId = model.GetId()
-		e.Save()
-	default:
-		return
-	}
-}
-
-func (e *Event) GetLink(property string, model db.Model) {
-	switch property {
-	case "user":
-		model.SetId(e.Id)
-		db.PopulateById(model)
-	default:
-		return
-	}
-}
+// Constructors {{{
 
 func New() *Event {
 	return &Event{}
@@ -120,6 +56,10 @@ func Create(name string, userId string) (db.Model, error) {
 	}
 }
 
+// }}}
+
+// Type Methods {{{
+
 func Find(id bson.ObjectId) (db.Model, error) {
 
 	event := New()
@@ -131,3 +71,5 @@ func Find(id bson.ObjectId) (db.Model, error) {
 
 	return event, nil
 }
+
+// }}}
