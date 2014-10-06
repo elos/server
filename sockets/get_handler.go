@@ -8,21 +8,21 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func getHandler(e *Envelope, c *Connection) {
+func getHandler(e *Envelope) {
 	// kind is db.Kind
 	// data is map[string]interface{}
 	for kind, data := range e.Data {
 		model, err := models.ModelFor(kind)
 
 		if err != nil {
-			PrimaryHub.SendJSON(c.Agent, util.ApiError{400, 400, "Oh shit", ""})
+			PrimaryHub.SendJSON(e.Source.Agent, util.ApiError{400, 400, "Oh shit", ""})
 			return
 		}
 
 		err = models.PopulateModel(model, &data)
 
 		if id := model.GetId(); id == bson.ObjectId("") {
-			PrimaryHub.SendJSON(c.Agent, util.ApiError{400, 400, "Invalid ID", ""})
+			PrimaryHub.SendJSON(e.Source.Agent, util.ApiError{400, 400, "Invalid ID", ""})
 			return
 		}
 
@@ -31,14 +31,14 @@ func getHandler(e *Envelope, c *Connection) {
 		if err != nil {
 			if err == mgo.ErrNotFound {
 				// Handle the error here
-				PrimaryHub.SendJSON(c.Agent, util.ApiError{404, 404, "Not Found", "Bad id?"})
+				PrimaryHub.SendJSON(e.Source.Agent, util.ApiError{404, 404, "Not Found", "Bad id?"})
 				return
 			}
 			// Otherwise we don't know
-			PrimaryHub.SendJSON(c.Agent, util.ApiError{400, 400, "Oh shit", ""})
+			PrimaryHub.SendJSON(e.Source.Agent, util.ApiError{400, 400, "Oh shit", ""})
 			return
 		}
 
-		PrimaryHub.SendJSON(c.Agent, model)
+		PrimaryHub.SendJSON(e.Source.Agent, model)
 	}
 }

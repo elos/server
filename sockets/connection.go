@@ -71,9 +71,13 @@ func (conn *Connection) Read() {
 			break
 		}
 
-		e.Agent = conn.Agent
+		e.Source = conn
 
 		// Handle the message
-		go Route(&e, conn)
+		go Route(&e)
 	}
+}
+
+func (conn *Connection) WriteJSON(v interface{}) error {
+	return conn.Socket.WriteJSON(v)
 }

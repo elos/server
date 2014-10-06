@@ -4,7 +4,6 @@ import (
 	"github.com/elos/server/db"
 	"github.com/elos/server/models"
 	"github.com/elos/server/util"
-	"github.com/gorilla/websocket"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -63,7 +62,7 @@ func (h *Hub) Run() {
 func (h *Hub) RegisterConnection(conn *Connection) {
 	util.Logf("[Hub] Registering a new socket for agent id %s", conn.Agent.GetId())
 
-	h.FindOrCreateChannel(conn.Agent.GetId()).AddSocket(conn.Socket)
+	h.FindOrCreateChannel(conn.Agent.GetId()).AddConnection(conn)
 
 	util.Logf("[Hub] New socket registered for agent id %s", conn.Agent.GetId())
 }
@@ -80,7 +79,7 @@ func (h *Hub) UnregisterConnection(conn *Connection) {
 
 	if channel != nil {
 		// Remove the specified socket if the channel exists
-		channel.RemoveSocket(conn.Socket)
+		channel.RemoveConnection(conn)
 	}
 
 	util.Logf("[Hub] One socket removed for agent id %s", conn.Agent.GetId())
@@ -89,13 +88,13 @@ func (h *Hub) UnregisterConnection(conn *Connection) {
 func (h *Hub) NotifyConcerned(m db.Model) {
 	util.Log("[Hub] Recieved a model from ModelUpdates")
 
-	p := &Package{
+	p := &OutboundEnvelope{
 		Action: "POST",
 		Data:   models.Map(m),
 	}
 
 	for _, recipientId := range m.Concerned() {
-		h.SendPackage(recipientId, p)
+		h.SendOutboundEnvelope(recipientId, p)
 	}
 
 	util.Log("[Hub] Sent out the updated model")
@@ -108,8 +107,8 @@ func (h *Hub) FindOrCreateChannel(id bson.ObjectId) *Channel {
 	// If the channel is not present, create it
 	if !present {
 		h.Channels[id] = &Channel{
-			Sockets: make([]*websocket.Conn, 0),
-			Send:    make(chan []byte),
+			Connections: make([]*Connection, 0),
+			Send:        make(chan []byte),
 		}
 	}
 
@@ -117,10 +116,10 @@ func (h *Hub) FindOrCreateChannel(id bson.ObjectId) *Channel {
 	return h.Channels[id]
 }
 
-func (h *Hub) SendPackage(recipientId bson.ObjectId, p *Package) {
+func (h *Hub) SendOutboundEnvelope(recipientId bson.ObjectId, oe *OutboundEnvelope) {
 	c := h.Channels[recipientId]
 	if c != nil {
-		c.WriteJSON(p)
+		c.WriteJSON(oe)
 	}
 }
 

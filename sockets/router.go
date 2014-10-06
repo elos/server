@@ -6,29 +6,29 @@ import (
 )
 
 type Envelope struct {
-	Agent  Agent                              `json:"agent,omitempty"`
+	Source *Connection                        `json:"agent,omitempty"`
 	Action string                             `json:"action"`
 	Data   map[db.Kind]map[string]interface{} `json:"data"`
 }
 
-type Package struct {
+type OutboundEnvelope struct {
 	Action string               `json:"action"`
 	Data   map[db.Kind]db.Model `json:"data"`
 }
 
-func Route(e *Envelope, c *Connection) {
+func Route(e *Envelope) {
 	switch e.Action {
 	case "POST":
-		go postHandler(e, c)
+		go postHandler(e)
 	case "GET":
-		go getHandler(e, c)
+		go getHandler(e)
 	case "DELETE":
-		go deleteHandler(e, c)
+		go deleteHandler(e)
 	default:
 		util.Logf("[Hub] Action not recognized")
 	}
 }
 
-func deleteHandler(e *Envelope, c *Connection) {
-	PrimaryHub.SendJSON(c.Agent, e) // Echo
+func deleteHandler(e *Envelope) {
+	PrimaryHub.SendJSON(e.Source.Agent, e) // Echo
 }
