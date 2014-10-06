@@ -1,9 +1,8 @@
 package sockets
 
 import (
-	"log"
-
 	"github.com/elos/server/db"
+	"github.com/elos/server/util"
 )
 
 type Envelope struct {
@@ -26,7 +25,7 @@ func Route(e *Envelope, c *Connection) {
 	case "DELETE":
 		go deleteHandler(e, c)
 	default:
-		log.Printf("Action not recognized")
+		util.Logf("[Hub] Action not recognized")
 	}
 }
 

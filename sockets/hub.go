@@ -47,42 +47,58 @@ func (h *Hub) Run() {
 	for {
 		select {
 		case c := <-h.Register:
-			util.Logf("[Hub] Registering a new socket for agent id %s", c.Agent.GetId())
-
-			h.FindOrCreateChannel(c.Agent.GetId()).AddSocket(c.Socket)
-
-			util.Logf("[Hub] New socket registered for agent id %s", c.Agent.GetId())
+			go h.RegisterConnection(c)
 		case c := <-h.Unregister:
-			util.Logf("[Hub] Unregistering a socket for agent id %s", c.Agent.GetId())
-
-			// Lookup the channel registered for the agent
-			channel := h.Channels[c.Agent.GetId()]
-
-			if channel != nil {
-				// Remove the specified socket if the channel exists
-				channel.RemoveSocket(c.Socket)
-			}
-
-			util.Logf("[Hub] One socket removed for agent id %s", c.Agent.GetId())
+			go h.UnregisterConnection(c)
 		case m := <-db.ModelUpdates:
-			p := &Package{
-				Action: "POST",
-				Data:   models.Map(m),
-			}
-
-			util.Log("[Hub] Recieved a model from ModelUpdates")
-			recipientIds := m.Concerned()
-
-			for _, recipientId := range recipientIds {
-				c := h.Channels[recipientId]
-				if c != nil {
-					c.WriteJSON(p)
-				}
-			}
-
-			util.Log("[Hub] Sent out the updated model")
+			go h.NotifyConcerned(m)
 		}
 	}
+}
+
+/*
+	Register a new connection with the hub, adding that connections socket
+	to the channel matching that connections Agent ID
+*/
+func (h *Hub) RegisterConnection(conn *Connection) {
+	util.Logf("[Hub] Registering a new socket for agent id %s", conn.Agent.GetId())
+
+	h.FindOrCreateChannel(conn.Agent.GetId()).AddSocket(conn.Socket)
+
+	util.Logf("[Hub] New socket registered for agent id %s", conn.Agent.GetId())
+}
+
+/*
+	Unregister a connection with the hub, removing that connection's socket
+	from the channel matching that connection's Agent ID
+*/
+func (h *Hub) UnregisterConnection(conn *Connection) {
+	util.Logf("[Hub] Unregistering a socket for agent id %s", conn.Agent.GetId())
+
+	// Lookup the channel registered for the agent
+	channel := h.Channels[conn.Agent.GetId()]
+
+	if channel != nil {
+		// Remove the specified socket if the channel exists
+		channel.RemoveSocket(conn.Socket)
+	}
+
+	util.Logf("[Hub] One socket removed for agent id %s", conn.Agent.GetId())
+}
+
+func (h *Hub) NotifyConcerned(m db.Model) {
+	util.Log("[Hub] Recieved a model from ModelUpdates")
+
+	p := &Package{
+		Action: "POST",
+		Data:   models.Map(m),
+	}
+
+	for _, recipientId := range m.Concerned() {
+		h.SendPackage(recipientId, p)
+	}
+
+	util.Log("[Hub] Sent out the updated model")
 }
 
 func (h *Hub) FindOrCreateChannel(id bson.ObjectId) *Channel {
@@ -99,6 +115,13 @@ func (h *Hub) FindOrCreateChannel(id bson.ObjectId) *Channel {
 
 	// Return the current, or new channel
 	return h.Channels[id]
+}
+
+func (h *Hub) SendPackage(recipientId bson.ObjectId, p *Package) {
+	c := h.Channels[recipientId]
+	if c != nil {
+		c.WriteJSON(p)
+	}
 }
 
 func (h *Hub) SendJSON(agent Agent, v interface{}) {
