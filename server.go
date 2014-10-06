@@ -28,11 +28,11 @@ func main() {
 	}
 
 	config.SetVerbosity(*verbose)
-	config.SetupMongo("localhost")
+	config.SetupDB("localhost")
 	config.SetupRoutes()
 	config.SetupSockets()
 
-	defer config.ShutdownMongo()
+	defer config.ShutdownDB()
 	defer config.ShutdownSockets()
 
 	StartServer(*host, *port)

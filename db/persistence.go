@@ -2,8 +2,10 @@ package db
 
 import "log"
 
+// Every saved mode is broadcasted over this channel
 var ModelUpdates chan Model = make(chan Model)
 
+// Saves a model, broadcasted that save over ModelUpdates
 func Save(m Model) error {
 	session := NewSession()
 	defer session.Close()
@@ -24,6 +26,7 @@ func Save(m Model) error {
 	return err
 }
 
+// Populates the model data for an empty struct with a specified id
 func PopulateById(m Model) error {
 	session := NewSession()
 	defer session.Close()
@@ -39,6 +42,7 @@ func PopulateById(m Model) error {
 	return err
 }
 
+// Alias of PopulateById()
 func FindId(m Model) error {
 	return PopulateById(m)
 }
