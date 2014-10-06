@@ -26,7 +26,7 @@ func SetupDB(addr string) *db.Connection {
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		log.Printf("DB connection established")
+		log.Printf("Database connection established")
 	}
 
 	return DBConnection
