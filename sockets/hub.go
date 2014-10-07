@@ -88,13 +88,13 @@ func (h *Hub) UnregisterConnection(conn *Connection) {
 func (h *Hub) NotifyConcerned(m db.Model) {
 	util.Log("[Hub] Recieved a model from ModelUpdates")
 
-	p := &OutboundEnvelope{
+	p := &Package{
 		Action: "POST",
 		Data:   models.Map(m),
 	}
 
 	for _, recipientId := range m.Concerned() {
-		h.SendOutboundEnvelope(recipientId, p)
+		h.SendPackage(recipientId, p)
 	}
 
 	util.Log("[Hub] Sent out the updated model")
@@ -116,10 +116,10 @@ func (h *Hub) FindOrCreateChannel(id bson.ObjectId) *Channel {
 	return h.Channels[id]
 }
 
-func (h *Hub) SendOutboundEnvelope(recipientId bson.ObjectId, oe *OutboundEnvelope) {
+func (h *Hub) SendPackage(recipientId bson.ObjectId, p *Package) {
 	c := h.Channels[recipientId]
 	if c != nil {
-		c.WriteJSON(oe)
+		c.WriteJSON(p)
 	}
 }
 

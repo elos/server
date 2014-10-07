@@ -23,7 +23,7 @@ type Event struct {
 
 	// Links
 	// User   Link          `json:"user" bson:"user"`
-	UserId bson.ObjectId `json:"user_id" bson:"user_id"`
+	UserId bson.ObjectId `json:"user_id" bson:"user_id,omitempty"`
 }
 
 // }}}

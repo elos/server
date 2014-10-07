@@ -5,13 +5,15 @@ import (
 	"github.com/elos/server/util"
 )
 
+// Inbound
 type Envelope struct {
 	Source *Connection                        `json:"agent,omitempty"`
 	Action string                             `json:"action"`
 	Data   map[db.Kind]map[string]interface{} `json:"data"`
 }
 
-type OutboundEnvelope struct {
+// Outbound
+type Package struct {
 	Action string               `json:"action"`
 	Data   map[db.Kind]db.Model `json:"data"`
 }

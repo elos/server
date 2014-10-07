@@ -29,9 +29,9 @@ func Type(kind db.Kind) (db.Model, error) {
 
 	switch kind {
 	case event.Kind:
-		model = user.New()
-	case user.Kind:
 		model = event.New()
+	case user.Kind:
+		model = user.New()
 	default:
 		return user.New(), fmt.Errorf("Unrecognized type")
 	}

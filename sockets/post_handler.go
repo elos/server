@@ -1,14 +1,19 @@
 package sockets
 
 import (
+	"github.com/elos/server/db"
 	"github.com/elos/server/models"
 	"github.com/elos/server/util"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func postHandler(e *Envelope) {
-	// kind is db.Kind
-	// data is map[string]interface{}
-	for kind, data := range e.Data {
+	// Reminder
+	var kind db.Kind
+	var data map[string]interface{}
+
+	for kind, data = range e.Data {
+
 		model, err := models.ModelFor(kind)
 
 		if err != nil {
@@ -19,6 +24,10 @@ func postHandler(e *Envelope) {
 		if err := models.PopulateModel(model, &data); err != nil {
 			PrimaryHub.SendJSON(e.Source.Agent, util.ApiError{400, 400, "Error populating model with json data", "I need to check maself"})
 			return
+		}
+
+		if !model.GetId().Valid() {
+			model.SetId(bson.NewObjectId())
 		}
 
 		if err = model.Save(); err != nil {
