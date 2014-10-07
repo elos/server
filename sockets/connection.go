@@ -1,6 +1,7 @@
 package sockets
 
 import (
+	"github.com/elos/server/models/user"
 	"github.com/elos/server/util"
 	"github.com/gorilla/websocket"
 	"gopkg.in/mgo.v2/bson"
@@ -41,6 +42,10 @@ func NewConnection(agent Agent, socket *websocket.Conn) {
 
 	// Register our connection with the hub
 	PrimaryHub.Register <- connection
+
+	u, _ := user.Find(agent.GetId())
+
+	PrimaryHub.SendModel(agent, u)
 
 	// Start reading messages from the socket
 	go connection.Read()
