@@ -27,6 +27,6 @@ func eventsPostHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		util.Logf("[Routes] Event was successfully created: %v", event)
 
-		util.ResourceResponse(w, 201, event)
+		util.WriteResourceResponse(w, 201, event)
 	}
 }

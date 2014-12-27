@@ -12,35 +12,102 @@ type ApiError struct {
 	DeveloperMessage string `json:"developer_message"`
 }
 
-func ErrorResponse(w http.ResponseWriter, status int, code int, message string, dMessage string) {
-	apiError := ApiError{
-		Status:           status,
-		Code:             code,
-		Message:          message,
-		DeveloperMessage: dMessage,
-	}
+// Error Generators {{{
 
-	ResourceResponse(w, status, apiError)
+func NewNotFoundError() *ApiError {
+	return &ApiError{
+		Status:           404,
+		Code:             404,
+		Message:          "Not Found",
+		DeveloperMessage: "Perhaps you have an incorrect id?",
+	}
 }
 
+func NewServerError() *ApiError {
+	return &ApiError{
+		Status:           500,
+		Code:             500,
+		Message:          "Server Error",
+		DeveloperMessage: "Server Error",
+	}
+}
+
+func NewServerErrorWithError(err error) *ApiError {
+	return &ApiError{
+		Status:           500,
+		Code:             500,
+		Message:          "Server Error",
+		DeveloperMessage: fmt.Sprintf("%s", err),
+	}
+}
+
+func NewInvalidMethodError() *ApiError {
+	return &ApiError{
+		Status:           405,
+		Code:             405,
+		Message:          "Invalid Method",
+		DeveloperMessage: "Perhaps you meant to GET instead of POST? Or vice versa?",
+	}
+}
+
+func NewUnauthorizedError() *ApiError {
+	return &ApiError{
+		Status:           401,
+		Code:             401,
+		Message:          "Unathorized",
+		DeveloperMessage: "Check your key",
+	}
+}
+
+func NewWebSocketFailedError() *ApiError {
+	return &ApiError{
+		Status:           400,
+		Code:             400,
+		Message:          "WebSocket Failed",
+		DeveloperMessage: "We were unable to process your websocket request, perhaps it was not spec-valid?",
+	}
+}
+
+func NewCustomError(status int, code int, msg string, dmsg string) *ApiError {
+	return &ApiError{
+		Status:           status,
+		Code:             code,
+		Message:          msg,
+		DeveloperMessage: dmsg,
+	}
+}
+
+// }}}
+
+// Custom Error Writers {{{
+
 func NotFound(w http.ResponseWriter) {
-	ErrorResponse(w, 404, 404, "Not Found", "Perhaps you have an incorrect id?")
+	WriteErrorResponse(w, NewNotFoundError())
 }
 
 func ServerError(w http.ResponseWriter, err error) {
-	ErrorResponse(w, 500, 500, "Server Error", fmt.Sprintf("%s", err))
+	WriteErrorResponse(w, NewServerErrorWithError(err))
 }
 
 func InvalidMethod(w http.ResponseWriter) {
-	ErrorResponse(w, 405, 405, "Invalid Method",
-		"Perhaps you meant to GET instead of POST? Or vice versa?")
+	WriteErrorResponse(w, NewInvalidMethodError())
 }
 
 func Unauthorized(w http.ResponseWriter) {
-	ErrorResponse(w, 401, 401, "Unauthroized", "Check your key")
+	WriteErrorResponse(w, NewUnauthorizedError())
 }
 
 func WebSocketFailed(w http.ResponseWriter) {
-	ErrorResponse(w, 400, 400, "WebSocket Failed",
-		"We were unable to process your websocket request, perhaps it was not spec-valid?")
+	WriteErrorResponse(w, NewWebSocketFailedError())
+}
+
+func CustomError(w http.ResponseWriter, status int, code int, message string, dMessage string) {
+	apiError := NewCustomError(status, code, message, dMessage)
+	WriteErrorResponse(w, apiError)
+}
+
+// }}}
+
+func WriteErrorResponse(w http.ResponseWriter, apiError *ApiError) {
+	WriteResourceResponse(w, apiError.Status, apiError)
 }

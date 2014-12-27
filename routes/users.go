@@ -26,6 +26,6 @@ func usersPostHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		util.Logf("User was successfully created: %v", user)
 
-		util.ResourceResponse(w, 201, user)
+		util.WriteResourceResponse(w, 201, user)
 	}
 }
