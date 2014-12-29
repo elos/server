@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/elos/server/config"
+	"github.com/elos/server/db"
 	"github.com/elos/server/util"
 )
 
@@ -34,6 +35,7 @@ func main() {
 
 	defer config.ShutdownDB()
 	defer config.ShutdownSockets()
+	defer db.StopMongo()
 
 	StartServer(*host, *port)
 }
