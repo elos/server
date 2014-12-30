@@ -8,7 +8,7 @@ import (
 )
 
 func StartMongo() error {
-	out, err := exec.Command("mongod", "--config", "mongo.conf").Output()
+	out, err := exec.Command("mongod", "--config", "./mongo.conf").Output()
 
 	if err != nil {
 		fmt.Printf("%s", out)
@@ -20,7 +20,7 @@ func StartMongo() error {
 }
 
 func StopMongo() error {
-	bytes, err := ioutil.ReadFile("tmp/pids/mongodb.pid")
+	bytes, err := ioutil.ReadFile("/tmp/mongodb.pid")
 	if err != nil {
 		return err
 	}
