@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"path/filepath"
 
 	"github.com/elos/server/config"
@@ -15,6 +16,17 @@ import (
 
 func main() {
 	programName := filepath.Base(os.Args[0])
+
+	// Intercept sigterm
+	signalChannel := make(chan os.Signal, 1)
+	signal.Notify(signalChannel, os.Interrupt)
+	go func() {
+		for _ = range signalChannel {
+			log.Printf("Keyboard interrupt recieved, shutting down")
+			db.StopMongo()
+			os.Exit(1)
+		}
+	}()
 
 	var (
 		host    = flag.String("h", "127.0.0.1", "IP Address to bind to")
