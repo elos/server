@@ -16,17 +16,12 @@ var DBConnection *db.Connection
 	Establishes a connection to the database package
 */
 func SetupDB(addr string) *db.Connection {
-	err := db.StartMongo()
-
-	if err != nil {
-		log.Fatal("Failed to start mongo, server can not start")
-	}
 
 	if DBConnection != nil {
 		ShutdownDB()
 	}
 
-	DBConnection, err = db.Connect(addr)
+	DBConnection, err := db.Connect(addr)
 
 	if err != nil {
 		log.Fatal(err)
@@ -41,6 +36,6 @@ func SetupDB(addr string) *db.Connection {
 	Closes the connection to the database package
 */
 func ShutdownDB() {
-	DBConnection.Close()
-	db.StopMongo()
+	// DBConnection.Close()
+	DBConnection = nil
 }

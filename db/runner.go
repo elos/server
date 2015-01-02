@@ -1,40 +1,32 @@
 package db
 
 import (
-	"fmt"
-	"github.com/elos/server/util"
-	"io/ioutil"
+	// "github.com/elos/server/util"
+	"os"
 	"os/exec"
 )
 
-func StartMongo() error {
-	out, err := exec.Command("mongod", "--config", "./mongo.conf").Output()
+var (
+	mongod exec.Cmd
+)
 
-	if err != nil {
-		fmt.Printf("%s", out)
+func StartMongo() error {
+	mongod := exec.Command("mongod", "--config", "./mongo.conf")
+	mongod.Stdout = os.Stdout
+	mongod.Stderr = os.Stderr
+
+	if err := mongod.Start(); err != nil {
 		return err
 	}
-
-	util.Log("Mongo succesfully started")
+	// util.Log("Mongo succesfully started") causes runtime panic?
 	return nil
 }
 
-func StopMongo() error {
-	bytes, err := ioutil.ReadFile("/tmp/mongodb.pid")
-	if err != nil {
+func StopMongo(sig os.Signal) error {
+	if err := mongod.Process.Signal(sig); err != nil {
 		return err
 	}
 
-	pid := string(bytes)
-
-	cmd := exec.Command("kill", pid)
-
-	err = cmd.Run()
-
-	if err != nil {
-		return err
-	}
-
-	util.Log("Mongo succesfully stopped")
+	// util.Log("Mongo succesfully stopped") causes runtime panic?
 	return nil
 }

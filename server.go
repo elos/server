@@ -16,7 +16,6 @@ import (
 
 func main() {
 	programName := filepath.Base(os.Args[0])
-	SetupSignalIntercept()
 
 	var (
 		host    = flag.String("h", "127.0.0.1", "IP Address to bind to")
@@ -30,14 +29,15 @@ func main() {
 		flag.PrintDefaults()
 	}
 
+	go HandleSignals()
+	if err := db.StartMongo(); err != nil {
+		log.Fatal("Failed to start mongo, server can not start")
+	}
+
 	config.SetVerbosity(*verbose)
 	config.SetupDB("localhost")
 	config.SetupRoutes()
 	config.SetupSockets()
-
-	defer config.ShutdownDB()
-	defer config.ShutdownSockets()
-	defer db.StopMongo()
 
 	StartServer(*host, *port)
 }
@@ -50,15 +50,18 @@ func StartServer(host string, port int) {
 	log.Fatal(http.ListenAndServe(serving_url, util.LogRequest(http.DefaultServeMux)))
 }
 
-func SetupSignalIntercept() {
+func HandleSignals() {
 	// Intercept sigterm
 	signalChannel := make(chan os.Signal, 1)
 	signal.Notify(signalChannel, os.Interrupt)
-	go func() {
-		for _ = range signalChannel {
-			log.Printf("Keyboard interrupt recieved, shutting down")
-			db.StopMongo()
-			os.Exit(1)
-		}
-	}()
+	sig := <-signalChannel
+	Shutdown(sig)
+}
+
+func Shutdown(sig os.Signal) {
+	log.Printf("Shutting down server")
+	config.ShutdownDB()
+	config.ShutdownSockets()
+	// db.StopMongo(sig)
+	os.Exit(0)
 }
