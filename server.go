@@ -16,17 +16,7 @@ import (
 
 func main() {
 	programName := filepath.Base(os.Args[0])
-
-	// Intercept sigterm
-	signalChannel := make(chan os.Signal, 1)
-	signal.Notify(signalChannel, os.Interrupt)
-	go func() {
-		for _ = range signalChannel {
-			log.Printf("Keyboard interrupt recieved, shutting down")
-			db.StopMongo()
-			os.Exit(1)
-		}
-	}()
+	SetupSignalIntercept()
 
 	var (
 		host    = flag.String("h", "127.0.0.1", "IP Address to bind to")
@@ -58,4 +48,17 @@ func StartServer(host string, port int) {
 	log.Printf("Serving at http://%s", serving_url)
 
 	log.Fatal(http.ListenAndServe(serving_url, util.LogRequest(http.DefaultServeMux)))
+}
+
+func SetupSignalIntercept() {
+	// Intercept sigterm
+	signalChannel := make(chan os.Signal, 1)
+	signal.Notify(signalChannel, os.Interrupt)
+	go func() {
+		for _ = range signalChannel {
+			log.Printf("Keyboard interrupt recieved, shutting down")
+			db.StopMongo()
+			os.Exit(1)
+		}
+	}()
 }
