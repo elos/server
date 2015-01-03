@@ -29,5 +29,5 @@ type Model interface {
 
 type Link struct {
 	Id   bson.ObjectId `json:"id" bson:"id"`
-	Kind Kind          `json:"=" bson:"-"`
+	Kind Kind          `json:"-" bson:"-"`
 }
