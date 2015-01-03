@@ -3,7 +3,6 @@ package sockets
 import (
 	"github.com/elos/server/db"
 	"github.com/elos/server/models"
-	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -40,7 +39,7 @@ func NewHub() *Hub {
 
 /*
 	Run loop of a hub
-	Blocks on register and unregister channels
+	Blocks on register, unregister, and model update channels
 */
 func (h *Hub) Run() {
 	for {
@@ -60,11 +59,11 @@ func (h *Hub) Run() {
 	to the channel matching that connections Agent ID
 */
 func (h *Hub) RegisterConnection(conn *Connection) {
-	util.Logf("[Hub] Registering a new socket for agent id %s", conn.Agent.GetId())
+	Logf("Registering a new socket for agent id %s", conn.Agent.GetId())
 
 	h.FindOrCreateChannel(conn.Agent.GetId()).AddConnection(conn)
 
-	util.Logf("[Hub] New socket registered for agent id %s", conn.Agent.GetId())
+	Logf("New socket registered for agent id %s", conn.Agent.GetId())
 }
 
 /*
@@ -72,7 +71,7 @@ func (h *Hub) RegisterConnection(conn *Connection) {
 	from the channel matching that connection's Agent ID
 */
 func (h *Hub) UnregisterConnection(conn *Connection) {
-	util.Logf("[Hub] Unregistering a socket for agent id %s", conn.Agent.GetId())
+	Logf("Unregistering a socket for agent id %s", conn.Agent.GetId())
 
 	// Lookup the channel registered for the agent
 	channel := h.Channels[conn.Agent.GetId()]
@@ -82,11 +81,11 @@ func (h *Hub) UnregisterConnection(conn *Connection) {
 		channel.RemoveConnection(conn)
 	}
 
-	util.Logf("[Hub] One socket removed for agent id %s", conn.Agent.GetId())
+	Logf("One socket removed for agent id %s", conn.Agent.GetId())
 }
 
 func (h *Hub) NotifyConcerned(m db.Model) {
-	util.Log("[Hub] Recieved a model from ModelUpdates")
+	Log("Recieved a model from ModelUpdates")
 
 	p := &Package{
 		Action: "POST",
@@ -97,7 +96,7 @@ func (h *Hub) NotifyConcerned(m db.Model) {
 		h.SendPackage(recipientId, p)
 	}
 
-	util.Log("[Hub] Sent out the updated model")
+	Log("Sent out the updated model")
 }
 
 func (h *Hub) FindOrCreateChannel(id bson.ObjectId) *Channel {
