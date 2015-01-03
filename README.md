@@ -17,7 +17,7 @@ Requires mongod.
     ginkgo -r
 ```
 
-See more(link needed)
+[See more](https://github.com/elos/documentation/blob/master/server/testing.md)
 
 ##### Create a user
 
