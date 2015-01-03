@@ -8,6 +8,13 @@ type Channel struct {
 	Send        chan []byte
 }
 
+func NewChannel() *Channel {
+	return &Channel{
+		Connections: make([]*Connection, 0),
+		Send:        make(chan []byte),
+	}
+}
+
 // Appends a connection to the list of connections on this channel
 func (channel *Channel) AddConnection(conn *Connection) {
 	channel.Connections = append(channel.Connections, conn)

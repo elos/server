@@ -33,4 +33,25 @@ var _ = Describe("Hub", func() {
 		})
 	})
 
+	Context("Connection Registering", func() {
+		var (
+			h *Hub
+		)
+
+		BeforeEach(func() {
+			h = NewHub()
+			go h.Run()
+		})
+
+		Describe("RegisterConnection", func() {
+			It("Registers a connection", func() {
+				// need to test connections first :/
+			})
+		})
+
+		Describe("UnregisterConnection", func() {
+			It("Unregisters a connection", func() {
+			})
+		})
+	})
 })

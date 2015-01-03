@@ -24,7 +24,7 @@ func Shutdown() {
 	to those connections
 */
 type Hub struct {
-	// Registered connections
+	// Registered channels
 	Channels map[bson.ObjectId]*Channel
 
 	// Channel to register new Connections
@@ -110,10 +110,7 @@ func (h *Hub) FindOrCreateChannel(id bson.ObjectId) *Channel {
 
 	// If the channel is not present, create it
 	if !present {
-		h.Channels[id] = &Channel{
-			Connections: make([]*Connection, 0),
-			Send:        make(chan []byte),
-		}
+		h.Channels[id] = NewChannel()
 	}
 
 	// Return the current, or new channel
