@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/elos/server/models/event"
@@ -21,11 +20,11 @@ func eventsPostHandler(w http.ResponseWriter, r *http.Request) {
 	event, err := event.Create(r.FormValue("name"), r.FormValue("user_id"))
 
 	if err != nil {
-		log.Printf("[Routes] An error occurred while create the event, err: %s", err)
+		Logf("An error occurred while create the event, err: %s", err)
 
 		util.ServerError(w, err)
 	} else {
-		util.Logf("[Routes] Event was successfully created: %v", event)
+		Logf("Event was successfully created: %v", event)
 
 		util.WriteResourceResponse(w, 201, event)
 	}

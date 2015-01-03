@@ -35,7 +35,7 @@ func ExtractCredentials(r *http.Request) (string, string) {
 		key := r.FormValue("key")
 	*/
 	if len(tokens) != 2 {
-		util.Log("The length of the tokens extrapolated from Sec-Websocket-Protocol was not 2")
+		Log("The length of the tokens extrapolated from Sec-Websocket-Protocol was not 2")
 		return "", ""
 	} else {
 		return tokens[0], tokens[1]
@@ -62,7 +62,7 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	// Prevents an error that should be dealt with within AuthenticateUser
 	// The empty string breaks the authenticate function
 	if id == "" {
-		util.Log("The id extrapolated from the Sec-Websocket-Protocol was: \"\"")
+		Log("The id extrapolated from the Sec-Websocket-Protocol was: \"\"")
 
 		util.Unauthorized(w)
 		return
@@ -71,27 +71,27 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	user, authenticated, err := user.Authenticate(id, key)
 
 	if err != nil {
-		util.Logf("An error occurred during authentication, err: %s", err)
+		Logf("An error occurred during authentication, err: %s", err)
 		util.ServerError(w, err)
 		return
 	}
 
 	if authenticated {
-		util.Logf("User with id %s authenticated", id)
+		Logf("User with id %s authenticated", id)
 
 		ws, err := upgrader.Upgrade(w, r, *ExtractProtocolHeader(r))
 
 		if err != nil {
-			util.Logf("An error occurred while upgrading to the websocket protocol, err: %s", err)
+			Logf("An error occurred while upgrading to the websocket protocol, err: %s", err)
 			// gorilla/websocket handles response to client
 			return
 		}
 
-		util.Logf("User with id %s just connected over websocket", id)
+		Logf("User with id %s just connected over websocket", id)
 
 		sockets.NewConnection(user, ws)
 	} else {
-		util.Logf("User with id %s failed authentication", id)
+		Logf("User with id %s failed authentication", id)
 
 		util.Unauthorized(w)
 		return

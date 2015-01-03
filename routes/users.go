@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/elos/server/models/user"
@@ -21,10 +20,10 @@ func usersPostHandler(w http.ResponseWriter, r *http.Request) {
 	user, err := user.Create(r.FormValue("name"))
 
 	if err != nil {
-		log.Printf("An error occurred while creating the user, err: %s", err)
+		Logf("An error occurred while creating the user, err: %s", err)
 		util.ServerError(w, err)
 	} else {
-		util.Logf("User was successfully created: %v", user)
+		Logf("User was successfully created: %v", user)
 
 		util.WriteResourceResponse(w, 201, user)
 	}
