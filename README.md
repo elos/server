@@ -25,15 +25,18 @@ Requires mongod.
 
 ###### Websocket
 
-``` coffeescript
-connection = new WebSocket "ws://localhost:8000/v1/authenticate", "#{id}-#{key}"
-connection.onmessage = (event) -> console.log JSON.parse event.data
-msg =
-  action: "POST"
-  data:
-    user:
-      name: "Nick Landolfi"
-connection.send JSON.stringify msg
+``` javascript
+connection = new WebSocket("ws://localhost:8000/v1/authenticate", "[id]-[key]")
+connection.onmessage = function(event) { console.log(JSON.parse(event.data)); }
+msg = {
+    action: "POST"
+    data: {
+        user: {
+            name: "Nick Landolfi"
+        }
+    }
+}
+connection.send(JSON.stringify(msg))
 ```
 
 
