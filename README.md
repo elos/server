@@ -31,8 +31,8 @@ connection.onmessage = function(event) { console.log(JSON.parse(event.data)); }
 msg = {
     action: "POST"
     data: {
-        user: {
-            name: "Nick Landolfi"
+        event: {
+            name: "This is a new event"
         }
     }
 }
