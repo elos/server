@@ -14,6 +14,11 @@ func Setup() {
 	go PrimaryHub.Run()
 }
 
+func Shutdown() {
+	// close all connections
+	PrimaryHub = nil
+}
+
 /*
 	A hub maintains a set of connections, and broadcasts
 	to those connections

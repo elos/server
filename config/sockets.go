@@ -1,8 +1,6 @@
 package config
 
 import (
-	"log"
-
 	"github.com/elos/server/sockets"
 )
 
@@ -11,5 +9,5 @@ func SetupSockets() {
 }
 
 func ShutdownSockets() {
-	log.Printf("ShutdownHub has not yet been implemented")
+	sockets.Shutdown()
 }
