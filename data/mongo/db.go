@@ -27,14 +27,14 @@ func NewDB(addr string) (data.DB, error) {
 func (db *MongoDB) Save(m data.Model) error {
 	s, err := newSession(db)
 	if err != nil {
-		// log(err)
+		log(err)
 		return err
 	}
 
 	defer s.Close()
 
 	if err = save(s, m); err != nil {
-		// logf("Error saving record of kind %s, err: %s", m.Kind(), err)
+		logf("Error saving record of kind %s, err: %s", m.Kind(), err)
 		return err
 	} else {
 		*db.GetUpdatesChannel() <- m
@@ -45,14 +45,14 @@ func (db *MongoDB) Save(m data.Model) error {
 func (db *MongoDB) PopulateById(m data.Model) error {
 	s, err := newSession(db)
 	if err != nil {
-		// log(err)
+		log(err)
 		return err
 	}
 
 	defer s.Close()
 
 	if err = populateById(s, m); err != nil {
-		// logf("There was an error populating the %s model, error: %v", m.Kind(), err)
+		logf("There was an error populating the %s model, error: %v", m.Kind(), err)
 		return err
 	} else {
 		return nil
@@ -62,14 +62,14 @@ func (db *MongoDB) PopulateById(m data.Model) error {
 func (db *MongoDB) PopulateByField(field string, value interface{}, m data.Model) error {
 	s, err := newSession(db)
 	if err != nil {
-		// log(err)
+		log(err)
 		return err
 	}
 
 	defer s.Close()
 
 	if err = populateByField(s, m, field, value); err != nil {
-		// logf("There was an error populating the %s model, error: %v", m.Kind(), err)
+		logf("There was an error populating the %s model, error: %v", m.Kind(), err)
 		return err
 	} else {
 		return nil

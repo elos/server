@@ -10,7 +10,7 @@ import (
 func save(s *mgo.Session, m data.Model) error {
 	collection, err := collectionFor(s, m)
 	if err != nil {
-		// log(err)
+		log(err)
 		return err
 	}
 
@@ -29,7 +29,7 @@ func save(s *mgo.Session, m data.Model) error {
 func populateById(s *mgo.Session, m data.Model) error {
 	collection, err := collectionFor(s, m)
 	if err != nil {
-		// log(err)
+		log(err)
 		return err
 	}
 
@@ -44,12 +44,12 @@ func populateById(s *mgo.Session, m data.Model) error {
 func populateByField(s *mgo.Session, m data.Model, field string, value interface{}) error {
 	collection, err := collectionFor(s, m)
 	if err != nil {
-		// log(err)
+		log(err)
 		return err
 	}
 
 	if err := collection.Find(bson.M{field: value}).One(m); err != nil {
-		// log(err)
+		log(err)
 		return err
 	}
 
