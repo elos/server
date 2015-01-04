@@ -21,7 +21,11 @@ func SetLog(l Logger) {
 }
 
 func FormatService(service string) string {
-	return strings.ToUpper(service)
+	upper := strings.ToUpper(service)
+	if len(upper) > 6 {
+		upper = upper[:6]
+	}
+	return upper
 }
 
 func FormatLogMessage(service string, message string) string {
