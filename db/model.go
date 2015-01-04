@@ -1,6 +1,9 @@
 package db
 
-import "gopkg.in/mgo.v2/bson"
+import (
+	"fmt"
+	"gopkg.in/mgo.v2/bson"
+)
 
 /*
 	Model type or class
@@ -15,11 +18,18 @@ type Model interface {
 	SetId(bson.ObjectId)
 	GetId() bson.ObjectId
 	Kind() Kind
-	Link(string, Model) error
 
 	// Persistence
 	Save() error
 
 	// For model updates
 	Concerned() []bson.ObjectId
+}
+
+func CheckId(id bson.ObjectId) error {
+	if !id.Valid() {
+		return fmt.Errorf("Invalid Id")
+	}
+
+	return nil
 }

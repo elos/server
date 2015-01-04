@@ -1,7 +1,6 @@
 package user
 
 import (
-	"fmt"
 	"github.com/elos/server/db"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -16,22 +15,38 @@ func (u *User) Concerned() []bson.ObjectId {
 	return a
 }
 
-func (u *User) Link(property string, m db.Model) error {
-	switch property {
-	case "event":
-		eventId := m.GetId()
+func (u *User) AddEvent(eventId bson.ObjectId) error {
+	if err := db.CheckId(eventId); err != nil {
+		return err
+	}
 
-		// If the user already has the event model linked, then return
-		if u.EventIdsHash()[eventId] {
-			return nil
+	if !u.EventIdsHash()[eventId] {
+		u.EventIds = append(u.EventIds, eventId)
+		return u.Save()
+	}
+
+	return nil
+}
+
+func (u *User) RemoveEvent(eventId bson.ObjectId) error {
+	if err := db.CheckId(eventId); err != nil {
+		return err
+	}
+
+	eventIds := u.EventIdsHash()
+
+	if eventIds[eventId] {
+		eventIds[eventId] = false
+		ids := make([]bson.ObjectId, 0)
+		for id := range eventIds {
+			if eventIds[id] {
+				ids = append(ids, id)
+			}
 		}
 
-		u.EventIds = append(u.EventIds, eventId)
-
-		m.Link("user", u)
-
+		u.EventIds = ids
 		return u.Save()
-	default:
-		return fmt.Errorf("Unrecognized property")
 	}
+
+	return nil
 }

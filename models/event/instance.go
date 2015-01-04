@@ -1,7 +1,6 @@
 package event
 
 import (
-	"fmt"
 	"github.com/elos/server/db"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -16,30 +15,16 @@ func (e *Event) Concerned() []bson.ObjectId {
 	return a
 }
 
-func (e *Event) Link(property string, model db.Model) error {
-	switch property {
-	case "user":
-		id := model.GetId()
-
-		if e.UserId == id {
-			return nil
-		}
-
-		e.UserId = model.GetId()
-		e.Save()
-		return nil
-	default:
-		return fmt.Errorf("Unrecognized Property")
+func (e *Event) SetUser(userId bson.ObjectId) error {
+	if err := db.CheckId(userId); err != nil {
+		return err
 	}
-}
 
-func (e *Event) GetLink(property string, model db.Model) error {
-	switch property {
-	case "user":
-		model.SetId(e.Id)
-		db.PopulateById(model)
+	if e.UserId == userId {
 		return nil
-	default:
-		return fmt.Errorf("Unrecognized property")
 	}
+
+	e.UserId = userId
+
+	return e.Save()
 }
