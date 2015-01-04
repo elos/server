@@ -1,6 +1,7 @@
 package test
 
 import (
+	"fmt"
 	"github.com/elos/server/data"
 )
 
@@ -12,6 +13,8 @@ type TestDB struct {
 
 	Error bool
 }
+
+var TestDBError error = fmt.Errorf("TestDB Error")
 
 func NewDB() (*TestDB, error) {
 	db := &TestDB{}
@@ -28,6 +31,10 @@ func (db *TestDB) Reset() {
 }
 
 func (db *TestDB) Connect(addr string) error {
+	if db.Error {
+		return TestDBError
+	}
+
 	return nil
 }
 
@@ -37,7 +44,7 @@ func (db *TestDB) GetUpdatesChannel() *chan data.Model {
 
 func (db *TestDB) Save(m data.Model) error {
 	if db.Error {
-		return nil
+		return TestDBError
 	}
 
 	db.Saved = append(db.Saved, m)
@@ -46,7 +53,7 @@ func (db *TestDB) Save(m data.Model) error {
 
 func (db *TestDB) PopulateById(m data.Model) error {
 	if db.Error {
-		return nil
+		return TestDBError
 	}
 
 	db.PopulatedById = append(db.PopulatedById, m)
@@ -55,7 +62,7 @@ func (db *TestDB) PopulateById(m data.Model) error {
 
 func (db *TestDB) PopulateByField(field string, value interface{}, m data.Model) error {
 	if db.Error {
-		return nil
+		return TestDBError
 	}
 
 	db.PopulatedByField = append(db.PopulatedByField, m)
