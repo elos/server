@@ -18,7 +18,7 @@ func StartMongo() error {
 	if err := mongod.Start(); err != nil {
 		return err
 	}
-	// util.Log("Mongo succesfully started") causes runtime panic?
+	// Log("Mongo succesfully started") causes runtime panic?
 	return nil
 }
 
@@ -27,6 +27,6 @@ func StopMongo(sig os.Signal) error {
 		return err
 	}
 
-	// util.Log("Mongo succesfully stopped") causes runtime panic?
+	// Log("Mongo succesfully stopped") causes runtime panic?
 	return nil
 }

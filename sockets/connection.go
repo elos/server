@@ -2,7 +2,6 @@ package sockets
 
 import (
 	"github.com/elos/server/models/user"
-	"github.com/elos/server/util"
 	"github.com/gorilla/websocket"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -67,7 +66,7 @@ func (conn *Connection) Read() {
 		err := conn.Socket.ReadJSON(&e)
 
 		if err != nil {
-			util.Logf("[Hub] An error occurred while reading a Connection, err: %s", err)
+			Logf("An error occurred while reading a Connection, err: %s", err)
 
 			/*
 				If there was an error break inf. loop.

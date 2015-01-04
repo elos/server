@@ -2,7 +2,6 @@ package sockets
 
 import (
 	"github.com/elos/server/db"
-	"github.com/elos/server/util"
 )
 
 // Inbound
@@ -27,7 +26,7 @@ func Route(e *Envelope) {
 	case "DELETE":
 		go deleteHandler(e)
 	default:
-		util.Logf("[Hub] Action not recognized")
+		Logf("Action not recognized")
 	}
 }
 

@@ -50,7 +50,7 @@ func StartServer(host string, port int) {
 
 	logging.Log.Logsf(programName, "Serving at http://%s", serving_url)
 
-	log.Fatal(http.ListenAndServe(serving_url, util.LogRequest(http.DefaultServeMux)))
+	log.Fatal(http.ListenAndServe(serving_url, logging.LogRequest(http.DefaultServeMux)))
 }
 
 func HandleSignals() {
