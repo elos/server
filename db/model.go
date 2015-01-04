@@ -10,9 +10,6 @@ import "gopkg.in/mgo.v2/bson"
 */
 type Kind string
 
-// Not used
-type Key string
-
 type Model interface {
 	// Core
 	SetId(bson.ObjectId)
@@ -25,9 +22,4 @@ type Model interface {
 
 	// For model updates
 	Concerned() []bson.ObjectId
-}
-
-type Link struct {
-	Id   bson.ObjectId `json:"id" bson:"id"`
-	Kind Kind          `json:"-" bson:"-"`
 }

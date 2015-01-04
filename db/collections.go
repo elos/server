@@ -1,8 +1,6 @@
 package db
 
 import (
-	"log"
-
 	"gopkg.in/mgo.v2"
 )
 
@@ -21,7 +19,7 @@ func CollectionFor(s *mgo.Session, m Model) *mgo.Collection {
 	collectionForKind := Collections[m.Kind()]
 
 	if collectionForKind == "" {
-		log.Printf("No collection name has been specified for the model type %s", m.Kind())
+		Logf("No collection name has been specified for the model type %s", m.Kind())
 	}
 
 	return Database(s).C(collectionForKind)

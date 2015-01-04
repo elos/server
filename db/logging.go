@@ -1,18 +1,10 @@
-package config
+package db
 
 import (
 	"github.com/elos/server/util/logging"
 )
 
-func SetupLog(verbose bool) {
-	if verbose {
-		logging.SetLog(logging.StdOutLog)
-	} else {
-		logging.SetLog(logging.NullLog)
-	}
-}
-
-const ServiceName string = "Config"
+const ServiceName string = "DB"
 
 func Log(v ...interface{}) {
 	logging.Log.Logs(ServiceName, v...)

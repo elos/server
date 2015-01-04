@@ -17,8 +17,8 @@ func (l *StdOutLogger) Logf(format string, v ...interface{}) {
 	log.Printf(format, v...)
 }
 
-func (l *StdOutLogger) Logs(service string, message string) {
-	log.Print(FormatLogMessage(service, message))
+func (l *StdOutLogger) Logs(service string, v ...interface{}) {
+	log.Print(FormatLogMessage(service, fmt.Sprint(v...)))
 }
 
 func (l *StdOutLogger) Logsf(service string, format string, v ...interface{}) {

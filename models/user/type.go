@@ -92,10 +92,7 @@ func Find(id bson.ObjectId) (db.Model, error) {
 func FindUserBy(field string, value interface{}) (db.Model, error) {
 	user := &User{}
 
-	session := db.NewSession()
-	defer session.Close()
-
-	if err := db.CollectionFor(session, user).Find(bson.M{field: value}).One(user); err != nil {
+	if err := db.PopulateByField(user, field, value); err != nil {
 		return user, err
 	}
 

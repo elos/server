@@ -8,7 +8,7 @@ import (
 type Logger interface {
 	Log(...interface{})
 	Logf(string, ...interface{})
-	Logs(string, string)
+	Logs(string, ...interface{})
 	Logsf(string, string, ...interface{})
 }
 

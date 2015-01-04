@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"log"
 
 	"gopkg.in/mgo.v2"
@@ -27,7 +28,7 @@ func (c *Connection) Close() {
 var PrimaryConnection *Connection
 
 /*
-	Creates a db.Connection to the database. Will fail hard
+	Creates a db.Connection to the database. Will fail hard, see log.Fatal
 */
 func Connect(addr string) (*Connection, error) {
 	session, err := mgo.Dial(addr)
@@ -48,11 +49,13 @@ func Connect(addr string) (*Connection, error) {
 /*
 	Forks the session of the primary connection
 		- If the PrimaryConnection does not exist, this returns a nil session
+	Note: newSession is not exported, it should not be used by another package!
+	    - this is an attempt to enforce db/server agnostic
 */
-func NewSession() *mgo.Session {
+func newSession() (*mgo.Session, error) {
 	if PrimaryConnection != nil {
-		return PrimaryConnection.Session.Copy()
+		return PrimaryConnection.Session.Copy(), nil
 	} else {
-		return nil
+		return nil, fmt.Errorf("Primary connection does not exist")
 	}
 }

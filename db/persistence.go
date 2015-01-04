@@ -1,25 +1,29 @@
 package db
 
-import "log"
+import (
+	"gopkg.in/mgo.v2/bson"
+)
 
 // Every saved mode is broadcasted over this channel
 var ModelUpdates chan Model = make(chan Model)
 
 // Saves a model, broadcasted that save over ModelUpdates
 func Save(m Model) error {
-	session := NewSession()
+	session, err := newSession()
+	if err != nil {
+		Log(err)
+		return err
+	}
 	defer session.Close()
 
 	collection := CollectionFor(session, m)
 
 	// changeInfo, err := ...
-	_, err := collection.UpsertId(m.GetId(), m)
+	_, err = collection.UpsertId(m.GetId(), m)
 
 	if err != nil {
-		log.Printf("Error saving record of kind %s, err: %s", m.Kind(), err)
-	}
-
-	if err == nil {
+		Logf("Error saving record of kind %s, err: %s", m.Kind(), err)
+	} else {
 		ModelUpdates <- m
 	}
 
@@ -28,21 +32,39 @@ func Save(m Model) error {
 
 // Populates the model data for an empty struct with a specified id
 func PopulateById(m Model) error {
-	session := NewSession()
+	session, err := newSession()
+	if err != nil {
+		Log(err)
+		return err
+	}
 	defer session.Close()
 
 	collection := CollectionFor(session, m)
 
-	err := collection.FindId(m.GetId()).One(m)
+	err = collection.FindId(m.GetId()).One(m)
 
 	if err != nil {
-		log.Printf("There was an error populating the %s model, error: %v", m.Kind(), err)
+		Logf("There was an error populating the %s model, error: %v", m.Kind(), err)
 	}
 
 	return err
 }
 
 // Alias of PopulateById()
-func FindId(m Model) error {
-	return PopulateById(m)
+func FindId(m Model) error { return PopulateById(m) }
+
+func PopulateByField(m Model, field string, value interface{}) error {
+	session, err := newSession()
+	if err != nil {
+		Log(err)
+		return err
+	}
+	defer session.Close()
+
+	if err := CollectionFor(session, m).Find(bson.M{field: value}).One(m); err != nil {
+		Log(err)
+		return err
+	}
+
+	return nil
 }

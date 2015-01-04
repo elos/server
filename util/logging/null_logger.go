@@ -8,7 +8,7 @@ func (l *NullLogger) Log(v ...interface{}) {}
 
 func (l *NullLogger) Logf(format string, v ...interface{}) {}
 
-func (l *NullLogger) Logs(service string, message string) {}
+func (l *NullLogger) Logs(service string, v ...interface{}) {}
 
 func (l *NullLogger) Logsf(service string, format string, v ...interface{}) {}
 
