@@ -11,7 +11,6 @@ import (
 
 	"github.com/elos/server/config"
 	"github.com/elos/server/db"
-	"github.com/elos/server/util"
 	"github.com/elos/server/util/logging"
 )
 
