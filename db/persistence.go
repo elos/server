@@ -11,14 +11,14 @@ var ModelUpdates chan Model = make(chan Model)
 func Save(m Model) error {
 	session, err := newSession()
 	if err != nil {
-		Log(err)
+		log(err)
 		return err
 	}
 	defer session.Close()
 
-	collection, err := CollectionFor(session, m)
+	collection, err := collectionFor(session, m)
 	if err != nil {
-		Log(err)
+		log(err)
 		return err
 	}
 
@@ -26,7 +26,7 @@ func Save(m Model) error {
 	_, err = collection.UpsertId(m.GetId(), m)
 
 	if err != nil {
-		Logf("Error saving record of kind %s, err: %s", m.Kind(), err)
+		logf("Error saving record of kind %s, err: %s", m.Kind(), err)
 	} else {
 		ModelUpdates <- m
 	}
@@ -38,21 +38,21 @@ func Save(m Model) error {
 func PopulateById(m Model) error {
 	session, err := newSession()
 	if err != nil {
-		Log(err)
+		log(err)
 		return err
 	}
 	defer session.Close()
 
-	collection, err := CollectionFor(session, m)
+	collection, err := collectionFor(session, m)
 	if err != nil {
-		Log(err)
+		log(err)
 		return err
 	}
 
 	err = collection.FindId(m.GetId()).One(m)
 
 	if err != nil {
-		Logf("There was an error populating the %s model, error: %v", m.Kind(), err)
+		logf("There was an error populating the %s model, error: %v", m.Kind(), err)
 	}
 
 	return err
@@ -64,19 +64,19 @@ func FindId(m Model) error { return PopulateById(m) }
 func PopulateByField(m Model, field string, value interface{}) error {
 	session, err := newSession()
 	if err != nil {
-		Log(err)
+		log(err)
 		return err
 	}
 	defer session.Close()
 
-	collection, err := CollectionFor(session, m)
+	collection, err := collectionFor(session, m)
 	if err != nil {
-		Log(err)
+		log(err)
 		return err
 	}
 
 	if err := collection.Find(bson.M{field: value}).One(m); err != nil {
-		Log(err)
+		log(err)
 		return err
 	}
 

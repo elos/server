@@ -12,11 +12,11 @@ var Collections = map[Kind]string{
 	"event": "events",
 }
 
-func Database(s *mgo.Session) *mgo.Database {
+func database(s *mgo.Session) *mgo.Database {
 	return s.DB(PrimaryDatabase)
 }
 
-func CollectionFor(s *mgo.Session, m Model) (*mgo.Collection, error) {
+func collectionFor(s *mgo.Session, m Model) (*mgo.Collection, error) {
 	collectionForKind := Collections[m.Kind()]
 
 	if collectionForKind == "" {
@@ -24,5 +24,5 @@ func CollectionFor(s *mgo.Session, m Model) (*mgo.Collection, error) {
 		return nil, err
 	}
 
-	return Database(s).C(collectionForKind), nil
+	return database(s).C(collectionForKind), nil
 }

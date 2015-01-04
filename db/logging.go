@@ -6,10 +6,10 @@ import (
 
 const ServiceName string = "DB"
 
-func Log(v ...interface{}) {
+func log(v ...interface{}) {
 	logging.Log.Logs(ServiceName, v...)
 }
 
-func Logf(format string, v ...interface{}) {
+func logf(format string, v ...interface{}) {
 	logging.Log.Logsf(ServiceName, format, v...)
 }
