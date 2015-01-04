@@ -1,18 +1,10 @@
 package sockets
 
 import (
+	"github.com/elos/server/data"
 	"github.com/elos/server/models/user"
 	"github.com/gorilla/websocket"
-	"gopkg.in/mgo.v2/bson"
 )
-
-/*
-	Describes the ability to be registered with the hub.
-		- A unique identifier is the only requirement
-*/
-type Agent interface {
-	GetId() bson.ObjectId
-}
 
 /*
 	A connection is a pair consisting of an agent and that agents
@@ -22,7 +14,7 @@ type Agent interface {
 	can have multiple sockets open to the server at one time
 */
 type Connection struct {
-	Agent  Agent
+	Agent  data.Agent
 	Socket *websocket.Conn
 }
 
@@ -32,7 +24,7 @@ type Connection struct {
 
 	Note that this also begins the server reading from this socket
 */
-func NewConnection(agent Agent, socket *websocket.Conn) {
+func NewConnection(agent data.Agent, socket *websocket.Conn) {
 	// Create a new connection wrapper for the agent. socket connection pair
 	connection := &Connection{
 		Agent:  agent,

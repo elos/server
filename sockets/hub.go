@@ -128,11 +128,11 @@ func (h *Hub) SendPackage(recipientId bson.ObjectId, p *Package) {
 	}
 }
 
-func (h *Hub) SendJSON(agent Agent, v interface{}) {
+func (h *Hub) SendJSON(agent data.Agent, v interface{}) {
 	h.Channels[agent.GetId()].WriteJSON(v)
 }
 
-func (h *Hub) SendModel(agent Agent, model data.Model) {
+func (h *Hub) SendModel(agent data.Agent, model data.Model) {
 	p := &Package{
 		Action: "POST",
 		Data:   models.Map(model),
