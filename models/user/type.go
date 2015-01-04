@@ -38,7 +38,7 @@ func New() *User {
 }
 
 // Creates a with a NAME
-func Create(name string) (data.Model, error) {
+func Create(name string) (*User, error) {
 	user := &User{
 		Id:        bson.NewObjectId(),
 		CreatedAt: time.Now(),
@@ -47,7 +47,7 @@ func Create(name string) (data.Model, error) {
 	}
 
 	if err := user.Save(); err != nil {
-		return nil, err
+		return user, err
 	} else {
 		return user, nil
 	}

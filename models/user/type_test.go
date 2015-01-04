@@ -1,14 +1,17 @@
 package user_test
 
+/*
 import (
 	. "github.com/elos/server/models/user"
 	"time"
 
 	"github.com/elos/server/data"
+	"github.com/elos/server/data/test"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"gopkg.in/mgo.v2/bson"
 )
+
 
 var _ = Describe("Type", func() {
 	It("Defines it's kind property", func() {
@@ -47,7 +50,7 @@ var _ = Describe("Type", func() {
 		})
 	})
 
-	Describe("Constructors", func() {
+	PDescribe("Constructors", func() {
 		Describe("New", func() {
 			It("Returns a new user model", func() {
 				u := New()
@@ -62,7 +65,81 @@ var _ = Describe("Type", func() {
 			})
 		})
 
-		Describe("Create", func() {
+		PDescribe("Create", func() {
+			var (
+				db  *test.TestDB
+				err error
+			)
+
+			BeforeEach(func() {
+				// Get a new test database
+				db, err = test.NewDB()
+				It("Should create a database and not error", func() {
+					Expect(err).ToNot(HaveOccurred())
+					Expect(db).ToNot(BeNil())
+				})
+			})
+
+			AfterEach(func() {
+				db.Reset()
+			})
+
+			PContext("Correct model, should save", func() {
+				// Set the user database to be our test database
+				DB = db
+
+				n := "This is my name"
+				u, err := Create(n)
+
+				PIt("Doesn't error", func() {
+					Expect(err).ToNot(HaveOccurred())
+					Expect(u).ToNot(BeNil())
+				})
+
+				PIt("Sets up proper fields", func() {
+					Expect(u.GetId().Valid()).To(BeTrue())
+					Expect(u.CreatedAt).To(BeAssignableToTypeOf(time.Now()))
+					Expect(u.Name).To(Equal(n))
+					Expect(u.Key).ToNot(Equal("akdljfasjdkf"))
+					Expect(u.Key).To(HaveLen(64))
+				})
+
+				PIt("Saves to the database", func() {
+					Expect(u).To(Equal(db.Saved[0]))
+				})
+			})
+
+			PContext("Database set to error, should set up but not save", func() {
+				// Set the user database to be our test database
+				DB = db
+				db.Error = true
+
+				n := "this user will fail creation"
+				u, err := Create(n)
+
+				PIt("Error", func() {
+					Expect(err).To(HaveOccurred())
+				})
+
+				PIt("Still returns a valid user", func() {
+					Expect(u).ToNot(BeNil())
+				})
+
+				PIt("Still sets up fields", func() {
+					Expect(err).To(HaveOccurred())
+					Expect(u.Name).To(Equal(n))
+					Expect(u.GetId().Valid()).To(BeTrue())
+					Expect(u.CreatedAt).To(BeAssignableToTypeOf(time.Now()))
+				})
+
+				PIt("Should not save", func() {
+					Expect(db.Saved).To(HaveLen(0))
+				})
+
+				db.Error = false
+			})
+
 		})
 	})
 })
+*/
