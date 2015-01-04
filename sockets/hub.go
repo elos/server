@@ -9,8 +9,8 @@ import (
 // The primary hub to be used by the server
 var PrimaryHub *Hub
 
-func Setup() {
-	PrimaryHub = NewHub()
+func Setup(db db.DB) {
+	PrimaryHub = NewHub(db)
 	go PrimaryHub.Run()
 }
 
@@ -32,13 +32,17 @@ type Hub struct {
 
 	// Channel to unregister stale/closed Connections
 	Unregister chan *Connection
+
+	// The database which the hub listens to for updates
+	DB db.DB
 }
 
-func NewHub() *Hub {
+func NewHub(db db.DB) *Hub {
 	return &Hub{
 		Channels:   make(map[bson.ObjectId]*Channel),
 		Register:   make(chan *Connection),
 		Unregister: make(chan *Connection),
+		DB:         db,
 	}
 }
 
@@ -53,7 +57,7 @@ func (h *Hub) Run() {
 			go h.RegisterConnection(c)
 		case c := <-h.Unregister:
 			go h.UnregisterConnection(c)
-		case m := <-db.ModelUpdates:
+		case m := <-*h.DB.GetUpdatesChannel():
 			go h.NotifyConcerned(m)
 		}
 	}

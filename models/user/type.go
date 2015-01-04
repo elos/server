@@ -11,6 +11,8 @@ import (
 
 // Definition {{{
 
+var DB db.DB
+
 const Kind db.Kind = "user"
 
 type User struct {
@@ -81,7 +83,7 @@ func Find(id bson.ObjectId) (db.Model, error) {
 	}
 
 	// Find a user that has specified id
-	if err := db.FindId(user); err != nil {
+	if err := DB.PopulateById(user); err != nil {
 		return user, err
 	}
 
@@ -92,7 +94,7 @@ func Find(id bson.ObjectId) (db.Model, error) {
 func FindUserBy(field string, value interface{}) (db.Model, error) {
 	user := &User{}
 
-	if err := db.PopulateByField(user, field, value); err != nil {
+	if err := DB.PopulateByField(field, value, user); err != nil {
 		return user, err
 	}
 

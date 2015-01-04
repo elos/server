@@ -3,6 +3,7 @@ package sockets_test
 import (
 	. "github.com/elos/server/sockets"
 
+	"github.com/elos/server/db"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -15,7 +16,9 @@ var _ = Describe("Hub", func() {
 		})
 
 		It("NewHub()", func() {
-			h := NewHub()
+			channel := make(chan db.Model)
+			db := &db.MongoDB{ModelUpdates: &channel}
+			h := NewHub(db)
 			Expect(h.Channels).ToNot(BeNil())
 			Expect(h.Register).ToNot(BeNil())
 			Expect(h.Unregister).ToNot(BeNil())
@@ -25,7 +28,8 @@ var _ = Describe("Hub", func() {
 	Context("Setup", func() {
 		BeforeEach(func() {
 			Expect(PrimaryHub).To(BeNil())
-			Setup()
+			channel := make(chan db.Model)
+			Setup(&db.MongoDB{ModelUpdates: &channel})
 		})
 
 		It("Should set the Primary Hub", func() {
@@ -38,8 +42,11 @@ var _ = Describe("Hub", func() {
 			h *Hub
 		)
 
+		channel := make(chan db.Model)
+		db := &db.MongoDB{ModelUpdates: &channel}
+
 		BeforeEach(func() {
-			h = NewHub()
+			h = NewHub(db)
 			go h.Run()
 		})
 

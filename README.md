@@ -1,4 +1,6 @@
 Elos Server
+
+DONT USE PACKAGES AS INTERFACES!
 -----------
 
 ##### Start

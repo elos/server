@@ -6,7 +6,7 @@ import (
 )
 
 func (e *Event) Save() error {
-	return db.Save(e)
+	return DB.Save(e)
 }
 
 func (e *Event) Concerned() []bson.ObjectId {

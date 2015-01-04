@@ -9,6 +9,8 @@ import (
 
 // Definition {{{
 
+var DB db.DB
+
 const Kind db.Kind = "event"
 
 type Event struct {
@@ -65,7 +67,17 @@ func Find(id bson.ObjectId) (db.Model, error) {
 	event := New()
 	event.Id = id
 
-	if err := db.PopulateById(event); err != nil {
+	if err := DB.PopulateById(event); err != nil {
+		return event, err
+	}
+
+	return event, nil
+}
+
+func FindEventBy(field string, value interface{}) (db.Model, error) {
+	event := &Event{}
+
+	if err := DB.PopulateByField(field, value, event); err != nil {
 		return event, err
 	}
 

@@ -38,8 +38,9 @@ func main() {
 
 	config.SetupLog(*verbose)
 	config.SetupDB("localhost")
-	config.SetupRoutes()
-	config.SetupSockets()
+	config.SetupModels(config.DB)
+	config.SetupRoutes(config.DB)
+	config.SetupSockets(config.DB)
 
 	StartServer(*host, *port)
 }

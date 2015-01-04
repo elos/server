@@ -1,7 +1,6 @@
 package sockets
 
 import (
-	"github.com/elos/server/db"
 	"github.com/elos/server/models"
 	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2"
@@ -26,7 +25,8 @@ func getHandler(e *Envelope) {
 			return
 		}
 
-		err = db.PopulateById(model)
+		// FIXME: INJECT!
+		err = PrimaryHub.DB.PopulateById(model)
 
 		if err != nil {
 			if err == mgo.ErrNotFound {

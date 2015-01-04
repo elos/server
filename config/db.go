@@ -10,17 +10,18 @@ import (
 	The PrimaryConnection maintiained between the server and the database
 		- Theoretically multiple connections could be created.
 */
-var DBConnection *db.Connection
+var DB db.DB
 
 /*
 	Establishes a connection to the database package
 */
-func SetupDB(addr string) *db.Connection {
-	if DBConnection != nil {
+func SetupDB(addr string) db.DB {
+	if DB != nil {
 		ShutdownDB()
 	}
 
-	DBConnection, err := db.Connect(addr)
+	var err error
+	DB, err = db.NewMongoDB(addr)
 
 	if err != nil {
 		log.Fatal(err)
@@ -28,7 +29,7 @@ func SetupDB(addr string) *db.Connection {
 		Log("Database connection established")
 	}
 
-	return DBConnection
+	return DB
 }
 
 /*
@@ -36,5 +37,6 @@ func SetupDB(addr string) *db.Connection {
 */
 func ShutdownDB() {
 	// DBConnection.Close()
-	DBConnection = nil
+	// needs word
+	DB = nil
 }
