@@ -24,15 +24,55 @@ func NewMongoDB(addr string) (DB, error) {
 }
 
 func (db *MongoDB) Save(m Model) error {
-	return save(db, m)
+	s, err := newSession(db)
+	if err != nil {
+		log(err)
+		return err
+	}
+
+	defer s.Close()
+
+	if err = save(s, m); err != nil {
+		logf("Error saving record of kind %s, err: %s", m.Kind(), err)
+		return err
+	} else {
+		*db.GetUpdatesChannel() <- m
+		return nil
+	}
 }
 
 func (db *MongoDB) PopulateById(m Model) error {
-	return populateById(db, m)
+	s, err := newSession(db)
+	if err != nil {
+		log(err)
+		return err
+	}
+
+	defer s.Close()
+
+	if err = populateById(s, m); err != nil {
+		logf("There was an error populating the %s model, error: %v", m.Kind(), err)
+		return err
+	} else {
+		return nil
+	}
 }
 
 func (db *MongoDB) PopulateByField(field string, value interface{}, m Model) error {
-	return populateByField(db, m, field, value)
+	s, err := newSession(db)
+	if err != nil {
+		log(err)
+		return err
+	}
+
+	defer s.Close()
+
+	if err = populateByField(s, m, field, value); err != nil {
+		logf("There was an error populating the %s model, error: %v", m.Kind(), err)
+		return err
+	} else {
+		return nil
+	}
 }
 
 func (db *MongoDB) GetConnection() *Connection {

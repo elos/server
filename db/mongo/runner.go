@@ -1,4 +1,4 @@
-package db
+package mongo
 
 import (
 	// "github.com/elos/server/util"
@@ -10,7 +10,7 @@ var (
 	mongod exec.Cmd
 )
 
-func StartMongo() error {
+func StartDatabaseServer() error {
 	mongod := exec.Command("mongod", "--config", "./mongo.conf")
 	mongod.Stdout = os.Stdout
 	mongod.Stderr = os.Stderr
@@ -22,7 +22,7 @@ func StartMongo() error {
 	return nil
 }
 
-func StopMongo(sig os.Signal) error {
+func StopDatabaseServer(sig os.Signal) error {
 	if err := mongod.Process.Signal(sig); err != nil {
 		return err
 	}

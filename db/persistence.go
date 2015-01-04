@@ -1,19 +1,13 @@
 package db
 
 import (
+	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
 // Saves a model, broadcasted that save over ModelUpdates
-func save(db DB, m Model) error {
-	session, err := newSession(db)
-	if err != nil {
-		log(err)
-		return err
-	}
-	defer session.Close()
-
-	collection, err := collectionFor(session, m)
+func save(s *mgo.Session, m Model) error {
+	collection, err := collectionFor(s, m)
 	if err != nil {
 		log(err)
 		return err
@@ -27,25 +21,12 @@ func save(db DB, m Model) error {
 	// changeInfo, err := ...
 	_, err = collection.UpsertId(id, m)
 
-	if err != nil {
-		logf("Error saving record of kind %s, err: %s", m.Kind(), err)
-	} else {
-		*db.GetUpdatesChannel() <- m
-	}
-
 	return err
 }
 
 // Populates the model data for an empty struct with a specified id
-func populateById(db DB, m Model) error {
-	session, err := newSession(db)
-	if err != nil {
-		log(err)
-		return err
-	}
-	defer session.Close()
-
-	collection, err := collectionFor(session, m)
+func populateById(s *mgo.Session, m Model) error {
+	collection, err := collectionFor(s, m)
 	if err != nil {
 		log(err)
 		return err
@@ -56,24 +37,11 @@ func populateById(db DB, m Model) error {
 		return err
 	}
 
-	err = collection.FindId(m.GetId()).One(m)
-
-	if err != nil {
-		logf("There was an error populating the %s model, error: %v", m.Kind(), err)
-	}
-
-	return err
+	return collection.FindId(m.GetId()).One(m)
 }
 
-func populateByField(db DB, m Model, field string, value interface{}) error {
-	session, err := newSession(db)
-	if err != nil {
-		log(err)
-		return err
-	}
-	defer session.Close()
-
-	collection, err := collectionFor(session, m)
+func populateByField(s *mgo.Session, m Model, field string, value interface{}) error {
+	collection, err := collectionFor(s, m)
 	if err != nil {
 		log(err)
 		return err

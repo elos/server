@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 
 	"github.com/elos/server/config"
-	"github.com/elos/server/db"
+	"github.com/elos/server/db/mongo"
 	"github.com/elos/server/util/logging"
 )
 
@@ -32,7 +32,7 @@ func main() {
 	}
 
 	go HandleSignals()
-	if err := db.StartMongo(); err != nil {
+	if err := mongo.StartDatabaseServer(); err != nil {
 		log.Fatal("Failed to start mongo, server can not start")
 	}
 
@@ -65,6 +65,6 @@ func Shutdown(sig os.Signal) {
 	logging.Log.Logs(programName, "Shutting down server")
 	config.ShutdownDB()
 	config.ShutdownSockets()
-	// db.StopMongo(sig)
+	// mongo.StopDatabaseServer(sig)
 	os.Exit(0)
 }
