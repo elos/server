@@ -11,7 +11,7 @@ import (
 
 /*
 	Returns a map like:
-	{ user: { name: "Nick Landolfi"} }
+	{ user: { Name: "Nick Landolfi"} }
 	of form:
 	{ <db.Kind>: <db.Model>}
 */
@@ -33,12 +33,13 @@ func Type(kind db.Kind) (db.Model, error) {
 	case user.Kind:
 		model = user.New()
 	default:
-		return user.New(), fmt.Errorf("Unrecognized type")
+		return nil, fmt.Errorf("Unrecognized type")
 	}
 
 	return model, nil
 }
 
+// Alias for Type(db.Kind)
 func ModelFor(kind db.Kind) (db.Model, error) {
 	return Type(kind)
 }

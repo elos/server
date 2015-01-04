@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"github.com/elos/server/db"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -15,22 +16,22 @@ func (u *User) Concerned() []bson.ObjectId {
 	return a
 }
 
-func (u *User) Link(property string, m db.Model) {
+func (u *User) Link(property string, m db.Model) error {
 	switch property {
 	case "event":
 		eventId := m.GetId()
 
 		// If the user already has the event model linked, then return
 		if u.EventIdsHash()[eventId] {
-			return
+			return nil
 		}
 
 		u.EventIds = append(u.EventIds, eventId)
 
 		m.Link("user", u)
 
-		u.Save()
+		return u.Save()
 	default:
-		return
+		return fmt.Errorf("Unrecognized property")
 	}
 }

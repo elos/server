@@ -15,10 +15,10 @@ type Model interface {
 	SetId(bson.ObjectId)
 	GetId() bson.ObjectId
 	Kind() Kind
+	Link(string, Model) error
 
 	// Persistence
 	Save() error
-	Link(string, Model)
 
 	// For model updates
 	Concerned() []bson.ObjectId
