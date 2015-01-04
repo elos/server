@@ -12,10 +12,13 @@ import (
 	"github.com/elos/server/config"
 	"github.com/elos/server/db"
 	"github.com/elos/server/util"
+	"github.com/elos/server/util/logging"
 )
 
+var programName string
+
 func main() {
-	programName := filepath.Base(os.Args[0])
+	programName = filepath.Base(os.Args[0])
 
 	var (
 		host    = flag.String("h", "127.0.0.1", "IP Address to bind to")
@@ -34,7 +37,7 @@ func main() {
 		log.Fatal("Failed to start mongo, server can not start")
 	}
 
-	config.SetVerbosity(*verbose)
+	config.SetupLog(*verbose)
 	config.SetupDB("localhost")
 	config.SetupRoutes()
 	config.SetupSockets()
@@ -45,7 +48,7 @@ func main() {
 func StartServer(host string, port int) {
 	serving_url := fmt.Sprintf("%s:%d", host, port)
 
-	log.Printf("Serving at http://%s", serving_url)
+	logging.Log.Logsf(programName, "Serving at http://%s", serving_url)
 
 	log.Fatal(http.ListenAndServe(serving_url, util.LogRequest(http.DefaultServeMux)))
 }
@@ -59,7 +62,7 @@ func HandleSignals() {
 }
 
 func Shutdown(sig os.Signal) {
-	log.Printf("Shutting down server")
+	logging.Log.Logs(programName, "Shutting down server")
 	config.ShutdownDB()
 	config.ShutdownSockets()
 	// db.StopMongo(sig)

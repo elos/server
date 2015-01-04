@@ -1,19 +1,15 @@
 package sockets
 
 import (
-	"github.com/elos/server/util"
+	"github.com/elos/server/util/logging"
 )
-
-// Logging {{{
 
 const ServiceName string = "Hub"
 
 func Log(logMessage string) {
-	util.Logs(ServiceName, logMessage)
+	logging.Log.Logs(ServiceName, logMessage)
 }
 
 func Logf(format string, v ...interface{}) {
-	util.Logsf(ServiceName, format, v...)
+	logging.Log.Logsf(ServiceName, format, v...)
 }
-
-// Logging }}}
