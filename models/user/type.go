@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/elos/server/db"
+	"github.com/elos/server/data"
 	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2/bson"
 )
 
 // Definition {{{
 
-var DB db.DB
+var DB data.DB
 
-const Kind db.Kind = "user"
+const Kind data.Kind = "user"
 
 type User struct {
 	// Core
@@ -38,7 +38,7 @@ func New() *User {
 }
 
 // Creates a with a NAME
-func Create(name string) (db.Model, error) {
+func Create(name string) (data.Model, error) {
 	user := &User{
 		Id:        bson.NewObjectId(),
 		CreatedAt: time.Now(),
@@ -62,7 +62,7 @@ func Create(name string) (db.Model, error) {
 	If the second return value is true, the user's credentials have been validated
 	otherwise, the user's credentials were malformed.
 */
-func Authenticate(id string, key string) (db.Model, bool, error) {
+func Authenticate(id string, key string) (data.Model, bool, error) {
 	user, err := Find(bson.ObjectIdHex(id))
 
 	if err != nil {
@@ -77,7 +77,7 @@ func Authenticate(id string, key string) (db.Model, bool, error) {
 }
 
 // Finds a user model by an id
-func Find(id bson.ObjectId) (db.Model, error) {
+func Find(id bson.ObjectId) (data.Model, error) {
 	user := &User{
 		Id: id,
 	}
@@ -91,7 +91,7 @@ func Find(id bson.ObjectId) (db.Model, error) {
 }
 
 // Finds a user by some field and its value
-func FindUserBy(field string, value interface{}) (db.Model, error) {
+func FindUserBy(field string, value interface{}) (data.Model, error) {
 	user := &User{}
 
 	if err := DB.PopulateByField(field, value, user); err != nil {

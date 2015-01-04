@@ -1,11 +1,11 @@
 package user
 
 import (
-	"github.com/elos/server/db"
+	"github.com/elos/server/data"
 	"gopkg.in/mgo.v2/bson"
 )
 
-func (u *User) Kind() db.Kind {
+func (u *User) Kind() data.Kind {
 	return Kind
 }
 

@@ -3,15 +3,15 @@ package event
 import (
 	"time"
 
-	"github.com/elos/server/db"
+	"github.com/elos/server/data"
 	"gopkg.in/mgo.v2/bson"
 )
 
 // Definition {{{
 
-var DB db.DB
+var DB data.DB
 
-const Kind db.Kind = "event"
+const Kind data.Kind = "event"
 
 type Event struct {
 	// Core
@@ -36,7 +36,7 @@ func New() *Event {
 	return &Event{}
 }
 
-func Create(name string, userId string) (db.Model, error) {
+func Create(name string, userId string) (data.Model, error) {
 	event := &Event{
 		Id:        bson.ObjectIdHex(userId),
 		CreatedAt: time.Now(),
@@ -62,7 +62,7 @@ func Create(name string, userId string) (db.Model, error) {
 
 // Type Methods {{{
 
-func Find(id bson.ObjectId) (db.Model, error) {
+func Find(id bson.ObjectId) (data.Model, error) {
 
 	event := New()
 	event.Id = id
@@ -74,7 +74,7 @@ func Find(id bson.ObjectId) (db.Model, error) {
 	return event, nil
 }
 
-func FindEventBy(field string, value interface{}) (db.Model, error) {
+func FindEventBy(field string, value interface{}) (data.Model, error) {
 	event := &Event{}
 
 	if err := DB.PopulateByField(field, value, event); err != nil {

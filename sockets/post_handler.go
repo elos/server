@@ -1,7 +1,7 @@
 package sockets
 
 import (
-	"github.com/elos/server/db"
+	"github.com/elos/server/data"
 	"github.com/elos/server/models"
 	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2/bson"
@@ -9,7 +9,7 @@ import (
 
 func postHandler(e *Envelope) {
 	// Reminder
-	var kind db.Kind
+	var kind data.Kind
 	var data map[string]interface{}
 
 	for kind, data = range e.Data {

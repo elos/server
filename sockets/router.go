@@ -1,20 +1,20 @@
 package sockets
 
 import (
-	"github.com/elos/server/db"
+	"github.com/elos/server/data"
 )
 
 // Inbound
 type Envelope struct {
-	Source *Connection                        `json:"agent,omitempty"`
-	Action string                             `json:"action"`
-	Data   map[db.Kind]map[string]interface{} `json:"data"`
+	Source *Connection                          `json:"agent,omitempty"`
+	Action string                               `json:"action"`
+	Data   map[data.Kind]map[string]interface{} `json:"data"`
 }
 
 // Outbound
 type Package struct {
-	Action string               `json:"action"`
-	Data   map[db.Kind]db.Model `json:"data"`
+	Action string                   `json:"action"`
+	Data   map[data.Kind]data.Model `json:"data"`
 }
 
 func Route(e *Envelope) {

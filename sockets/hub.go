@@ -1,7 +1,7 @@
 package sockets
 
 import (
-	"github.com/elos/server/db"
+	"github.com/elos/server/data"
 	"github.com/elos/server/models"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -9,7 +9,7 @@ import (
 // The primary hub to be used by the server
 var PrimaryHub *Hub
 
-func Setup(db db.DB) {
+func Setup(db data.DB) {
 	PrimaryHub = NewHub(db)
 	go PrimaryHub.Run()
 }
@@ -34,10 +34,10 @@ type Hub struct {
 	Unregister chan *Connection
 
 	// The database which the hub listens to for updates
-	DB db.DB
+	DB data.DB
 }
 
-func NewHub(db db.DB) *Hub {
+func NewHub(db data.DB) *Hub {
 	return &Hub{
 		Channels:   make(map[bson.ObjectId]*Channel),
 		Register:   make(chan *Connection),
@@ -93,7 +93,7 @@ func (h *Hub) UnregisterConnection(conn *Connection) {
 	Logf("One socket removed for agent id %s", conn.Agent.GetId())
 }
 
-func (h *Hub) NotifyConcerned(m db.Model) {
+func (h *Hub) NotifyConcerned(m data.Model) {
 	Log("Recieved a model from ModelUpdates")
 
 	p := &Package{
@@ -132,7 +132,7 @@ func (h *Hub) SendJSON(agent Agent, v interface{}) {
 	h.Channels[agent.GetId()].WriteJSON(v)
 }
 
-func (h *Hub) SendModel(agent Agent, model db.Model) {
+func (h *Hub) SendModel(agent Agent, model data.Model) {
 	p := &Package{
 		Action: "POST",
 		Data:   models.Map(model),

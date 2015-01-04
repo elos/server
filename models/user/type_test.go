@@ -4,7 +4,7 @@ import (
 	. "github.com/elos/server/models/user"
 	"time"
 
-	"github.com/elos/server/db"
+	"github.com/elos/server/data"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"gopkg.in/mgo.v2/bson"
@@ -12,7 +12,7 @@ import (
 
 var _ = Describe("Type", func() {
 	It("Defines it's kind property", func() {
-		var k db.Kind
+		var k data.Kind
 		Expect(Kind).ToNot(BeNil())
 		Expect(Kind).To(BeAssignableToTypeOf(k))
 	})

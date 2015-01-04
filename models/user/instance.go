@@ -1,7 +1,7 @@
 package user
 
 import (
-	"github.com/elos/server/db"
+	"github.com/elos/server/data"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -16,7 +16,7 @@ func (u *User) Concerned() []bson.ObjectId {
 }
 
 func (u *User) AddEvent(eventId bson.ObjectId) error {
-	if err := db.CheckId(eventId); err != nil {
+	if err := data.CheckId(eventId); err != nil {
 		return err
 	}
 
@@ -29,7 +29,7 @@ func (u *User) AddEvent(eventId bson.ObjectId) error {
 }
 
 func (u *User) RemoveEvent(eventId bson.ObjectId) error {
-	if err := db.CheckId(eventId); err != nil {
+	if err := data.CheckId(eventId); err != nil {
 		return err
 	}
 

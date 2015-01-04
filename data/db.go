@@ -1,8 +1,7 @@
-package db
+package data
 
 type DB interface {
 	// Management
-	GetConnection() *Connection
 	GetUpdatesChannel() *chan Model
 
 	// Persistence
@@ -10,7 +9,3 @@ type DB interface {
 	PopulateById(Model) error
 	PopulateByField(string, interface{}, Model) error
 }
-
-// Every saved mode is broadcasted over this channel
-// Evenutally remove me!
-var ModelUpdates chan Model = make(chan Model)

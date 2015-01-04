@@ -1,4 +1,4 @@
-package db
+package data
 
 import (
 	"github.com/elos/server/util/logging"
