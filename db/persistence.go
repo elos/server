@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -22,8 +23,13 @@ func Save(m Model) error {
 		return err
 	}
 
+	id := m.GetId()
+	if !id.Valid() {
+		return fmt.Errorf("Invalid bson.Id")
+	}
+
 	// changeInfo, err := ...
-	_, err = collection.UpsertId(m.GetId(), m)
+	_, err = collection.UpsertId(id, m)
 
 	if err != nil {
 		logf("Error saving record of kind %s, err: %s", m.Kind(), err)
@@ -47,6 +53,11 @@ func PopulateById(m Model) error {
 	if err != nil {
 		log(err)
 		return err
+	}
+
+	id := m.GetId()
+	if !id.Valid() {
+		return fmt.Errorf("Invalid bson.Id")
 	}
 
 	err = collection.FindId(m.GetId()).One(m)
