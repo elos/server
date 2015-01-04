@@ -16,7 +16,6 @@ var DBConnection *db.Connection
 	Establishes a connection to the database package
 */
 func SetupDB(addr string) *db.Connection {
-
 	if DBConnection != nil {
 		ShutdownDB()
 	}

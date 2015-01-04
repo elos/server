@@ -16,7 +16,11 @@ func Save(m Model) error {
 	}
 	defer session.Close()
 
-	collection := CollectionFor(session, m)
+	collection, err := CollectionFor(session, m)
+	if err != nil {
+		Log(err)
+		return err
+	}
 
 	// changeInfo, err := ...
 	_, err = collection.UpsertId(m.GetId(), m)
@@ -39,7 +43,11 @@ func PopulateById(m Model) error {
 	}
 	defer session.Close()
 
-	collection := CollectionFor(session, m)
+	collection, err := CollectionFor(session, m)
+	if err != nil {
+		Log(err)
+		return err
+	}
 
 	err = collection.FindId(m.GetId()).One(m)
 
@@ -61,7 +69,13 @@ func PopulateByField(m Model, field string, value interface{}) error {
 	}
 	defer session.Close()
 
-	if err := CollectionFor(session, m).Find(bson.M{field: value}).One(m); err != nil {
+	collection, err := CollectionFor(session, m)
+	if err != nil {
+		Log(err)
+		return err
+	}
+
+	if err := collection.Find(bson.M{field: value}).One(m); err != nil {
 		Log(err)
 		return err
 	}

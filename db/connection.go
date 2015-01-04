@@ -2,7 +2,6 @@ package db
 
 import (
 	"fmt"
-	"log"
 
 	"gopkg.in/mgo.v2"
 )
@@ -34,7 +33,7 @@ func Connect(addr string) (*Connection, error) {
 	session, err := mgo.Dial(addr)
 
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	connection := &Connection{Session: session}
@@ -43,7 +42,7 @@ func Connect(addr string) (*Connection, error) {
 		PrimaryConnection = connection
 	}
 
-	return connection, err
+	return connection, nil
 }
 
 /*
