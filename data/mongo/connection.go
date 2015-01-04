@@ -4,30 +4,25 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
-/*
-	Moderately abstract data type for managing relationship
-	between database and the rest of the server
-*/
-type Connection struct {
+type MongoConnection struct {
 	Session *mgo.Session
 }
 
-// Closes the connection
-func (c *Connection) Close() {
-	c.Session.Close()
+func (mc *MongoConnection) Close() {
+	if mc.Session != nil {
+		mc.Session.Close()
+		mc.Session = nil
+	}
 }
 
-/*
-	Creates a db.Connection to the database. Will fail hard, see log.Fatal
-*/
-func Connect(addr string) (*Connection, error) {
+func Connect(addr string) (*MongoConnection, error) {
 	session, err := mgo.Dial(addr)
 
 	if err != nil {
 		return nil, err
 	}
 
-	connection := &Connection{Session: session}
+	connection := &MongoConnection{Session: session}
 
 	return connection, nil
 }

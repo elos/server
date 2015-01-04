@@ -7,21 +7,28 @@ import (
 )
 
 type MongoDB struct {
-	Connection   *Connection
+	Connections  []*MongoConnection
 	ModelUpdates *chan data.Model
 }
 
 func NewDB(addr string) (data.DB, error) {
 	db := &MongoDB{}
-	connection, err := Connect(addr)
-	if err != nil {
-		return db, err
-	}
-
-	db.Connection = connection
+	db.Connections = make([]*MongoConnection, 0)
+	db.Connect(addr)
 	updates := make(chan data.Model)
 	db.ModelUpdates = &updates
 	return db, nil
+}
+
+func (db *MongoDB) Connect(addr string) error {
+	connection, err := Connect(addr)
+
+	if err != nil {
+		return err
+	}
+
+	db.Connections = append(db.Connections, connection)
+	return nil
 }
 
 func (db *MongoDB) Save(m data.Model) error {
@@ -76,8 +83,8 @@ func (db *MongoDB) PopulateByField(field string, value interface{}, m data.Model
 	}
 }
 
-func (db *MongoDB) GetConnection() *Connection {
-	return db.Connection
+func (db *MongoDB) GetConnection() *MongoConnection {
+	return db.Connections[0]
 }
 
 func (db *MongoDB) GetUpdatesChannel() *chan data.Model {
