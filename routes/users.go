@@ -6,6 +6,15 @@ import (
 	"github.com/elos/server/models/user"
 )
 
+var DefaultUsersPostHandler RouteHandler = usersPost
+var usersPostHandler = DefaultUsersPostHandler
+
+func SetUsersPostHandler(handler RouteHandler) {
+	if handler != nil {
+		usersPostHandler = handler
+	}
+}
+
 func Users(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case POST:
@@ -15,7 +24,7 @@ func Users(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func usersPostHandler(w http.ResponseWriter, r *http.Request) {
+func usersPost(w http.ResponseWriter, r *http.Request) {
 	user, err := user.Create(r.FormValue("name"))
 
 	if err != nil {
@@ -23,7 +32,6 @@ func usersPostHandler(w http.ResponseWriter, r *http.Request) {
 		serverErrorHandler(w, err)
 	} else {
 		logf("User was successfully created: %v", user)
-
 		resourceResponseHandler(w, 201, user)
 	}
 }

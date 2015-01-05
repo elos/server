@@ -4,6 +4,7 @@ import (
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/test"
 	"github.com/elos/server/util"
+	"github.com/elos/server/util/auth"
 	"github.com/elos/server/util/logging"
 	"github.com/gorilla/websocket"
 	"net/http"
@@ -77,6 +78,9 @@ func SetResourceResponseHandler(handler ResourceResponseHandler) {
 		resourceResponseHandler = handler
 	}
 }
+
+type RouteHandler func(http.ResponseWriter, *http.Request)
+type AuthRouteHandler func(http.ResponseWriter, *http.Request, auth.RequestAuthenticator)
 
 /*
 	Logging

@@ -2,63 +2,33 @@ package routes
 
 import (
 	"net/http"
-	"strings"
 
-	"github.com/elos/server/models/user"
 	"github.com/elos/server/sockets"
+	"github.com/elos/server/util/auth"
 )
+
+var DefaultAuthenticator auth.RequestAuthenticator = auth.AuthenticateRequest
+
+var DefaultAuthenticateGetHandler AuthRouteHandler = authenticateGet
+var authenticateGetHandler AuthRouteHandler = DefaultAuthenticateGetHandler
+
+func SetAuthenticateGetHandler(handler AuthRouteHandler) {
+	if handler != nil {
+		authenticateGetHandler = handler
+	}
+}
 
 func Authenticate(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case GET:
-		authenticateGetHandler(w, r)
+		authenticateGetHandler(w, r, DefaultAuthenticator)
 	default:
 		invalidMethodHandler(w)
 	}
 }
 
-func ExtractCredentials(r *http.Request) (string, string) {
-	tokens := strings.Split(r.Header.Get("Sec-WebSocket-Protocol"), "-")
-	// Query Parameter Method of Authentication
-	/*
-		id := r.FormValue("id")
-		key := r.FormValue("key")
-	*/
-	if len(tokens) != 2 {
-		log("The length of the tokens extrapolated from Sec-Websocket-Protocol was not 2")
-		return "", ""
-	} else {
-		return tokens[0], tokens[1]
-	}
-}
-
-func ExtractProtocolHeader(r *http.Request) *http.Header {
-	protocol := http.Header{
-		"Sec-WebSocket-Protocol": []string{r.Header.Get("Sec-WebSocket-Protocol")},
-	}
-
-	return &protocol
-}
-
-func authenticateGetHandler(w http.ResponseWriter, r *http.Request) {
-	// Use the WebSocket protocol header to identify and authenticate the user
-	id, key := ExtractCredentials(r)
-
-	if id == "" || key == "" {
-		unauthorizedHandler(w)
-		return
-	}
-
-	// Prevents an error that should be dealt with within AuthenticateUser
-	// The empty string breaks the authenticate function
-	if id == "" {
-		log("The id extrapolated from the Sec-Websocket-Protocol was: \"\"")
-
-		unauthorizedHandler(w)
-		return
-	} // this now appears redundant?
-
-	user, authenticated, err := user.Authenticate(id, key)
+func authenticateGet(w http.ResponseWriter, r *http.Request, a auth.RequestAuthenticator) {
+	agent, authenticated, err := DefaultAuthenticator(r)
 
 	if err != nil {
 		logf("An error occurred during authentication, err: %s", err)
@@ -67,9 +37,9 @@ func authenticateGetHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if authenticated {
-		logf("User with id %s authenticated", id)
+		logf("Agent with id %s authenticated", agent.GetId())
 
-		ws, err := webSocketUpgrader.Upgrade(w, r, *ExtractProtocolHeader(r))
+		ws, err := webSocketUpgrader.Upgrade(w, r, *auth.ExtractProtocolHeader(r))
 
 		if err != nil {
 			logf("An error occurred while upgrading to the websocket protocol, err: %s", err)
@@ -77,11 +47,11 @@ func authenticateGetHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		logf("User with id %s just connected over websocket", id)
+		logf("Agent with id %s just connected over websocket", agent.GetId())
 
-		sockets.NewConnection(user, ws)
+		sockets.NewConnection(agent, ws)
 	} else {
-		logf("User with id %s failed authentication", id)
+		logf("Agent with id %s failed authentication", agent.GetId())
 
 		unauthorizedHandler(w)
 		return

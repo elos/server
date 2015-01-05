@@ -6,6 +6,15 @@ import (
 	"github.com/elos/server/models/event"
 )
 
+var DefaultEventsPostHandler RouteHandler = eventsPost
+var eventsPostHandler = DefaultEventsPostHandler
+
+func SetEventsPostHandler(handler RouteHandler) {
+	if handler != nil {
+		eventsPostHandler = handler
+	}
+}
+
 func Events(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case POST:
@@ -15,7 +24,7 @@ func Events(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func eventsPostHandler(w http.ResponseWriter, r *http.Request) {
+func eventsPost(w http.ResponseWriter, r *http.Request) {
 	event, err := event.Create(r.FormValue("name"), r.FormValue("user_id"))
 
 	if err != nil {
