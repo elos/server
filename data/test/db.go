@@ -16,10 +16,10 @@ type TestDB struct {
 
 var TestDBError error = fmt.Errorf("TestDB Error")
 
-func NewDB() (*TestDB, error) {
+func NewDB() *TestDB {
 	db := &TestDB{}
 	db.Reset()
-	return db, nil
+	return db
 }
 
 func (db *TestDB) Reset() {

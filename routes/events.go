@@ -9,10 +9,10 @@ import (
 
 func Events(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
-	case "POST":
+	case POST:
 		eventsPostHandler(w, r)
 	default:
-		util.InvalidMethod(w)
+		invalidMethodHandler(w)
 	}
 }
 
@@ -20,11 +20,11 @@ func eventsPostHandler(w http.ResponseWriter, r *http.Request) {
 	event, err := event.Create(r.FormValue("name"), r.FormValue("user_id"))
 
 	if err != nil {
-		Logf("An error occurred while create the event, err: %s", err)
+		logf("An error occurred while create the event, err: %s", err)
 
-		util.ServerError(w, err)
+		serverErrorHandler(w, err)
 	} else {
-		Logf("Event was successfully created: %v", event)
+		logf("Event was successfully created: %v", event)
 
 		util.WriteResourceResponse(w, 201, event)
 	}
