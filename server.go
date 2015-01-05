@@ -41,6 +41,7 @@ func main() {
 	config.SetupModels(config.DB)
 	config.SetupRoutes(config.DB)
 	config.SetupSockets(config.DB)
+	config.SetupServices(config.DB)
 
 	StartServer(*host, *port)
 }
