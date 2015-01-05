@@ -1,7 +1,7 @@
 package sockets
 
 import (
-	"github.com/elos/server/models"
+	"github.com/elos/server/data/models"
 	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

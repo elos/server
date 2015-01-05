@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	"github.com/elos/server/models/user"
+	"github.com/elos/server/data/models/user"
 )
 
 var DefaultUsersPostHandler RouteHandler = usersPost

@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	"github.com/elos/server/models/event"
+	"github.com/elos/server/data/models/event"
 )
 
 var DefaultEventsPostHandler RouteHandler = eventsPost
