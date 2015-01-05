@@ -66,6 +66,18 @@ func SetServerErrorHandler(handler ErrorResponseHandler) {
 	}
 }
 
+type ResourceResponseHandler func(http.ResponseWriter, int, interface{})
+
+var DefaultResourceResponseHandler ResourceResponseHandler = util.WriteResourceResponse
+
+var resourceResponseHandler = DefaultResourceResponseHandler
+
+func SetResourceResponseHandler(handler ResourceResponseHandler) {
+	if handler != nil {
+		resourceResponseHandler = handler
+	}
+}
+
 /*
 	Logging
 */

@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/elos/server/models/user"
-	"github.com/elos/server/util"
 )
 
 func Users(w http.ResponseWriter, r *http.Request) {
@@ -25,6 +24,6 @@ func usersPostHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		logf("User was successfully created: %v", user)
 
-		util.WriteResourceResponse(w, 201, user)
+		resourceResponseHandler(w, 201, user)
 	}
 }

@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/elos/server/models/event"
-	"github.com/elos/server/util"
 )
 
 func Events(w http.ResponseWriter, r *http.Request) {
@@ -26,6 +25,6 @@ func eventsPostHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		logf("Event was successfully created: %v", event)
 
-		util.WriteResourceResponse(w, 201, event)
+		resourceResponseHandler(w, 201, event)
 	}
 }
