@@ -68,3 +68,7 @@ func (db *TestDB) PopulateByField(field string, value interface{}, m data.Model)
 	db.PopulatedByField = append(db.PopulatedByField, m)
 	return nil
 }
+
+func (db *TestDB) NewQuery(k data.Kind) data.Query {
+	return nil
+}

@@ -9,6 +9,8 @@ type DB interface {
 	Save(Model) error
 	PopulateById(Model) error
 	PopulateByField(string, interface{}, Model) error
+
+	NewQuery(Kind) Query
 }
 
 type DBConnection interface {

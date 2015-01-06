@@ -17,13 +17,17 @@ func database(s *mgo.Session) *mgo.Database {
 	return s.DB(DefaultDatabase)
 }
 
-func collectionFor(s *mgo.Session, m data.Model) (*mgo.Collection, error) {
-	collectionForKind := Collections[m.Kind()]
+func collectionForKind(s *mgo.Session, k data.Kind) (*mgo.Collection, error) {
+	collectionForKind := Collections[k]
 
 	if collectionForKind == "" {
-		err := fmt.Errorf("No collection name has been specified for the model type %s", m.Kind())
+		err := fmt.Errorf("No collection name has been specified for the kind %s", k)
 		return nil, err
 	}
 
 	return database(s).C(collectionForKind), nil
+}
+
+func collectionFor(s *mgo.Session, m data.Model) (*mgo.Collection, error) {
+	return collectionForKind(s, m.Kind())
 }
