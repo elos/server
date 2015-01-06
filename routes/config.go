@@ -6,7 +6,6 @@ import (
 	"github.com/elos/server/data/test"
 	"github.com/elos/server/util"
 	"github.com/elos/server/util/auth"
-	"github.com/gorilla/websocket"
 	"net/http"
 )
 
@@ -36,7 +35,6 @@ type httpMethodHandler struct {
 func (h *httpMethodHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	handler, ok := h.Methods[r.Method]
 	if ok {
-		log("Hey")
 		handler.ServeHTTP(w, r)
 	} else {
 		invalidMethodHandler(w)
@@ -80,61 +78,7 @@ func SetupRoutes(hm HandlerMap, prefix string) {
 	}
 }
 
-func FunctionHandler(fn http.HandlerFunc) http.Handler {
-	return &functionHandler{
-		fn: fn,
-	}
-}
-
-type functionHandler struct {
-	fn http.HandlerFunc
-}
-
-func (fh *functionHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fh.fn(w, r)
-}
-
-type RouteName string
-
-var UsersRoute RouteName = "users"
-var EventsRoute RouteName = "events"
-var AuthenticateRoute RouteName = "authenticate"
-
-type RouteHandler struct {
-	RouteName RouteName
-}
-
-func (h *RouteHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	possibleRoutes := Routes[h]
-	handlerFunc, exists := possibleRoutes[r.Method]
-	if exists {
-		handlerFunc(w, r)
-	} else {
-		invalidMethodHandler(w)
-	}
-}
-
-var UsersHandler = &RouteHandler{RouteName: UsersRoute}
-var EventsHandler = &RouteHandler{RouteName: EventsRoute}
-var AuthenticateHandler = &RouteHandler{RouteName: AuthenticateRoute}
-
-var Routes map[*RouteHandler]map[string]http.HandlerFunc = map[*RouteHandler]map[string]http.HandlerFunc{
-	UsersHandler: {
-		POST: usersPost,
-	},
-	EventsHandler: {
-		POST: eventsPost,
-	},
-	AuthenticateHandler: {
-		GET: tempAuth,
-	},
-}
-
 var DefaultAuthenticator auth.RequestAuthenticator = auth.AuthenticateRequest
-
-func tempAuth(w http.ResponseWriter, r *http.Request) {
-	authenticateGet(w, r, DefaultAuthenticator)
-}
 
 /*
 	InvalidMethodHandler
@@ -169,21 +113,6 @@ func SetUnauthorizedHandler(handler ResponseHandler) {
 	}
 }
 
-// A response handler that also takes an error
-type ErrorResponseHandler func(http.ResponseWriter, error)
-
-// The default server error handler is the one provided by server/util
-var DefaultServerErrorHandler ErrorResponseHandler = util.ServerError
-
-// Always start with a serverErrorHandler
-var serverErrorHandler ErrorResponseHandler = DefaultServerErrorHandler
-
-func SetServerErrorHandler(handler ErrorResponseHandler) {
-	if handler != nil {
-		serverErrorHandler = handler
-	}
-}
-
 type ResourceResponseHandler func(http.ResponseWriter, int, interface{})
 
 var DefaultResourceResponseHandler ResourceResponseHandler = util.WriteResourceResponse
@@ -212,33 +141,5 @@ var db data.DB = DefaultDatabase
 func SetDatabase(newDB data.DB) {
 	if newDB != nil {
 		db = newDB
-	}
-}
-
-/*
-	Web Sockets
-*/
-
-// the utility a route will use to upgrade a request to a websocket
-type WebSocketUpgrader interface {
-	Upgrade(http.ResponseWriter, *http.Request, http.Header) (*websocket.Conn, error)
-}
-
-// A good default upgrader from gorilla/socket
-var DefaultWebSocketUpgrader WebSocketUpgrader = &websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
-}
-
-// Always start with an upgrader, private: set with SetWebSocketUpgrader
-var webSocketUpgrader WebSocketUpgrader = DefaultWebSocketUpgrader
-
-// Sets the websocket upgrader to be used by a route attempting an upgrade
-func SetWebSocketUpgrader(u WebSocketUpgrader) {
-	if u != nil {
-		webSocketUpgrader = u
 	}
 }

@@ -6,18 +6,20 @@ import (
 	"github.com/elos/server/data/models/event"
 )
 
-func eventsPost(w http.ResponseWriter, r *http.Request) {
+func eventsPost(w http.ResponseWriter, r *http.Request, Error ErrorHandler, Resource ResourceHandler) {
 	event, err := event.Create(r.FormValue("name"), r.FormValue("user_id"))
 
 	if err != nil {
 		logf("An error occurred while create the event, err: %s", err)
-
-		serverErrorHandler(w, err)
+		Error(err).ServeHTTP(w, r)
 	} else {
 		logf("Event was successfully created: %v", event)
-
-		resourceResponseHandler(w, 201, event)
+		Resource(201, event).ServeHTTP(w, r)
 	}
 }
 
-var EventsPost = FunctionHandler(eventsPost)
+var EventsPost = Route(
+	func(w http.ResponseWriter, r *http.Request) {
+		eventsPost(w, r, ServerError, Resource)
+	},
+)
