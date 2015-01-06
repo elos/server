@@ -1,14 +1,26 @@
 package config
 
 import (
-	"net/http"
-
 	"github.com/elos/server/data"
 	"github.com/elos/server/routes"
 )
 
+var RoutesMap = routes.HandlerMap{
+	"v1": routes.HandlerMap{
+		"users": routes.HandlerMap{
+			routes.POST: routes.UsersPost,
+		},
+		"events": routes.HandlerMap{
+			routes.POST: routes.EventsPost,
+		},
+		"authenticate": routes.HandlerMap{
+			routes.GET: routes.AuthenticateGet,
+		},
+	},
+}
+
+const RoutesPrefix = ""
+
 func SetupRoutes(db data.DB) {
-	http.HandleFunc("/v1/users", routes.Users)
-	http.HandleFunc("/v1/events", routes.Events)
-	http.HandleFunc("/v1/authenticate", routes.Authenticate)
+	routes.SetupRoutes(RoutesMap, RoutesPrefix)
 }

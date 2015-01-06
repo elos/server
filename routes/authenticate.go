@@ -7,26 +7,6 @@ import (
 	"github.com/elos/server/util/auth"
 )
 
-var DefaultAuthenticator auth.RequestAuthenticator = auth.AuthenticateRequest
-
-var DefaultAuthenticateGetHandler AuthRouteHandler = authenticateGet
-var authenticateGetHandler AuthRouteHandler = DefaultAuthenticateGetHandler
-
-func SetAuthenticateGetHandler(handler AuthRouteHandler) {
-	if handler != nil {
-		authenticateGetHandler = handler
-	}
-}
-
-func Authenticate(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case GET:
-		authenticateGetHandler(w, r, DefaultAuthenticator)
-	default:
-		invalidMethodHandler(w)
-	}
-}
-
 func authenticateGet(w http.ResponseWriter, r *http.Request, a auth.RequestAuthenticator) {
 	agent, authenticated, err := DefaultAuthenticator(r)
 
@@ -58,3 +38,5 @@ func authenticateGet(w http.ResponseWriter, r *http.Request, a auth.RequestAuthe
 	}
 
 }
+
+var AuthenticateGet = FunctionHandler(func(w http.ResponseWriter, r *http.Request) { authenticateGet(w, r, DefaultAuthenticator) })

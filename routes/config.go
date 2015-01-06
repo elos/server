@@ -1,24 +1,140 @@
 package routes
 
 import (
+	"fmt"
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/test"
 	"github.com/elos/server/util"
 	"github.com/elos/server/util/auth"
-	"github.com/elos/server/util/logging"
 	"github.com/gorilla/websocket"
 	"net/http"
 )
 
-/*
-	HTTP Methods
-*/
+type HandlerMap map[string]http.Handler
 
-// Post method string
+func (h HandlerMap) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	handler, ok := h[r.Method]
+	if ok {
+		handler.ServeHTTP(w, r)
+	} else {
+		http.NotFoundHandler().ServeHTTP(w, r)
+	}
+}
+
 const POST string = "POST"
-
-// Get method string
 const GET string = "GET"
+
+var HTTPMethods map[string]bool = map[string]bool{
+	POST: true,
+	GET:  true,
+}
+
+type httpMethodHandler struct {
+	Methods map[string]http.Handler
+}
+
+func (h *httpMethodHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	handler, ok := h.Methods[r.Method]
+	if ok {
+		log("Hey")
+		handler.ServeHTTP(w, r)
+	} else {
+		invalidMethodHandler(w)
+	}
+}
+
+func (h *httpMethodHandler) Handle(method string, handler http.Handler) {
+	h.Methods[method] = handler
+}
+
+func HTTPMethodHandler() *httpMethodHandler {
+	return &httpMethodHandler{
+		Methods: make(map[string]http.Handler),
+	}
+}
+
+func join(prefix string, route string) string {
+	return fmt.Sprintf("%s/%s", prefix, route)
+}
+
+func SetupRoutes(hm HandlerMap, prefix string) {
+	methodHandler := HTTPMethodHandler()
+	for routeName, handler := range hm {
+		// type assert
+		subHM, ok := handler.(HandlerMap)
+
+		// We are being pointed to another handler map
+		if ok {
+			SetupRoutes(subHM, join(prefix, routeName))
+		} else { // this is a handler
+			_, isHTTPMethod := HTTPMethods[routeName]
+			if isHTTPMethod {
+				methodHandler.Handle(routeName, handler)
+			} else {
+				log("this functionality is not defined")
+			}
+		}
+	}
+	if prefix != "" {
+		http.Handle(prefix, methodHandler)
+	}
+}
+
+func FunctionHandler(fn http.HandlerFunc) http.Handler {
+	return &functionHandler{
+		fn: fn,
+	}
+}
+
+type functionHandler struct {
+	fn http.HandlerFunc
+}
+
+func (fh *functionHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fh.fn(w, r)
+}
+
+type RouteName string
+
+var UsersRoute RouteName = "users"
+var EventsRoute RouteName = "events"
+var AuthenticateRoute RouteName = "authenticate"
+
+type RouteHandler struct {
+	RouteName RouteName
+}
+
+func (h *RouteHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	possibleRoutes := Routes[h]
+	handlerFunc, exists := possibleRoutes[r.Method]
+	if exists {
+		handlerFunc(w, r)
+	} else {
+		invalidMethodHandler(w)
+	}
+}
+
+var UsersHandler = &RouteHandler{RouteName: UsersRoute}
+var EventsHandler = &RouteHandler{RouteName: EventsRoute}
+var AuthenticateHandler = &RouteHandler{RouteName: AuthenticateRoute}
+
+var Routes map[*RouteHandler]map[string]http.HandlerFunc = map[*RouteHandler]map[string]http.HandlerFunc{
+	UsersHandler: {
+		POST: usersPost,
+	},
+	EventsHandler: {
+		POST: eventsPost,
+	},
+	AuthenticateHandler: {
+		GET: tempAuth,
+	},
+}
+
+var DefaultAuthenticator auth.RequestAuthenticator = auth.AuthenticateRequest
+
+func tempAuth(w http.ResponseWriter, r *http.Request) {
+	authenticateGet(w, r, DefaultAuthenticator)
+}
 
 /*
 	InvalidMethodHandler
@@ -31,6 +147,7 @@ type ResponseHandler func(http.ResponseWriter)
 var DefaultInvalidMethodHandler ResponseHandler = util.InvalidMethod
 
 // Always have a invalidMethodHandler, private: set with SetInvalidMethodHandler
+
 var invalidMethodHandler ResponseHandler = DefaultInvalidMethodHandler
 
 // The entire routes package uses the same one
@@ -79,23 +196,7 @@ func SetResourceResponseHandler(handler ResourceResponseHandler) {
 	}
 }
 
-type RouteHandler func(http.ResponseWriter, *http.Request)
 type AuthRouteHandler func(http.ResponseWriter, *http.Request, auth.RequestAuthenticator)
-
-/*
-	Logging
-*/
-
-// The name of this package as a service for the server
-const ServiceName string = "Routes"
-
-func log(v ...interface{}) {
-	logging.Log.Logs(ServiceName, v...)
-}
-
-func logf(format string, v ...interface{}) {
-	logging.Log.Logsf(ServiceName, format, v...)
-}
 
 /*
 	Data

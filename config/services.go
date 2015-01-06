@@ -10,6 +10,7 @@ import (
 var Outfitter *services.Outfitter
 
 func SetupServices(db data.DB) {
+	return
 	Outfitter = services.NewOutfitter()
 	go Outfitter.Run()
 

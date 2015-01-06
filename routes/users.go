@@ -6,24 +6,6 @@ import (
 	"github.com/elos/server/data/models/user"
 )
 
-var DefaultUsersPostHandler RouteHandler = usersPost
-var usersPostHandler = DefaultUsersPostHandler
-
-func SetUsersPostHandler(handler RouteHandler) {
-	if handler != nil {
-		usersPostHandler = handler
-	}
-}
-
-func Users(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case POST:
-		usersPostHandler(w, r)
-	default:
-		invalidMethodHandler(w)
-	}
-}
-
 func usersPost(w http.ResponseWriter, r *http.Request) {
 	user, err := user.Create(r.FormValue("name"))
 
@@ -35,3 +17,5 @@ func usersPost(w http.ResponseWriter, r *http.Request) {
 		resourceResponseHandler(w, 201, user)
 	}
 }
+
+var UsersPost = FunctionHandler(usersPost)
