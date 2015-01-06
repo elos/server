@@ -16,8 +16,8 @@ type ApiError struct {
 
 func NewNotFoundError() *ApiError {
 	return &ApiError{
-		Status:           404,
-		Code:             404,
+		Status:           http.StatusNotFound,
+		Code:             http.StatusNotFound,
 		Message:          "Not Found",
 		DeveloperMessage: "Perhaps you have an incorrect id?",
 	}
@@ -25,45 +25,45 @@ func NewNotFoundError() *ApiError {
 
 func NewServerError() *ApiError {
 	return &ApiError{
-		Status:           500,
-		Code:             500,
-		Message:          "Server Error",
+		Status:           http.StatusInternalServerError,
+		Code:             http.StatusInternalServerError,
+		Message:          http.StatusText(http.StatusInternalServerError),
 		DeveloperMessage: "Server Error",
 	}
 }
 
 func NewServerErrorWithError(err error) *ApiError {
 	return &ApiError{
-		Status:           500,
-		Code:             500,
-		Message:          "Server Error",
+		Status:           http.StatusInternalServerError,
+		Code:             http.StatusInternalServerError,
+		Message:          http.StatusText(http.StatusInternalServerError),
 		DeveloperMessage: fmt.Sprintf("%s", err),
 	}
 }
 
 func NewInvalidMethodError() *ApiError {
 	return &ApiError{
-		Status:           405,
-		Code:             405,
-		Message:          "Invalid Method",
+		Status:           http.StatusMethodNotAllowed,
+		Code:             http.StatusMethodNotAllowed,
+		Message:          http.StatusText(http.StatusMethodNotAllowed),
 		DeveloperMessage: "Perhaps you meant to GET instead of POST? Or vice versa?",
 	}
 }
 
 func NewUnauthorizedError() *ApiError {
 	return &ApiError{
-		Status:           401,
-		Code:             401,
-		Message:          "Unathorized",
+		Status:           http.StatusUnauthorized,
+		Code:             http.StatusUnauthorized,
+		Message:          http.StatusText(http.StatusUnauthorized),
 		DeveloperMessage: "Check your key",
 	}
 }
 
 func NewWebSocketFailedError() *ApiError {
 	return &ApiError{
-		Status:           400,
-		Code:             400,
-		Message:          "WebSocket Failed",
+		Status:           http.StatusBadRequest,
+		Code:             http.StatusBadRequest,
+		Message:          http.StatusText(http.StatusBadRequest),
 		DeveloperMessage: "We were unable to process your websocket request, perhaps it was not spec-valid?",
 	}
 }
