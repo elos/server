@@ -1,15 +1,13 @@
 package data
 
 import (
-	"fmt"
+	"errors"
 	"gopkg.in/mgo.v2/bson"
 )
 
 /*
 	Model type or class
-	 - Mongo: Collection
-	 - Relational: Row
-	 Should correspond with the type name, generally plural lowercase
+	Should correspond with the model name, generally lowercase
 */
 type Kind string
 
@@ -28,7 +26,7 @@ type Model interface {
 
 func CheckId(id bson.ObjectId) error {
 	if !id.Valid() {
-		return fmt.Errorf("Invalid Id")
+		return errors.New("Invalid Id")
 	}
 
 	return nil
