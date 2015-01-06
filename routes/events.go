@@ -20,6 +20,6 @@ func eventsPost(w http.ResponseWriter, r *http.Request, Error ErrorHandler, Reso
 
 var EventsPost = Route(
 	func(w http.ResponseWriter, r *http.Request) {
-		eventsPost(w, r, ServerError, Resource)
+		eventsPost(w, r, Error, Resource)
 	},
 )

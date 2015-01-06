@@ -19,8 +19,6 @@ var RoutesMap = routes.HandlerMap{
 	},
 }
 
-const RoutesPrefix = ""
-
 func SetupRoutes(db data.DB) {
-	routes.SetupRoutes(RoutesMap, RoutesPrefix)
+	routes.SetupRoutes(RoutesMap)
 }

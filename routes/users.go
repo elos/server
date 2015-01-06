@@ -20,6 +20,6 @@ func usersPost(w http.ResponseWriter, r *http.Request, Error func(error) http.Ha
 
 var UsersPost = Route(
 	func(w http.ResponseWriter, r *http.Request) {
-		usersPost(w, r, ServerError, Resource)
+		usersPost(w, r, Error, Resource)
 	},
 )
