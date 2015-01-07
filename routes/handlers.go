@@ -140,37 +140,37 @@ var DefaultAuthenticator auth.RequestAuthenticator = auth.AuthenticateRequest
 
 // AuthenticationHandler {{{
 
-type authenticationHandler struct {
-	authenticator       auth.RequestAuthenticator
-	errorHandler        ErrorHandlerConstructor
-	unauthorizedHandler UnauthorizedHandlerConstructor
-	transferFunc        AuthenticatedHandlerFunc
+type AuthenticationHandler struct {
+	Authenticator          auth.RequestAuthenticator
+	NewErrorHandler        ErrorHandlerConstructor
+	NewUnauthorizedHandler UnauthorizedHandlerConstructor
+	TransferFunc           AuthenticatedHandlerFunc
 }
 
-func AuthenticateRoute(a auth.RequestAuthenticator, eh ErrorHandlerConstructor,
+func NewAuthenticationHandler(a auth.RequestAuthenticator, eh ErrorHandlerConstructor,
 	uh UnauthorizedHandlerConstructor, t AuthenticatedHandlerFunc) http.Handler {
-	return &authenticationHandler{
-		authenticator:       a,
-		errorHandler:        eh,
-		unauthorizedHandler: uh,
-		transferFunc:        t,
+	return &AuthenticationHandler{
+		Authenticator:          a,
+		NewErrorHandler:        eh,
+		NewUnauthorizedHandler: uh,
+		TransferFunc:           t,
 	}
 }
 
-func (h *authenticationHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	agent, authenticated, err := h.authenticator(r)
+func (h *AuthenticationHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	agent, authenticated, err := h.Authenticator(r)
 
 	if err != nil {
 		logf("An error occurred during authentication, err: %s", err)
-		h.errorHandler(err).ServeHTTP(w, r)
+		h.NewErrorHandler(err).ServeHTTP(w, r)
 		return
 	}
 
 	if authenticated {
-		AuthenticatedHandler(agent, h.transferFunc).ServeHTTP(w, r)
+		AuthenticatedHandler(agent, h.TransferFunc).ServeHTTP(w, r)
 		logf("Agent with id %s authenticated", agent.GetId())
 	} else {
-		h.unauthorizedHandler("Not authenticated").ServeHTTP(w, r)
+		h.NewUnauthorizedHandler("Not authenticated").ServeHTTP(w, r)
 	}
 }
 

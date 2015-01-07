@@ -7,7 +7,10 @@ import (
 	. "github.com/onsi/gomega"
 
 	"errors"
+	"github.com/elos/server/data"
+	"github.com/elos/server/data/models/user"
 	"github.com/elos/server/util"
+	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"net/http/httptest"
 )
@@ -182,6 +185,64 @@ var _ = Describe("Handlers", func() {
 
 	// AuthenticationHandler {{{
 	Describe("AuthenticationHandler", func() {
+		a := user.New()
+		a.SetId(bson.NewObjectId())
+		authed := true
+		var err error = nil
+
+		var authenticator = func(r *http.Request) (data.Agent, bool, error) {
+			return a, authed, err
+		}
+
+		n1 := NewNullHandler()
+
+		var errHandlerC = func(e error) http.Handler {
+			return n1
+		}
+
+		n2 := NewNullHandler()
+
+		var unauthHandlerC = func(r string) http.Handler {
+			return n2
+		}
+
+		transferCalledCount := 0
+
+		var transferFunc AuthenticatedHandlerFunc = func(w http.ResponseWriter, r *http.Request, a data.Agent) {
+			transferCalledCount = transferCalledCount + 1
+
+		}
+
+		h := NewAuthenticationHandler(authenticator, errHandlerC, unauthHandlerC, transferFunc)
+
+		Describe("NewAuthenticationHandler", func() {
+			It("Allocates and returns a new AuthenticationHandler", func() {
+				Expect(h).NotTo(BeNil())
+				Expect(h).To(BeAssignableToTypeOf(&AuthenticationHandler{}))
+			})
+
+			It("Sets fields", func() {
+				By("sets Authenticator")
+				h := h.(*AuthenticationHandler)
+				Expect(h.Authenticator).To(Equal(authenticator))
+				Expect(h.NewErrorHandler).To(Equal(errHandlerC))
+				Expect(h.NewUnauthorizedHandler).To(Equal(unauthHandlerC))
+				Expect(h.TransferFunc).To(Equal(transferFunc))
+			})
+		})
+
+		Describe("ServeHTTP", func() {
+			Context("Authentication Error", func() {
+				err = errors.New("This is an error during the authentication process")
+			})
+
+			Context("Authentication Failure", func() {
+			})
+
+			Context("Authentication Successful", func() {
+			})
+		})
+
 	})
 	// AuthenticationHandler }}}
 })
