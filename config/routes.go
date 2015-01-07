@@ -20,5 +20,5 @@ var RoutesMap = routes.HandlerMap{
 }
 
 func SetupRoutes(db data.DB) {
-	routes.SetupRoutes(RoutesMap)
+	routes.SetupHTTPRoutes(RoutesMap)
 }
