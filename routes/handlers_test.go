@@ -233,17 +233,109 @@ var _ = Describe("Handlers", func() {
 		})
 
 		Describe("ServeHTTP", func() {
-			Context("Authentication Error", func() {
+			w := httptest.NewRecorder()
+			r := &http.Request{}
+
+			// Contexts would be more appropiate here
+			// but have to do it this way because of the order
+			// Ginkgo evaluates shit
+			It("Handles Authentication Error", func() {
+				transferCalledCount = 0
 				err = errors.New("This is an error during the authentication process")
+
+				h.ServeHTTP(w, r)
+				By("Uses the ErrorHandlerConstructor to respond")
+				Expect(n1.Handled).To(HaveKeyWithValue(r, true))
+
+				By("Does not use an unauthorized handler")
+				Expect(n2.Handled).To(BeEmpty())
+				By("Doesn't allow transfer")
+				Expect(transferCalledCount).To(BeZero())
+
+				n1.Reset()
+				err = nil
 			})
 
-			Context("Authentication Failure", func() {
+			It("Handles Authentication Failure", func() {
+				transferCalledCount = 0
+				authed = false
+				h.ServeHTTP(w, r)
+
+				By("Uses the UnauthorizedHandlerConstructor to response")
+				Expect(n2.Handled).To(HaveKeyWithValue(r, true))
+
+				By("Does not touch the error handler")
+				Expect(n1.Handled).To(BeEmpty())
+				By("Doesn't allow transfer")
+				Expect(transferCalledCount).To(BeZero())
+
+				n2.Reset()
+				authed = true
 			})
 
-			Context("Authentication Successful", func() {
+			It("Handles Authentication Successful", func() {
+				transferCalledCount = 0
+				h.ServeHTTP(w, r)
+
+				By("Uses the TransferFunction")
+				Expect(transferCalledCount).To(Equal(1))
+
+				By("Does not touch an error handler")
+				Expect(n1.Handled).To(BeEmpty())
+				By("Does not touch an unauthorized handler")
+				Expect(n2.Handled).To(BeEmpty())
 			})
 		})
 
 	})
 	// AuthenticationHandler }}}
+
+	// AuthenticatedHandlerFunc {{{
+	Describe("AuthenticatedHandlerFunc", func() {
+
+		agent := user.New()
+		agent.SetId(bson.NewObjectId())
+
+		var (
+			wr http.ResponseWriter
+			rr *http.Request
+			ra data.Agent
+		)
+
+		var tf = func(w http.ResponseWriter, r *http.Request, a data.Agent) {
+			wr = w
+			rr = r
+			ra = a
+		}
+
+		h := NewAuthenticatedHandler(agent, tf)
+
+		Describe("NewAuthenticatedHandler", func() {
+			It("Allocates and returns a new AuthenticatedHandler", func() {
+				Expect(h).NotTo(BeNil())
+				Expect(h).To(BeAssignableToTypeOf(&AuthenticatedHandler{}))
+			})
+
+			It("Sets fields", func() {
+				h := h.(*AuthenticatedHandler)
+				Expect(h.Agent).To(Equal(agent))
+				// Still can't figure out the function equality thing
+				Expect(h.Fn).NotTo(BeNil())
+			})
+		})
+
+		Describe("ServeHTTP", func() {
+			It("calls Fn with writer, request, and agent", func() {
+				w := httptest.NewRecorder()
+				r := &http.Request{}
+				h.ServeHTTP(w, r)
+				Expect(wr).To(Equal(w))
+				Expect(rr).To(Equal(r))
+				Expect(ra).To(Equal(agent))
+			})
+		})
+
+	})
+
+	// AuthenticatedHandlerFunc }}}
 })

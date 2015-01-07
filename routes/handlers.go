@@ -167,7 +167,7 @@ func (h *AuthenticationHandler) ServeHTTP(w http.ResponseWriter, r *http.Request
 	}
 
 	if authenticated {
-		AuthenticatedHandler(agent, h.TransferFunc).ServeHTTP(w, r)
+		NewAuthenticatedHandler(agent, h.TransferFunc).ServeHTTP(w, r)
 		logf("Agent with id %s authenticated", agent.GetId())
 	} else {
 		h.NewUnauthorizedHandler("Not authenticated").ServeHTTP(w, r)
@@ -180,19 +180,19 @@ func (h *AuthenticationHandler) ServeHTTP(w http.ResponseWriter, r *http.Request
 
 type AuthenticatedHandlerFunc func(http.ResponseWriter, *http.Request, data.Agent)
 
-type authenticatedHandler struct {
-	agent data.Agent
-	fn    AuthenticatedHandlerFunc
+type AuthenticatedHandler struct {
+	Agent data.Agent
+	Fn    AuthenticatedHandlerFunc
 }
 
-func (h *authenticatedHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	h.fn(w, r, h.agent)
+func (h *AuthenticatedHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	h.Fn(w, r, h.Agent)
 }
 
-func AuthenticatedHandler(agent data.Agent, fn AuthenticatedHandlerFunc) http.Handler {
-	return &authenticatedHandler{
-		agent: agent,
-		fn:    fn,
+func NewAuthenticatedHandler(agent data.Agent, fn AuthenticatedHandlerFunc) http.Handler {
+	return &AuthenticatedHandler{
+		Agent: agent,
+		Fn:    fn,
 	}
 }
 
