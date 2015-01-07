@@ -1,6 +1,7 @@
 package event
 
 import (
+	"errors"
 	"time"
 
 	"github.com/elos/server/data"
@@ -34,9 +35,18 @@ func New() *Event {
 	return &Event{}
 }
 
-func Create(name string, userId string) (data.Model, error) {
+func Create(name string, userIdString string) (data.Model, error) {
+	if !bson.IsObjectIdHex(userIdString) {
+		return nil, errors.New("Invalid userId")
+	}
+
+	userId := bson.ObjectIdHex(userIdString)
+	if err := data.CheckId(userId); err != nil {
+		return nil, err
+	}
+
 	event := &Event{
-		Id:        bson.ObjectIdHex(userId),
+		Id:        userId,
 		CreatedAt: time.Now(),
 		Name:      name,
 	}

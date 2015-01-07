@@ -3,29 +3,39 @@ package routes_test
 import (
 	. "github.com/elos/server/routes"
 
-	"github.com/elos/server/data/models/user"
+	"github.com/elos/server/data/models/event"
 	"github.com/elos/server/data/test"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"time"
 )
 
-var _ = Describe("Users", func() {
-	It("Exposes a UsersPost Handler", func() {
-		Expect(UsersPost).NotTo(BeNil())
+var _ = Describe("Events", func() {
+
+	It("Exposes a EventsPost HAndler", func() {
+		Expect(EventsPost).NotTo(BeNil())
 	})
 
-	Describe("UsersPostFunction", func() {
+	Describe("EventsPostHandler", func() {
 		db := test.NewDB()
-		user.SetDB(db)
+		event.SetDB(db)
 
 		w := httptest.NewRecorder()
 
 		values := url.Values{}
 		name := "this is the name"
+		userId := bson.NewObjectId()
+		start_time := time.Now()
+		end_time := time.Now()
 		values.Add("name", name)
+		values.Add("start_time", start_time.String())
+		values.Add("end_time", end_time.String())
+		values.Add("user_id", userId.Hex())
+
 		r := &http.Request{
 			Form: values,
 		}
@@ -51,9 +61,10 @@ var _ = Describe("Users", func() {
 			return n2
 		}
 
-		It("Handles a database errors", func() {
+		It("Handles a database error", func() {
 			db.Error = true
-			UsersPostFunction(w, r, errHandlerC, resourceHandlerC)
+
+			EventsPostHandler(w, r, errHandlerC, resourceHandlerC)
 
 			By("Calling the error handler")
 			Expect(n1.Handled).To(HaveKeyWithValue(r, true))
@@ -66,9 +77,8 @@ var _ = Describe("Users", func() {
 			n1.Reset()
 		})
 
-		It("Handles a successfuly user creation", func() {
-			UsersPostFunction(w, r, errHandlerC, resourceHandlerC)
-
+		It("Successfully creates an event", func() {
+			EventsPostHandler(w, r, errHandlerC, resourceHandlerC)
 			By("Calling the resource response handler")
 			Expect(n2.Handled).To(HaveKeyWithValue(r, true))
 			Expect(rc).To(Equal(201))
@@ -79,16 +89,18 @@ var _ = Describe("Users", func() {
 			Expect(n1.Handled).To(BeEmpty())
 
 			By("Transferring the form value name to the user name")
-			u := db.Saved[0]
+			e := db.Saved[0]
 
 			var ok bool
-			u, ok = u.(*user.User)
+			e, ok = e.(*event.Event)
 			Expect(ok).To(BeTrue())
-			Expect(u.(*user.User).Name).To(Equal(name))
+			Expect(e.(*event.Event).Name).To(Equal(name))
+			// Expect(e.(*event.Event).StartTime).To(Equal(start_time))
+			// Expect(e.(*event.Event).EndTime).To(Equal(end_time))
 
 			db.Reset()
 			n2.Reset()
 		})
-
 	})
+
 })

@@ -6,7 +6,7 @@ import (
 	"github.com/elos/server/data/models/event"
 )
 
-func eventsPost(w http.ResponseWriter, r *http.Request, Error ErrorHandlerConstructor, Resource ResourceHandlerConstructor) {
+func EventsPostHandler(w http.ResponseWriter, r *http.Request, Error ErrorHandlerConstructor, Resource ResourceHandlerConstructor) {
 	event, err := event.Create(r.FormValue("name"), r.FormValue("user_id"))
 
 	if err != nil {
@@ -20,6 +20,6 @@ func eventsPost(w http.ResponseWriter, r *http.Request, Error ErrorHandlerConstr
 
 var EventsPost = http.HandlerFunc(
 	func(w http.ResponseWriter, r *http.Request) {
-		eventsPost(w, r, NewErrorHandler, NewResourceHandler)
+		EventsPostHandler(w, r, NewErrorHandler, NewResourceHandler)
 	},
 )
