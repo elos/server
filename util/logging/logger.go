@@ -14,7 +14,9 @@ type Logger interface {
 
 type AbstractLogger struct{}
 
-var Log Logger
+var DefaultLogger = NullLog
+
+var Log Logger = DefaultLogger
 
 func SetLog(l Logger) {
 	Log = l
