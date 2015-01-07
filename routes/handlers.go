@@ -23,32 +23,6 @@ func NullHandler() http.Handler {
 
 // NullHandler (Testing) }}}
 
-// FunctionHandlers (Route) {{{
-
-// http.Handler implementation that calls a function with args w, r
-type functionHandler struct {
-	fn http.HandlerFunc
-}
-
-// Calls fn with args w, r
-func (fh *functionHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fh.fn(w, r)
-}
-
-// Creates a new http.Handler that calls the function fn with args w, r
-func FunctionHandler(fn http.HandlerFunc) http.Handler {
-	return &functionHandler{
-		fn: fn,
-	}
-}
-
-// alias for FunctionHandler
-func Route(fn http.HandlerFunc) http.Handler {
-	return FunctionHandler(fn)
-}
-
-// FunctionHandlers (Route) }}}
-
 //  ErrorHandler {{{
 
 // Allows route to handle an error

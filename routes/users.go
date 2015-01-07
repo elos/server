@@ -18,7 +18,7 @@ func usersPost(w http.ResponseWriter, r *http.Request, Error func(error) http.Ha
 	}
 }
 
-var UsersPost = Route(
+var UsersPost = http.HandlerFunc(
 	func(w http.ResponseWriter, r *http.Request) {
 		usersPost(w, r, Error, Resource)
 	},

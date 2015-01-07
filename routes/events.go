@@ -18,7 +18,7 @@ func eventsPost(w http.ResponseWriter, r *http.Request, Error ErrorHandler, Reso
 	}
 }
 
-var EventsPost = Route(
+var EventsPost = http.HandlerFunc(
 	func(w http.ResponseWriter, r *http.Request) {
 		eventsPost(w, r, Error, Resource)
 	},
