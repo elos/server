@@ -21,5 +21,4 @@ var RoutesMap = routes.HandlerMap{
 
 func SetupRoutes(db data.DB) {
 	routes.SetupRoutes(RoutesMap)
-	routes.SetDB(db)
 }
