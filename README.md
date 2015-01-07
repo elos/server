@@ -1,6 +1,4 @@
-Elos Server
-
-DONT USE PACKAGES AS INTERFACES!
+Elos Server  [![Build Status](https://travis-ci.org/elos/server.svg?branch=master)](https://travis-ci.org/elos/serve)
 -----------
 
 ##### Start
@@ -41,4 +39,4 @@ msg = {
 connection.send(JSON.stringify(msg))
 ```
 
-
+DONT USE PACKAGES AS INTERFACES! INJECT DEPENDENCIES!
