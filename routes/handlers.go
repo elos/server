@@ -7,6 +7,22 @@ import (
 	"net/http"
 )
 
+// NullHandler (Testing) {{{
+
+type NullHandlerType struct {
+	Handled map[*http.Request]bool
+}
+
+func (h *NullHandlerType) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	h.Handled[r] = true
+}
+
+func NullHandler() http.Handler {
+	return &NullHandlerType{Handled: make(map[*http.Request]bool)}
+}
+
+// NullHandler (Testing) }}}
+
 // FunctionHandlers (Route) {{{
 
 // http.Handler implementation that calls a function with args w, r
