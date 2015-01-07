@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
+const WebSocketProtocolHeader = "Sec-WebSocket-Protocol"
+
 // the utility a route will use to upgrade a request to a websocket
 type WebSocketUpgrader interface {
 	Upgrade(http.ResponseWriter, *http.Request, http.Header) (*websocket.Conn, error)
@@ -19,20 +21,8 @@ var DefaultWebSocketUpgrader WebSocketUpgrader = &websocket.Upgrader{
 	},
 }
 
-// Always start with an upgrader, private: set with SetWebSocketUpgrader
-var webSocketUpgrader WebSocketUpgrader = DefaultWebSocketUpgrader
-
-// Sets the websocket upgrader to be used by a route attempting an upgrade
-func SetWebSocketUpgrader(u WebSocketUpgrader) {
-	if u != nil {
-		webSocketUpgrader = u
-	}
-}
-
-func ExtractProtocolHeader(r *http.Request) *http.Header {
-	protocol := http.Header{
-		"Sec-WebSocket-Protocol": []string{r.Header.Get("Sec-WebSocket-Protocol")},
-	}
-
-	return &protocol
+func ExtractProtocolHeader(r *http.Request) http.Header {
+	header := http.Header{}
+	header.Add(WebSocketProtocolHeader, r.Header.Get(WebSocketProtocolHeader))
+	return header
 }

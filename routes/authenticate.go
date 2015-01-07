@@ -8,7 +8,7 @@ import (
 )
 
 func websocketUpgrade(w http.ResponseWriter, r *http.Request, a data.Agent) {
-	ws, err := webSocketUpgrader.Upgrade(w, r, *ExtractProtocolHeader(r))
+	ws, err := DefaultWebSocketUpgrader.Upgrade(w, r, ExtractProtocolHeader(r))
 
 	if err != nil {
 		logf("An error occurred while upgrading to the websocket protocol, err: %s", err)
