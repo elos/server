@@ -7,6 +7,6 @@ import (
 )
 
 func SetupModels(db data.DB) {
-	user.DB = db
-	event.DB = db
+	user.SetDB(db)
+	event.SetDB(db)
 }

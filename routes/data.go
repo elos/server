@@ -10,13 +10,13 @@ import (
 )
 
 // The default database is the null test database
-var DefaultDatabase data.DB = test.NewDB()
+var DefaultDB data.DB = test.NewDB()
 
-// Always have a db, private: set with SetDatabase
-var db data.DB = DefaultDatabase
+// Always have a db, private: set with SetDB
+var db data.DB = DefaultDB
 
 // Set the database with which the routes look for data
-func SetDatabase(newDB data.DB) {
+func SetDB(newDB data.DB) {
 	if newDB != nil {
 		db = newDB
 	}
