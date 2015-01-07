@@ -10,6 +10,7 @@ import (
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models/user"
 	"github.com/elos/server/util"
+	"github.com/elos/server/util/auth"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"net/http/httptest"
@@ -190,7 +191,7 @@ var _ = Describe("Handlers", func() {
 		authed := true
 		var err error = nil
 
-		var authenticator = func(r *http.Request) (data.Agent, bool, error) {
+		var authenticator auth.RequestAuthenticator = func(r *http.Request) (data.Agent, bool, error) {
 			return a, authed, err
 		}
 
@@ -224,10 +225,10 @@ var _ = Describe("Handlers", func() {
 			It("Sets fields", func() {
 				By("sets Authenticator")
 				h := h.(*AuthenticationHandler)
-				Expect(h.Authenticator).To(Equal(authenticator))
-				Expect(h.NewErrorHandler).To(Equal(errHandlerC))
-				Expect(h.NewUnauthorizedHandler).To(Equal(unauthHandlerC))
-				Expect(h.TransferFunc).To(Equal(transferFunc))
+				Expect(h.Authenticator).NotTo(BeNil())
+				Expect(h.NewErrorHandler).NotTo(BeNil())
+				Expect(h.NewUnauthorizedHandler).NotTo(BeNil())
+				Expect(h.TransferFunc).NotTo(BeNil())
 			})
 		})
 
