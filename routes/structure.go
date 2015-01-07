@@ -30,8 +30,8 @@ func (h HandlerMap) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Redirects http requests based on the requests HTTP method
 type HTTPMethodHandler struct {
-	InvalidMethod InvalidMethodHandler
-	Methods       map[string]http.Handler
+	NewBadMethodHandler BadMethodHandlerConstructor
+	Methods             map[string]http.Handler
 }
 
 // Satisfies http.Handler interface, will dispatch ServeHTTP to
@@ -42,7 +42,7 @@ func (h *HTTPMethodHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if ok {
 		handler.ServeHTTP(w, r)
 	} else {
-		h.InvalidMethod(r.Method).ServeHTTP(w, r)
+		h.NewBadMethodHandler(r).ServeHTTP(w, r)
 	}
 }
 
@@ -52,10 +52,10 @@ func (h *HTTPMethodHandler) Handle(method string, handler http.Handler) {
 }
 
 // Creates a new httpMethodHandler
-func NewHTTPMethodHandler(h InvalidMethodHandler) *HTTPMethodHandler {
+func NewHTTPMethodHandler(c BadMethodHandlerConstructor) *HTTPMethodHandler {
 	return &HTTPMethodHandler{
-		Methods:       make(map[string]http.Handler),
-		InvalidMethod: h,
+		Methods:             make(map[string]http.Handler),
+		NewBadMethodHandler: c,
 	}
 }
 
@@ -76,7 +76,7 @@ func SetupHTTPRoutes(hm HandlerMap) {
 
 // recursively sets up the routes
 func SetupRoutes(hm HandlerMap, mux *http.ServeMux, prefix string) {
-	methodHandler := NewHTTPMethodHandler(InvalidMethod)
+	methodHandler := NewHTTPMethodHandler(NewBadMethodHandler)
 	for routeName, handler := range hm {
 		// type assert
 		subHM, ok := handler.(HandlerMap)

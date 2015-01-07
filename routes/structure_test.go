@@ -64,7 +64,7 @@ var _ = Describe("Structure", func() {
 		)
 
 		route := "route"
-		nullHandler := NullHandler()
+		nullHandler := NewNullHandler()
 
 		h = HandlerMap{}
 
@@ -87,9 +87,9 @@ var _ = Describe("Structure", func() {
 	// HTTPMethodHandler {{{
 	Describe("HTTPMethodHandler", func() {
 
-		sharedInvalidMethodHandler := NullHandler().(*NullHandlerType)
+		sharedInvalidMethodHandler := NewNullHandler()
 
-		var testInvalidMethod = func(s string) http.Handler {
+		var testInvalidMethod = func(r *http.Request) http.Handler {
 			return sharedInvalidMethodHandler
 		}
 
@@ -107,8 +107,8 @@ var _ = Describe("Structure", func() {
 			})
 
 			It("Defines its invalid method handler", func() {
-				Expect(h.InvalidMethod).ToNot(BeNil())
-				Expect(d.InvalidMethod).ToNot(BeNil())
+				Expect(h.NewBadMethodHandler).ToNot(BeNil())
+				Expect(d.NewBadMethodHandler).ToNot(BeNil())
 			})
 
 			It("instantiates a new method handler each time", func() {
@@ -117,9 +117,9 @@ var _ = Describe("Structure", func() {
 			})
 		})
 
-		n1 := NullHandler().(*NullHandlerType)
-		n2 := NullHandler().(*NullHandlerType)
-		n3 := NullHandler().(*NullHandlerType)
+		n1 := NewNullHandler()
+		n2 := NewNullHandler()
+		n3 := NewNullHandler()
 
 		Describe("Specifying which methods to handle", func() {
 
@@ -185,7 +185,7 @@ var _ = Describe("Structure", func() {
 				AfterEach(func() {
 				})
 
-				methods := map[string]*NullHandlerType{
+				methods := map[string]*NullHandler{
 					POST:    n1,
 					GET:     n2,
 					"RANDO": n3,
@@ -226,9 +226,9 @@ var _ = Describe("Structure", func() {
 
 	// Routes Setup {{{
 	Describe("Routes Setup", func() {
-		n1 := NullHandler()
-		n2 := NullHandler()
-		n3 := NullHandler()
+		n1 := NewNullHandler()
+		n2 := NewNullHandler()
+		n3 := NewNullHandler()
 
 		hm := HandlerMap{
 			"v1": HandlerMap{

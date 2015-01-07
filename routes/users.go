@@ -6,7 +6,7 @@ import (
 	"github.com/elos/server/data/models/user"
 )
 
-func usersPost(w http.ResponseWriter, r *http.Request, Error func(error) http.Handler, Resource func(int, interface{}) http.Handler) {
+func usersPost(w http.ResponseWriter, r *http.Request, Error ErrorHandlerConstructor, Resource ResourceHandlerConstructor) {
 	user, err := user.Create(r.FormValue("name"))
 
 	if err != nil {
@@ -20,6 +20,6 @@ func usersPost(w http.ResponseWriter, r *http.Request, Error func(error) http.Ha
 
 var UsersPost = http.HandlerFunc(
 	func(w http.ResponseWriter, r *http.Request) {
-		usersPost(w, r, Error, Resource)
+		usersPost(w, r, NewErrorHandler, NewResourceHandler)
 	},
 )

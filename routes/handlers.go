@@ -9,16 +9,21 @@ import (
 
 // NullHandler (Testing) {{{
 
-type NullHandlerType struct {
+type NullHandler struct {
 	Handled map[*http.Request]bool
 }
 
-func (h *NullHandlerType) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *NullHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	h.Handled[r] = true
 }
 
-func NullHandler() http.Handler {
-	return &NullHandlerType{Handled: make(map[*http.Request]bool)}
+func (h *NullHandler) Reset() *NullHandler {
+	h.Handled = make(map[*http.Request]bool)
+	return h
+}
+
+func NewNullHandler() *NullHandler {
+	return (&NullHandler{}).Reset()
 }
 
 // NullHandler (Testing) }}}
@@ -26,22 +31,22 @@ func NullHandler() http.Handler {
 //  ErrorHandler {{{
 
 // Allows route to handle an error
-type ErrorHandler func(error) http.Handler
+type ErrorHandlerConstructor func(error) http.Handler
 
 // underlying information needed to form an error response
-type serverErrorHandler struct {
-	err error
+type ErrorHandler struct {
+	Err error
 }
 
 // implement http.Handler
-func (h *serverErrorHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	util.ServerError(w, h.err)
+func (h *ErrorHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	util.ServerError(w, h.Err)
 }
 
 // Returns a handler capable of serving the error information
-func Error(err error) http.Handler {
-	return &serverErrorHandler{
-		err: err,
+func NewErrorHandler(err error) http.Handler {
+	return &ErrorHandler{
+		Err: err,
 	}
 }
 
@@ -50,51 +55,51 @@ func Error(err error) http.Handler {
 // ResourceHandler {{{
 
 // Allows route to handle returning a json resource
-type ResourceHandler func(int, interface{}) http.Handler
+type ResourceHandlerConstructor func(int, interface{}) http.Handler
 
 // underlying information needed to return a json resource
-type resourceHandler struct {
-	code     int
-	resource interface{}
+type ResourceHandler struct {
+	Code     int
+	Resource interface{}
 }
 
 // implements http.Handler
-func (h *resourceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	util.WriteResourceResponse(w, h.code, h.resource)
+func (h *ResourceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	util.WriteResourceResponse(w, h.Code, h.Resource)
 }
 
 // Returns a handler capable of serving the resource
-func Resource(code int, resource interface{}) http.Handler {
-	return &resourceHandler{
-		code:     code,
-		resource: resource,
+func NewResourceHandler(code int, resource interface{}) http.Handler {
+	return &ResourceHandler{
+		Code:     code,
+		Resource: resource,
 	}
 }
 
 // }}}
 
-// InvalidMethodHandler {{{
+// BadMethodHandler {{{
 
 /*
 	Allows route to handle a suspected invalid method
 	- Should only be used by HTTPMethodHandler
 */
-type InvalidMethodHandler func(string) http.Handler
+type BadMethodHandlerConstructor func(*http.Request) http.Handler
 
 // underlying information need to notify user of invalid method
-type invalidMethodHandler struct {
-	requestedMethod string
+type BadMethodHandler struct {
+	RequestedMethod string
 }
 
 // implemens http.Handler
-func (h *invalidMethodHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *BadMethodHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	util.InvalidMethod(w)
 }
 
 // Returns a handler capable of notifying the user of the invalid method
-func InvalidMethod(method string) http.Handler {
-	return &invalidMethodHandler{
-		requestedMethod: method,
+func NewBadMethodHandler(r *http.Request) http.Handler {
+	return &BadMethodHandler{
+		RequestedMethod: r.Method,
 	}
 }
 
@@ -103,25 +108,25 @@ func InvalidMethod(method string) http.Handler {
 // UnauthorizedHandler {{{
 
 // Allows a route to indicate the agent is unauthorized
-type UnauthorizedHandler func(string) http.Handler
+type UnauthorizedHandlerConstructor func(string) http.Handler
 
 /*
 	underlying information necessary to inform client of
 	lack of credentials
 */
-type unauthorizedHandler struct {
-	reason string
+type UnauthorizedHandler struct {
+	Reason string
 }
 
 // implements http.Handler
-func (h *unauthorizedHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *UnauthorizedHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	util.Unauthorized(w)
 }
 
 // Returns a handler capable of serving the unauthorized error
-func Unauthorized(reason string) http.Handler {
-	return &unauthorizedHandler{
-		reason: reason,
+func NewUnauthorizedHandler(reason string) http.Handler {
+	return &UnauthorizedHandler{
+		Reason: reason,
 	}
 }
 
@@ -137,13 +142,13 @@ var DefaultAuthenticator auth.RequestAuthenticator = auth.AuthenticateRequest
 
 type authenticationHandler struct {
 	authenticator       auth.RequestAuthenticator
-	errorHandler        ErrorHandler
-	unauthorizedHandler UnauthorizedHandler
+	errorHandler        ErrorHandlerConstructor
+	unauthorizedHandler UnauthorizedHandlerConstructor
 	transferFunc        AuthenticatedHandlerFunc
 }
 
-func AuthenticateRoute(a auth.RequestAuthenticator, eh ErrorHandler,
-	uh UnauthorizedHandler, t AuthenticatedHandlerFunc) http.Handler {
+func AuthenticateRoute(a auth.RequestAuthenticator, eh ErrorHandlerConstructor,
+	uh UnauthorizedHandlerConstructor, t AuthenticatedHandlerFunc) http.Handler {
 	return &authenticationHandler{
 		authenticator:       a,
 		errorHandler:        eh,

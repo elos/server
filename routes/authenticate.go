@@ -21,4 +21,4 @@ func websocketUpgrade(w http.ResponseWriter, r *http.Request, a data.Agent) {
 	sockets.NewConnection(a, ws)
 }
 
-var AuthenticateGet = AuthenticateRoute(DefaultAuthenticator, Error, Unauthorized, websocketUpgrade)
+var AuthenticateGet = AuthenticateRoute(DefaultAuthenticator, NewErrorHandler, NewUnauthorizedHandler, websocketUpgrade)
