@@ -5,11 +5,10 @@ import (
 
 	"github.com/elos/server/data"
 	"github.com/elos/server/sockets"
-	"github.com/elos/server/util/auth"
 )
 
 func websocketUpgrade(w http.ResponseWriter, r *http.Request, a data.Agent) {
-	ws, err := webSocketUpgrader.Upgrade(w, r, *auth.ExtractProtocolHeader(r))
+	ws, err := webSocketUpgrader.Upgrade(w, r, *ExtractProtocolHeader(r))
 
 	if err != nil {
 		logf("An error occurred while upgrading to the websocket protocol, err: %s", err)

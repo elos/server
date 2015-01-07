@@ -28,3 +28,11 @@ func SetWebSocketUpgrader(u WebSocketUpgrader) {
 		webSocketUpgrader = u
 	}
 }
+
+func ExtractProtocolHeader(r *http.Request) *http.Header {
+	protocol := http.Header{
+		"Sec-WebSocket-Protocol": []string{r.Header.Get("Sec-WebSocket-Protocol")},
+	}
+
+	return &protocol
+}

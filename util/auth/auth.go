@@ -34,11 +34,3 @@ func ExtractCredentials(r *http.Request) (string, string) {
 		return tokens[0], tokens[1]
 	}
 }
-
-func ExtractProtocolHeader(r *http.Request) *http.Header {
-	protocol := http.Header{
-		"Sec-WebSocket-Protocol": []string{r.Header.Get("Sec-WebSocket-Protocol")},
-	}
-
-	return &protocol
-}
