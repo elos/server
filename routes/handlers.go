@@ -5,20 +5,26 @@ import (
 	"github.com/elos/server/util"
 	"github.com/elos/server/util/auth"
 	"net/http"
+	"sync"
 )
 
 // NullHandler (Testing) {{{
 
 type NullHandler struct {
 	Handled map[*http.Request]bool
+	m       sync.Mutex
 }
 
 func (h *NullHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	h.m.Lock()
 	h.Handled[r] = true
+	h.m.Unlock()
 }
 
 func (h *NullHandler) Reset() *NullHandler {
+	h.m.Lock()
 	h.Handled = make(map[*http.Request]bool)
+	h.m.Unlock()
 	return h
 }
 
