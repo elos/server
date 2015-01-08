@@ -1,6 +1,7 @@
 package routes_test
 
 import (
+	"github.com/elos/server/conn"
 	. "github.com/elos/server/routes"
 
 	"github.com/elos/server/data/models/user"
@@ -21,6 +22,6 @@ var _ = Describe("Authenticate", func() {
 
 		u := user.New()
 
-		WebSocketUpgradeHandler(w, r, u)
+		WebSocketUpgradeHandler(w, r, u, conn.DefaultWebSocketUpgrader)
 	})
 })
