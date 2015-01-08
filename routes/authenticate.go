@@ -7,8 +7,8 @@ import (
 	"github.com/elos/server/sockets"
 )
 
-func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agent) {
-	ws, err := DefaultWebSocketUpgrader.Upgrade(w, r, ExtractProtocolHeader(r))
+func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agent, upgrader WebSocketUpgrader) {
+	ws, err := upgrader.Upgrade(w, r, ExtractProtocolHeader(r))
 
 	if err != nil {
 		logf("An error occurred while upgrading to the websocket protocol, err: %s", err)
@@ -24,4 +24,7 @@ func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agen
 var AuthenticateGet = NewAuthenticationHandler(DefaultAuthenticator,
 	NewErrorHandler,
 	NewUnauthorizedHandler,
-	AuthenticatedHandlerFunc(WebSocketUpgradeHandler))
+	AuthenticatedHandlerFunc(func(w http.ResponseWriter, r *http.Request, a data.Agent) {
+		WebSocketUpgradeHandler(w, r, a, DefaultWebSocketUpgrader)
+	}),
+)
