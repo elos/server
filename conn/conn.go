@@ -13,3 +13,9 @@ type Connection interface {
 	ReadJSON(interface{}) error
 	Close() error
 }
+
+type AnonConnection interface {
+	WriteJSON(interface{}) error
+	ReadJSON(interface{}) error
+	Close() error
+}

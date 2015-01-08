@@ -2,15 +2,14 @@ package conn
 
 import (
 	"github.com/elos/server/data"
-	"github.com/gorilla/websocket"
 )
 
 type GorillaConnection struct {
-	conn  *websocket.Conn
+	conn  AnonConnection
 	agent data.Agent
 }
 
-func NewGorillaConnection(c *websocket.Conn, a data.Agent) Connection {
+func NewGorillaConnection(c AnonConnection, a data.Agent) Connection {
 	return &GorillaConnection{
 		conn:  c,
 		agent: a,

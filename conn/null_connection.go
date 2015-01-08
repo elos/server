@@ -12,7 +12,7 @@ type NullConnection struct {
 	agent  data.Agent
 }
 
-func NewNullConnection(a data.Agent) Connection {
+func NewNullConnection(a data.Agent) *NullConnection {
 	return (&NullConnection{agent: a}).Reset()
 }
 
