@@ -22,6 +22,6 @@ var _ = Describe("Authenticate", func() {
 
 		u := user.New()
 
-		WebSocketUpgradeHandler(w, r, u, conn.DefaultWebSocketUpgrader)
+		WebSocketUpgradeHandler(w, r, u, conn.DefaultWebSocketUpgrader, DefaultClientDataHub)
 	})
 })

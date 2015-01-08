@@ -19,7 +19,7 @@ type SleepAgent struct {
 	ticker      *time.Ticker
 
 	DB        data.DB
-	DataOwner data.Agent
+	DataAgent data.Agent
 	Manager   autonomous.Manager
 }
 
@@ -29,14 +29,18 @@ func NewSleepAgent(db data.DB, a data.Agent, d time.Duration) autonomous.Agent {
 		stop:        make(chan bool),
 		startPeriod: d,
 		DB:          db,
-		DataOwner:   a,
+		DataAgent:   a,
 	}
 }
 
-func (s *SleepAgent) SetDataOwner(a data.Agent) {
+func (s *SleepAgent) SetDataAgent(a data.Agent) {
 	if a != nil {
-		s.DataOwner = a
+		s.DataAgent = a
 	}
+}
+
+func (s *SleepAgent) GetDataAgent() data.Agent {
+	return s.DataAgent
 }
 
 func (s *SleepAgent) SetManager(m autonomous.Manager) {

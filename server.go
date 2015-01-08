@@ -38,9 +38,9 @@ func main() {
 
 	config.SetupLog(*verbose)
 	config.SetupDB("localhost")
+	config.SetupClientDataHub()
 	config.SetupModels(config.DB)
 	config.SetupRoutes(config.DB)
-	config.SetupSockets(config.DB)
 	config.SetupServices(config.DB)
 
 	StartServer(*host, *port)
@@ -65,7 +65,7 @@ func HandleSignals() {
 func Shutdown(sig os.Signal) {
 	logging.Log.Logs(programName, "Shutting down server")
 	config.ShutdownDB()
-	config.ShutdownSockets()
+	config.ShutdownClientDataHub()
 	// mongo.StopDatabaseServer(sig)
 	os.Exit(0)
 }

@@ -5,11 +5,15 @@ import (
 
 	"github.com/elos/server/conn"
 	"github.com/elos/server/data"
-	"github.com/elos/server/hub"
+	"github.com/elos/server/data/models/user"
+	"github.com/elos/server/services/agents"
+	"github.com/elos/server/services/hub"
 )
 
-func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agent, upgrader conn.WebSocketUpgrader) {
-	ws, err := upgrader.Upgrade(w, r, a)
+var DefaultClientDataHub = hub.NewNullHub()
+
+func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agent, upgrader conn.WebSocketUpgrader, hub hub.Hub) {
+	connection, err := upgrader.Upgrade(w, r, a)
 
 	if err != nil {
 		logf("An error occurred while upgrading to the websocket protocol, err: %s", err)
@@ -19,13 +23,14 @@ func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agen
 
 	logf("Agent with id %s just connected over websocket", a.GetId())
 
-	hub.NewConnection(ws)
+	agent := agents.NewClientDataAgent(connection, user.DefaultDatabase)
+	hub.StartAgent(agent)
 }
 
 var AuthenticateGet = NewAuthenticationHandler(DefaultAuthenticator,
 	NewErrorHandler,
 	NewUnauthorizedHandler,
 	AuthenticatedHandlerFunc(func(w http.ResponseWriter, r *http.Request, a data.Agent) {
-		WebSocketUpgradeHandler(w, r, a, conn.DefaultWebSocketUpgrader)
+		WebSocketUpgradeHandler(w, r, a, conn.DefaultWebSocketUpgrader, DefaultClientDataHub)
 	}),
 )

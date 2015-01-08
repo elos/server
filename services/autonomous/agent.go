@@ -6,11 +6,11 @@ import (
 )
 
 type Manager interface {
-	RequestStop(Agent)
 }
 
 type Agent interface {
-	SetDataOwner(data.Agent)
+	SetDataAgent(data.Agent)
+	GetDataAgent() data.Agent
 	SetManager(Manager)
 	GetManager() Manager
 
