@@ -228,7 +228,7 @@ var _ = Describe("Handlers", func() {
 				Expect(h.Authenticator).NotTo(BeNil())
 				Expect(h.NewErrorHandler).NotTo(BeNil())
 				Expect(h.NewUnauthorizedHandler).NotTo(BeNil())
-				Expect(h.TransferFunc).NotTo(BeNil())
+				Expect(h.AuthenticatedHandler).NotTo(BeNil())
 			})
 		})
 
@@ -290,8 +290,8 @@ var _ = Describe("Handlers", func() {
 	})
 	// AuthenticationHandler }}}
 
-	// AuthenticatedHandlerFunc {{{
-	Describe("AuthenticatedHandlerFunc", func() {
+	// AuthenticatedHandler {{{
+	Describe("AuthenticatedHandler", func() {
 
 		agent := user.New()
 		agent.SetId(bson.NewObjectId())
@@ -308,16 +308,16 @@ var _ = Describe("Handlers", func() {
 			ra = a
 		}
 
-		h := NewAuthenticatedHandler(agent, tf)
+		h := NewAgentHandler(agent, tf)
 
 		Describe("NewAuthenticatedHandler", func() {
 			It("Allocates and returns a new AuthenticatedHandler", func() {
 				Expect(h).NotTo(BeNil())
-				Expect(h).To(BeAssignableToTypeOf(&AuthenticatedHandler{}))
+				Expect(h).To(BeAssignableToTypeOf(&AgentHandler{}))
 			})
 
 			It("Sets fields", func() {
-				h := h.(*AuthenticatedHandler)
+				h := h.(*AgentHandler)
 				Expect(h.Agent).To(Equal(agent))
 				// Still can't figure out the function equality thing
 				Expect(h.Fn).NotTo(BeNil())
@@ -334,8 +334,6 @@ var _ = Describe("Handlers", func() {
 				Expect(ra).To(Equal(agent))
 			})
 		})
-
 	})
-
-	// AuthenticatedHandlerFunc }}}
+	// AuthenticatedHandler }}}
 })

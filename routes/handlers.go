@@ -144,16 +144,16 @@ type AuthenticationHandler struct {
 	Authenticator          auth.RequestAuthenticator
 	NewErrorHandler        ErrorHandlerConstructor
 	NewUnauthorizedHandler UnauthorizedHandlerConstructor
-	TransferFunc           AuthenticatedHandlerFunc
+	AuthenticatedHandler   AuthenticatedHandler
 }
 
 func NewAuthenticationHandler(a auth.RequestAuthenticator, eh ErrorHandlerConstructor,
-	uh UnauthorizedHandlerConstructor, t AuthenticatedHandlerFunc) http.Handler {
+	uh UnauthorizedHandlerConstructor, t AuthenticatedHandler) http.Handler {
 	return &AuthenticationHandler{
 		Authenticator:          a,
 		NewErrorHandler:        eh,
 		NewUnauthorizedHandler: uh,
-		TransferFunc:           t,
+		AuthenticatedHandler:   t,
 	}
 }
 
@@ -167,7 +167,7 @@ func (h *AuthenticationHandler) ServeHTTP(w http.ResponseWriter, r *http.Request
 	}
 
 	if authenticated {
-		NewAuthenticatedHandler(agent, h.TransferFunc).ServeHTTP(w, r)
+		h.AuthenticatedHandler.ServeHTTP(w, r, agent)
 		logf("Agent with id %s authenticated", agent.GetId())
 	} else {
 		h.NewUnauthorizedHandler("Not authenticated").ServeHTTP(w, r)
@@ -178,19 +178,27 @@ func (h *AuthenticationHandler) ServeHTTP(w http.ResponseWriter, r *http.Request
 
 // AuthenticatedHandlerFunc {{{
 
+type AuthenticatedHandler interface {
+	ServeHTTP(http.ResponseWriter, *http.Request, data.Agent)
+}
+
 type AuthenticatedHandlerFunc func(http.ResponseWriter, *http.Request, data.Agent)
 
-type AuthenticatedHandler struct {
+func (f AuthenticatedHandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request, a data.Agent) {
+	f(w, r, a)
+}
+
+type AgentHandler struct {
 	Agent data.Agent
 	Fn    AuthenticatedHandlerFunc
 }
 
-func (h *AuthenticatedHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *AgentHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	h.Fn(w, r, h.Agent)
 }
 
-func NewAuthenticatedHandler(agent data.Agent, fn AuthenticatedHandlerFunc) http.Handler {
-	return &AuthenticatedHandler{
+func NewAgentHandler(agent data.Agent, fn AuthenticatedHandlerFunc) http.Handler {
+	return &AgentHandler{
 		Agent: agent,
 		Fn:    fn,
 	}
