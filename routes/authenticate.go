@@ -3,16 +3,17 @@ package routes
 import (
 	"net/http"
 
+	"github.com/elos/server/autonomous"
+	"github.com/elos/server/autonomous/agents"
+	"github.com/elos/server/autonomous/managers"
 	"github.com/elos/server/conn"
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models/user"
-	"github.com/elos/server/services/agents"
-	"github.com/elos/server/services/hub"
 )
 
-var DefaultClientDataHub = hub.NewNullHub()
+var DefaultClientDataHub = managers.NewNullHub()
 
-func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agent, upgrader conn.WebSocketUpgrader, hub hub.Hub) {
+func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agent, upgrader conn.WebSocketUpgrader, hub autonomous.Manager) {
 	connection, err := upgrader.Upgrade(w, r, a)
 
 	if err != nil {

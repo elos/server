@@ -1,17 +1,17 @@
 package config
 
 import (
+	"github.com/elos/server/autonomous/managers"
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models/user"
-	"github.com/elos/server/services"
 	// 	"log"
 )
 
-var Outfitter *services.Outfitter
+var Outfitter *managers.Outfitter
 
 func SetupServices(db data.DB) {
 	return
-	Outfitter = services.NewOutfitter()
+	Outfitter = managers.NewOutfitter()
 	go Outfitter.Run()
 
 	iter, err := db.NewQuery(user.Kind).Execute()
@@ -21,7 +21,7 @@ func SetupServices(db data.DB) {
 	u := user.New()
 
 	for iter.Next(u) {
-		services.OutfitUser(Outfitter, db, u)
+		managers.OutfitUser(Outfitter, db, u)
 	}
 
 	if err := iter.Close(); err != nil {

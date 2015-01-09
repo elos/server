@@ -1,13 +1,14 @@
 package config
 
 import (
-	"github.com/elos/server/services/hub"
+	"github.com/elos/server/autonomous"
+	"github.com/elos/server/autonomous/managers"
 )
 
-var ClientDataHub hub.Hub
+var ClientDataHub autonomous.Manager
 
 func SetupClientDataHub() {
-	ClientDataHub = hub.NewAgentHub()
+	ClientDataHub = managers.NewAgentHub()
 }
 
 func ShutdownClientDataHub() {
