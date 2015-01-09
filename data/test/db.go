@@ -38,7 +38,7 @@ func (db *TestDB) Connect(addr string) error {
 	return nil
 }
 
-func (db *TestDB) GetUpdatesChannel() *chan data.Model {
+func (db *TestDB) RegisterForUpdates(a data.Agent) *chan data.Model {
 	return &db.ModelUpdates
 }
 

@@ -5,6 +5,7 @@ import (
 	"github.com/elos/server/conn"
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/transfer"
+	"log"
 )
 
 type ClientDataAgent struct {
@@ -54,13 +55,17 @@ func (a *ClientDataAgent) GetManager() autonomous.Manager {
 func (a *ClientDataAgent) Start() {
 	go ReadConnection(a.Connection, &a.read, &a.stop)
 
+	modelsChannel := *a.DB.RegisterForUpdates(a.DataAgent)
+
 	for {
 		select {
 		case e := <-a.read:
+			log.Print("WE HAVE A READ")
 			go transfer.Route(e, a.DB, a.Connection)
 			continue
-		case _ = <-*a.DB.GetUpdatesChannel():
-			continue
+		case m := <-modelsChannel:
+			log.Print("WE HAVE AN UPDATE")
+			a.WriteJSON(m)
 		case _ = <-a.stop:
 			//shutdown
 			continue

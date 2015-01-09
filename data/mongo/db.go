@@ -4,19 +4,20 @@ import (
 	"fmt"
 	"github.com/elos/server/data"
 	"gopkg.in/mgo.v2"
+	"sync"
 )
 
 type MongoDB struct {
-	Connections  []*MongoConnection
-	ModelUpdates *chan data.Model
+	Connections []*MongoConnection
+	Subscribers map[data.ID][]*chan data.Model
+	m           sync.Mutex
 }
 
 func NewDB(addr string) (data.DB, error) {
 	db := &MongoDB{}
 	db.Connections = make([]*MongoConnection, 0)
 	db.Connect(addr)
-	updates := make(chan data.Model)
-	db.ModelUpdates = &updates
+	db.Subscribers = make(map[data.ID][]*chan data.Model)
 	return db, nil
 }
 
@@ -44,8 +45,7 @@ func (db *MongoDB) Save(m data.Model) error {
 		logf("Error saving record of kind %s, err: %s", m.Kind(), err)
 		return err
 	} else {
-		// currently would block because nobody is there to read it
-		// *db.GetUpdatesChannel() <- m
+		db.NotifyConcerned(m)
 		return nil
 	}
 }
@@ -88,8 +88,30 @@ func (db *MongoDB) GetConnection() *MongoConnection {
 	return db.Connections[0]
 }
 
-func (db *MongoDB) GetUpdatesChannel() *chan data.Model {
-	return db.ModelUpdates
+func (db *MongoDB) RegisterForUpdates(a data.Agent) *chan data.Model {
+	db.m.Lock()
+	defer db.m.Unlock()
+
+	id := a.GetID()
+	c := make(chan data.Model)
+
+	db.Subscribers[id] = append(db.Subscribers[id], &c)
+
+	return &c
+}
+
+func (db *MongoDB) NotifyConcerned(m data.Model) {
+	concerned := m.Concerned()
+	for _, concernedId := range concerned {
+		channels := db.Subscribers[concernedId]
+		for _, channel := range channels {
+			go nonblockingchannelsend(*channel, m)
+		}
+	}
+}
+
+func nonblockingchannelsend(c chan data.Model, m data.Model) {
+	c <- m
 }
 
 /*
