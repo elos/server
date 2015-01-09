@@ -21,4 +21,5 @@ var RoutesMap = routes.HandlerMap{
 
 func SetupRoutes(db data.DB) {
 	routes.SetupHTTPRoutes(RoutesMap)
+	routes.DefaultClientDataHub = ClientDataHub
 }

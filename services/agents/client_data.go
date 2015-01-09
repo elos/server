@@ -3,13 +3,14 @@ package agents
 import (
 	"github.com/elos/server/conn"
 	"github.com/elos/server/data"
+	"github.com/elos/server/data/transfer"
 	"github.com/elos/server/services/autonomous"
 )
 
 type ClientDataAgent struct {
 	running bool
 	stop    chan bool
-	read    chan data.Envelope
+	read    chan *data.Envelope
 
 	DB         data.DB
 	DataAgent  data.Agent
@@ -22,7 +23,7 @@ func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 		Connection: c,
 		DB:         db,
 		stop:       make(chan bool),
-		read:       make(chan data.Envelope),
+		read:       make(chan *data.Envelope),
 	}
 
 	a.SetDataAgent(c.Agent())
@@ -55,7 +56,8 @@ func (a *ClientDataAgent) Start() {
 
 	for {
 		select {
-		case _ = <-a.read:
+		case e := <-a.read:
+			go transfer.Route(e, a.DB, a.Connection)
 			continue
 		case _ = <-*a.DB.GetUpdatesChannel():
 			continue
@@ -78,7 +80,7 @@ func (a *ClientDataAgent) Alive() bool {
 	return a.running
 }
 
-func ReadConnection(c conn.Connection, rc *chan data.Envelope, endChannel *chan bool) {
+func ReadConnection(c conn.Connection, rc *chan *data.Envelope, endChannel *chan bool) {
 	// TODO add read limit and deadline
 	for {
 		var e data.Envelope
@@ -95,7 +97,7 @@ func ReadConnection(c conn.Connection, rc *chan data.Envelope, endChannel *chan 
 			break
 		}
 
-		*rc <- e
+		*rc <- &e
 	}
 
 	*endChannel <- true

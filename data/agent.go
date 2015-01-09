@@ -8,9 +8,3 @@ package data
 type Agent interface {
 	GetID() ID
 }
-
-// Inbound
-type Envelope struct {
-	Action string                          `json:"action"`
-	Data   map[Kind]map[string]interface{} `json:"data"`
-}
