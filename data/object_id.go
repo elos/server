@@ -4,6 +4,9 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// A generic interface for using data IDs
+// This is specifc to fulfill the bson spec:
+
 type ID interface {
 	String() string
 	Hex() string
@@ -21,28 +24,3 @@ func NewObjectIDFromHex(hex string) ID {
 func IsObjectIDHex(hex string) bool {
 	return bson.IsObjectIdHex(hex)
 }
-
-/*
-
-func (id ObjectID) String() string {
-	return bson.ObjectId(id).String()
-}
-
-func (id ObjectID) Hex() string {
-	return bson.ObjectId(id).Hex()
-}
-
-func (id ObjectID) MarshalJSON() ([]byte, error) {
-	return bson.ObjectId(id).MarshalJSON()
-}
-
-func (id ObjectID) UnmarshalJSON(bytes []byte) error {
-	bie := bson.ObjectId(id)
-	return (&bie).UnmarshalJSON(bytes)
-}
-
-func (id ObjectID) Valid() bool {
-	return bson.ObjectId(id).Valid()
-}
-
-*/

@@ -60,7 +60,7 @@ func (u *NullUpgrader) SetError(e error) {
 // }}}
 
 // Gorilla Upgrader {{{
-// wrapper for mgo upgrader
+// wrapper for gorillla upgrader
 type GorillaUpgrader struct {
 	Upgrader *websocket.Upgrader
 }

@@ -81,7 +81,11 @@ func (db *MongoDB) PopulateById(m data.Model) error {
 
 	if err = populateById(s, m); err != nil {
 		logf("There was an error populating the %s model, error: %v", m.Kind(), err)
-		return err
+		if err == mgo.ErrNotFound {
+			return data.NotFoundError
+		} else {
+			return err
+		}
 	} else {
 		return nil
 	}

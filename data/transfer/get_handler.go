@@ -6,7 +6,6 @@ import (
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models"
 	"github.com/elos/server/util"
-	"gopkg.in/mgo.v2"
 )
 
 func GetHandler(e *data.Envelope, db data.DB, c conn.Connection) {
@@ -27,12 +26,10 @@ func GetHandler(e *data.Envelope, db data.DB, c conn.Connection) {
 			return
 		}
 
-		// FIXME: INJECT!
 		err = db.PopulateById(model)
 
 		if err != nil {
-			if err == mgo.ErrNotFound {
-				// Handle the error here
+			if err == data.NotFoundError {
 				c.WriteJSON(util.ApiError{404, 404, "Not Found", "Bad id?"})
 				return
 			}
