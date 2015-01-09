@@ -44,7 +44,8 @@ func (db *MongoDB) Save(m data.Model) error {
 		logf("Error saving record of kind %s, err: %s", m.Kind(), err)
 		return err
 	} else {
-		*db.GetUpdatesChannel() <- m
+		// currently would block because nobody is there to read it
+		// *db.GetUpdatesChannel() <- m
 		return nil
 	}
 }

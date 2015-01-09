@@ -11,7 +11,6 @@ import (
 	"github.com/elos/server/data/models/user"
 	"github.com/elos/server/util"
 	"github.com/elos/server/util/auth"
-	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"net/http/httptest"
 )
@@ -187,7 +186,7 @@ var _ = Describe("Handlers", func() {
 	// AuthenticationHandler {{{
 	Describe("AuthenticationHandler", func() {
 		a := user.New()
-		a.SetId(bson.NewObjectId())
+		a.SetID(data.NewObjectID())
 		authed := true
 		var err error = nil
 
@@ -294,7 +293,7 @@ var _ = Describe("Handlers", func() {
 	Describe("AuthenticatedHandler", func() {
 
 		agent := user.New()
-		agent.SetId(bson.NewObjectId())
+		agent.SetID(data.NewObjectID())
 
 		var (
 			wr http.ResponseWriter

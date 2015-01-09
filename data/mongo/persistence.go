@@ -8,14 +8,17 @@ import (
 
 // Saves a model, broadcasted that save over ModelUpdates
 func save(s *mgo.Session, m data.Model) error {
-	logf("The models id looks like: %s", m.GetID())
 	collection, err := collectionFor(s, m)
 	if err != nil {
 		log(err)
 		return err
 	}
 
-	id := m.GetID()
+	id, ok := m.GetID().(bson.ObjectId)
+	if !ok {
+		log("Model id was not of type bson.ObjectId")
+	}
+
 	if err := data.CheckID(id); err != nil {
 		return err
 	}
