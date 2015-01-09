@@ -12,11 +12,10 @@ import (
 var _ = Describe("GorillaConnection", func() {
 	u := user.New()
 	c := NewNullConnection(u)
-
 	gc := NewGorillaConnection(c, u)
 
 	Describe("NewGorillaConnection", func() {
-		It("Allocates and returns a new Connection", func() {
+		It("Allocates and returns a new GorillaConnection", func() {
 			Expect(gc).NotTo(BeNil())
 			Expect(gc).To(BeAssignableToTypeOf(&GorillaConnection{}))
 		})
