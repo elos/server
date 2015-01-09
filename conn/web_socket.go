@@ -4,9 +4,13 @@ import (
 	"github.com/elos/server/data"
 	"github.com/gorilla/websocket"
 	"net/http"
+	"sync"
 )
 
 const WebSocketProtocolHeader = "Sec-WebSocket-Protocol"
+
+// A good default upgrader from gorilla/socket
+var DefaultWebSocketUpgrader WebSocketUpgrader = NewGorillaUpgrader(1024, 1024, true)
 
 // the utility a route will use to upgrade a request to a websocket
 type WebSocketUpgrader interface {
@@ -19,9 +23,17 @@ type NullUpgrader struct {
 	Upgraded   map[*http.Request]bool
 	Connection Connection
 	Error      error
+	m          sync.Mutex
+}
+
+func NewNullUpgrader(c Connection) *NullUpgrader {
+	return (&NullUpgrader{Connection: c}).Reset()
 }
 
 func (u *NullUpgrader) Upgrade(w http.ResponseWriter, r *http.Request, a data.Agent) (Connection, error) {
+	u.m.Lock()
+	defer u.m.Unlock()
+
 	if u.Error != nil {
 		return nil, u.Error
 	}
@@ -30,13 +42,19 @@ func (u *NullUpgrader) Upgrade(w http.ResponseWriter, r *http.Request, a data.Ag
 }
 
 func (u *NullUpgrader) Reset() *NullUpgrader {
+	u.m.Lock()
+	defer u.m.Unlock()
+
 	u.Upgraded = make(map[*http.Request]bool)
 	u.Error = nil
 	return u
 }
 
-func NewNullUpgrader(c Connection) WebSocketUpgrader {
-	return (&NullUpgrader{Connection: c}).Reset()
+func (u *NullUpgrader) SetError(e error) {
+	u.m.Lock()
+	defer u.m.Unlock()
+
+	u.Error = e
 }
 
 // }}}
@@ -56,7 +74,7 @@ func (u *GorillaUpgrader) Upgrade(w http.ResponseWriter, r *http.Request, a data
 	return NewGorillaConnection(wc, a), nil
 }
 
-func NewGorillaUpgrader(rbs int, wbs int, checkO bool) WebSocketUpgrader {
+func NewGorillaUpgrader(rbs int, wbs int, checkO bool) *GorillaUpgrader {
 	u := &websocket.Upgrader{
 		ReadBufferSize:  rbs,
 		WriteBufferSize: wbs,
@@ -70,9 +88,6 @@ func NewGorillaUpgrader(rbs int, wbs int, checkO bool) WebSocketUpgrader {
 }
 
 // Gorilla Upgrader }}}
-
-// A good default upgrader from gorilla/socket
-var DefaultWebSocketUpgrader WebSocketUpgrader = NewGorillaUpgrader(1024, 1024, true)
 
 func ExtractProtocolHeader(r *http.Request) http.Header {
 	header := http.Header{}
