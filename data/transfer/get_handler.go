@@ -9,7 +9,7 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
-func getHandler(e *data.Envelope, db data.DB, c conn.Connection) {
+func GetHandler(e *data.Envelope, db data.DB, c conn.Connection) {
 	// kind is db.Kind
 	// info is map[string]interface{}
 	for kind, info := range e.Data {

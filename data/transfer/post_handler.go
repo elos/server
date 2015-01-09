@@ -7,7 +7,7 @@ import (
 	"github.com/elos/server/util"
 )
 
-func postHandler(e *data.Envelope, db data.DB, c conn.Connection) {
+func PostHandler(e *data.Envelope, db data.DB, c conn.Connection) {
 	// Reminder
 	var kind data.Kind
 	var info map[string]interface{}
@@ -34,7 +34,5 @@ func postHandler(e *data.Envelope, db data.DB, c conn.Connection) {
 			c.WriteJSON(util.ApiError{400, 400, "Error saving the model", "Check yoself"})
 			return
 		}
-
-		// Model will be broadcasted as a sucessful save through ModelUpdate channel
 	}
 }
