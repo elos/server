@@ -6,7 +6,7 @@ import (
 )
 
 type TestDB struct {
-	ModelUpdates     chan data.Model
+	ModelUpdates     chan *data.Package
 	Saved            []data.Model
 	PopulatedById    []data.Model
 	PopulatedByField []data.Model
@@ -23,7 +23,7 @@ func NewDB() *TestDB {
 }
 
 func (db *TestDB) Reset() {
-	db.ModelUpdates = make(chan data.Model)
+	db.ModelUpdates = make(chan *data.Package)
 	db.Saved = make([]data.Model, 0)
 	db.PopulatedById = make([]data.Model, 0)
 	db.PopulatedByField = make([]data.Model, 0)
@@ -38,7 +38,7 @@ func (db *TestDB) Connect(addr string) error {
 	return nil
 }
 
-func (db *TestDB) RegisterForUpdates(a data.Agent) *chan data.Model {
+func (db *TestDB) RegisterForUpdates(a data.Agent) *chan *data.Package {
 	return &db.ModelUpdates
 }
 

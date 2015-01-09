@@ -38,6 +38,6 @@ func SetupDB(addr string) data.DB {
 */
 func ShutdownDB() {
 	// DBConnection.Close()
-	// needs word
+	// needs work
 	DB = nil
 }

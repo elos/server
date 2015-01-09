@@ -63,9 +63,9 @@ func (a *ClientDataAgent) Start() {
 			log.Print("WE HAVE A READ")
 			go transfer.Route(e, a.DB, a.Connection)
 			continue
-		case m := <-modelsChannel:
+		case p := <-modelsChannel:
 			log.Print("WE HAVE AN UPDATE")
-			a.WriteJSON(m)
+			a.WriteJSON(p)
 		case _ = <-a.stop:
 			//shutdown
 			continue

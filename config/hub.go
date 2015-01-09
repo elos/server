@@ -9,6 +9,7 @@ var ClientDataHub autonomous.Manager
 
 func SetupClientDataHub() {
 	ClientDataHub = managers.NewAgentHub()
+	go ClientDataHub.Run()
 }
 
 func ShutdownClientDataHub() {

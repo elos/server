@@ -11,7 +11,7 @@ type DB interface {
 
 	NewQuery(Kind) Query
 
-	RegisterForUpdates(Agent) *chan Model
+	RegisterForUpdates(Agent) *chan *Package
 }
 
 type DBConnection interface {
