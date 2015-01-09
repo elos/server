@@ -29,6 +29,26 @@ func save(s *mgo.Session, m data.Model) error {
 	return err
 }
 
+func remove(s *mgo.Session, m data.Model) error {
+	collection, err := collectionFor(s, m)
+	if err != nil {
+		log(err)
+		return err
+	}
+
+	id, ok := m.GetID().(bson.ObjectId)
+	if !ok {
+		log("Model id was not of the type bson.ObjectId")
+	}
+
+	if err := data.CheckID(id); err != nil {
+		return err
+	}
+
+	err = collection.RemoveId(id)
+	return err
+}
+
 // Populates the model data for an empty struct with a specified id
 func populateById(s *mgo.Session, m data.Model) error {
 	collection, err := collectionFor(s, m)

@@ -25,9 +25,7 @@ func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agen
 	logf("Agent with id %s just connected over websocket", a.GetID())
 
 	agent := agents.NewClientDataAgent(connection, user.DefaultDatabase)
-	log(agent)
-	hub.StartAgent(agent)
-	log(hub)
+	go hub.StartAgent(agent)
 }
 
 var AuthenticateGet = NewAuthenticationHandler(DefaultAuthenticator,

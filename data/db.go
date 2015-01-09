@@ -6,6 +6,7 @@ type DB interface {
 
 	// Persistence
 	Save(Model) error
+	Delete(Model) error
 	PopulateById(Model) error
 	PopulateByField(string, interface{}, Model) error
 

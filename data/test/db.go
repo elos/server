@@ -8,6 +8,7 @@ import (
 type TestDB struct {
 	ModelUpdates     chan *data.Package
 	Saved            []data.Model
+	Deleted          []data.Model
 	PopulatedById    []data.Model
 	PopulatedByField []data.Model
 
@@ -25,6 +26,7 @@ func NewDB() *TestDB {
 func (db *TestDB) Reset() {
 	db.ModelUpdates = make(chan *data.Package)
 	db.Saved = make([]data.Model, 0)
+	db.Deleted = make([]data.Model, 0)
 	db.PopulatedById = make([]data.Model, 0)
 	db.PopulatedByField = make([]data.Model, 0)
 	db.Error = false
@@ -48,6 +50,15 @@ func (db *TestDB) Save(m data.Model) error {
 	}
 
 	db.Saved = append(db.Saved, m)
+	return nil
+}
+
+func (db *TestDB) Delete(m data.Model) error {
+	if db.Error {
+		return TestDBError
+	}
+
+	db.Deleted = append(db.Deleted, m)
 	return nil
 }
 

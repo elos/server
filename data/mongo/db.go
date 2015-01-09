@@ -52,6 +52,24 @@ func (db *MongoDB) Save(m data.Model) error {
 	}
 }
 
+func (db *MongoDB) Delete(m data.Model) error {
+	s, err := newSession(db)
+	if err != nil {
+		log(err)
+		return err
+	}
+
+	defer s.Close()
+
+	if err = remove(s, m); err != nil {
+		logf("Error deleted record of kind %s, err: %s", m.Kind(), err)
+		return err
+	} else {
+		db.NotifyConcerned(m, transfer.DELETE)
+		return nil
+	}
+}
+
 func (db *MongoDB) PopulateById(m data.Model) error {
 	s, err := newSession(db)
 	if err != nil {
