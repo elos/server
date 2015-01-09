@@ -2,21 +2,20 @@ package event
 
 import (
 	"github.com/elos/server/data"
-	"gopkg.in/mgo.v2/bson"
 )
 
 func (e *Event) Save() error {
 	return db.Save(e)
 }
 
-func (e *Event) Concerned() []bson.ObjectId {
-	a := make([]bson.ObjectId, 1)
+func (e *Event) Concerned() []data.ID {
+	a := make([]data.ID, 1)
 	a[0] = e.UserId
 	return a
 }
 
-func (e *Event) SetUser(userId bson.ObjectId) error {
-	if err := data.CheckId(userId); err != nil {
+func (e *Event) SetUser(userId data.ID) error {
+	if err := data.CheckID(userId); err != nil {
 		return err
 	}
 

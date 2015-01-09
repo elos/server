@@ -8,14 +8,15 @@ import (
 
 // Saves a model, broadcasted that save over ModelUpdates
 func save(s *mgo.Session, m data.Model) error {
+	logf("The models id looks like: %s", m.GetID())
 	collection, err := collectionFor(s, m)
 	if err != nil {
 		log(err)
 		return err
 	}
 
-	id := m.GetId()
-	if err := data.CheckId(id); err != nil {
+	id := m.GetID()
+	if err := data.CheckID(id); err != nil {
 		return err
 	}
 
@@ -33,12 +34,12 @@ func populateById(s *mgo.Session, m data.Model) error {
 		return err
 	}
 
-	id := m.GetId()
-	if err := data.CheckId(id); err != nil {
+	id := m.GetID()
+	if err := data.CheckID(id); err != nil {
 		return err
 	}
 
-	return collection.FindId(m.GetId()).One(m)
+	return collection.FindId(m.GetID()).One(m)
 }
 
 func populateByField(s *mgo.Session, m data.Model, field string, value interface{}) error {

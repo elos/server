@@ -65,7 +65,7 @@ func HandleSignals() {
 func Shutdown(sig os.Signal) {
 	logging.Log.Logs(programName, "Shutting down server")
 	config.ShutdownDB()
-	config.ShutdownClientDataHub()
+	// config.ShutdownClientDataHub()
 	// mongo.StopDatabaseServer(sig)
 	os.Exit(0)
 }

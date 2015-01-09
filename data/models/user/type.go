@@ -6,7 +6,6 @@ import (
 
 	"github.com/elos/server/data"
 	"github.com/elos/server/util"
-	"gopkg.in/mgo.v2/bson"
 )
 
 // Definition {{{
@@ -15,15 +14,15 @@ const Kind data.Kind = "user"
 
 type User struct {
 	// Core
-	Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
+	ID        data.ID   `json:"id" bson:"_id,omitempty"`
+	CreatedAt time.Time `json:"created_at" bson:"created_at"`
 
 	// Properties
 	Name string `json:"name"`
 	Key  string `json:"key"`
 
 	// Links
-	EventIds []bson.ObjectId `json:"event_ids", bson:"event_ids"`
+	EventIds []data.ID `json:"event_ids", bson:"event_ids"`
 }
 
 // }}}
@@ -38,7 +37,7 @@ func New() *User {
 // Creates a with a NAME
 func Create(name string) (*User, error) {
 	user := &User{
-		Id:        bson.NewObjectId(),
+		ID:        data.NewObjectID(),
 		CreatedAt: time.Now(),
 		Name:      name,
 		Key:       util.RandomString(64),
@@ -61,7 +60,7 @@ func Create(name string) (*User, error) {
 	otherwise, the user's credentials were malformed.
 */
 func Authenticate(id string, key string) (data.Model, bool, error) {
-	user, err := Find(bson.ObjectIdHex(id))
+	user, err := Find(data.NewObjectIDFromHex(id))
 
 	if err != nil {
 		return user, false, err
@@ -75,9 +74,9 @@ func Authenticate(id string, key string) (data.Model, bool, error) {
 }
 
 // Finds a user model by an id
-func Find(id bson.ObjectId) (data.Model, error) {
+func Find(id data.ID) (data.Model, error) {
 	user := &User{
-		Id: id,
+		ID: id,
 	}
 
 	// Find a user that has specified id

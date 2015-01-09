@@ -2,21 +2,20 @@ package user
 
 import (
 	"github.com/elos/server/data"
-	"gopkg.in/mgo.v2/bson"
 )
 
 func (u *User) Save() error {
 	return db.Save(u)
 }
 
-func (u *User) Concerned() []bson.ObjectId {
-	a := make([]bson.ObjectId, 1)
-	a[0] = u.Id
+func (u *User) Concerned() []data.ID {
+	a := make([]data.ID, 1)
+	a[0] = u.ID
 	return a
 }
 
-func (u *User) AddEvent(eventId bson.ObjectId) error {
-	if err := data.CheckId(eventId); err != nil {
+func (u *User) AddEvent(eventId data.ID) error {
+	if err := data.CheckID(eventId); err != nil {
 		return err
 	}
 
@@ -28,8 +27,8 @@ func (u *User) AddEvent(eventId bson.ObjectId) error {
 	return nil
 }
 
-func (u *User) RemoveEvent(eventId bson.ObjectId) error {
-	if err := data.CheckId(eventId); err != nil {
+func (u *User) RemoveEvent(eventId data.ID) error {
+	if err := data.CheckID(eventId); err != nil {
 		return err
 	}
 
@@ -37,7 +36,7 @@ func (u *User) RemoveEvent(eventId bson.ObjectId) error {
 
 	if eventIds[eventId] {
 		eventIds[eventId] = false
-		ids := make([]bson.ObjectId, 0)
+		ids := make([]data.ID, 0)
 		for id := range eventIds {
 			if eventIds[id] {
 				ids = append(ids, id)

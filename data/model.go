@@ -2,7 +2,6 @@ package data
 
 import (
 	"errors"
-	"gopkg.in/mgo.v2/bson"
 )
 
 /*
@@ -13,18 +12,18 @@ type Kind string
 
 type Model interface {
 	// Core
-	SetId(bson.ObjectId)
-	GetId() bson.ObjectId
+	SetID(ID)
+	GetID() ID
 	Kind() Kind
 
 	// Persistence
 	Save() error
 
 	// For model updates
-	Concerned() []bson.ObjectId
+	Concerned() []ID
 }
 
-func CheckId(id bson.ObjectId) error {
+func CheckID(id ID) error {
 	if !id.Valid() {
 		return errors.New("Invalid Id")
 	}

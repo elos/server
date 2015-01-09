@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/elos/server/data"
-	"gopkg.in/mgo.v2/bson"
 )
 
 // Definition {{{
@@ -14,8 +13,8 @@ const Kind data.Kind = "event"
 
 type Event struct {
 	// Core
-	Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
+	ID        data.ID   `json:"id" bson:"_id,omitempty"`
+	CreatedAt time.Time `json:"created_at" bson:"created_at"`
 
 	// Properties
 	Name      string    `json:"name"`
@@ -24,7 +23,7 @@ type Event struct {
 
 	// Links
 	// User   Link          `json:"user" bson:"user"`
-	UserId bson.ObjectId `json:"user_id" bson:"user_id,omitempty"`
+	UserId data.ID `json:"user_id" bson:"user_id,omitempty"`
 }
 
 // }}}
@@ -36,23 +35,23 @@ func New() *Event {
 }
 
 func Create(name string, userIdString string) (data.Model, error) {
-	if !bson.IsObjectIdHex(userIdString) {
+	if !data.IsObjectIDHex(userIdString) {
 		return nil, errors.New("Invalid userId")
 	}
 
-	userId := bson.ObjectIdHex(userIdString)
-	if err := data.CheckId(userId); err != nil {
+	userId := data.NewObjectIDFromHex(userIdString)
+	if err := data.CheckID(userId); err != nil {
 		return nil, err
 	}
 
 	event := &Event{
-		Id:        userId,
+		ID:        userId,
 		CreatedAt: time.Now(),
 		Name:      name,
 	}
 
 	/*
-		user, _ := models.Find(models.UserKind, bson.ObjectIdHex(userId))
+		user, _ := models.Find(models.UserKind, data.IDHex(userId))
 
 		db.PopulateById(user)
 
@@ -70,10 +69,9 @@ func Create(name string, userIdString string) (data.Model, error) {
 
 // Type Methods {{{
 
-func Find(id bson.ObjectId) (data.Model, error) {
-
+func Find(id data.ID) (data.Model, error) {
 	event := New()
-	event.Id = id
+	event.ID = id
 
 	if err := db.PopulateById(event); err != nil {
 		return event, err

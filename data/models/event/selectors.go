@@ -2,15 +2,14 @@ package event
 
 import (
 	"github.com/elos/server/data"
-	"gopkg.in/mgo.v2/bson"
 )
 
-func (e *Event) GetId() bson.ObjectId {
-	return e.Id
+func (e *Event) GetID() data.ID {
+	return e.ID
 }
 
-func (e *Event) SetId(id bson.ObjectId) {
-	e.Id = id
+func (e *Event) SetID(id data.ID) {
+	e.ID = id
 }
 
 func (e *Event) Kind() data.Kind {

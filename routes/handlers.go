@@ -174,7 +174,7 @@ func (h *AuthenticationHandler) ServeHTTP(w http.ResponseWriter, r *http.Request
 
 	if authenticated {
 		h.AuthenticatedHandler.ServeHTTP(w, r, agent)
-		logf("Agent with id %s authenticated", agent.GetId())
+		logf("Agent with id %s authenticated", agent.GetID())
 	} else {
 		h.NewUnauthorizedHandler("Not authenticated").ServeHTTP(w, r)
 	}

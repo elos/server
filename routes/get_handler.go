@@ -1,18 +1,18 @@
 package routes
 
 import (
+	"fmt"
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models"
 	"github.com/elos/server/services/agents"
 	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 )
 
 func getHandler(e *data.Envelope, db data.DB, cda agents.ClientDataAgent) {
 	// kind is db.Kind
-	// data is map[string]interface{}
-	for kind, data := range e.Data {
+	// info is map[string]interface{}
+	for kind, info := range e.Data {
 		model, err := models.ModelFor(kind)
 
 		if err != nil {
@@ -20,10 +20,10 @@ func getHandler(e *data.Envelope, db data.DB, cda agents.ClientDataAgent) {
 			return
 		}
 
-		err = models.PopulateModel(model, &data)
+		err = models.PopulateModel(model, &info)
 
-		if id := model.GetId(); id == bson.ObjectId("") {
-			cda.WriteJSON(util.ApiError{400, 400, "Invalid ID", ""})
+		if err := data.CheckID(model.GetID()); err != nil {
+			cda.WriteJSON(util.ApiError{400, 400, "Invalid ID", fmt.Sprintf("%s", err)})
 			return
 		}
 
