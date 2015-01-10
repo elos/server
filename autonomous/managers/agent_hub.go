@@ -16,7 +16,7 @@ type AgentHub struct {
 	registeredAgents map[autonomous.Agent]bool
 }
 
-func NewAgentHub() autonomous.Manager {
+func NewAgentHub() *AgentHub {
 	return &AgentHub{
 		Start:            make(chan autonomous.Agent),
 		Stop:             make(chan autonomous.Agent),

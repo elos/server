@@ -3,6 +3,7 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models/event"
@@ -56,10 +57,12 @@ func PopulateModel(model data.Model, attributes *map[string]interface{}) error {
 	bytes, err := json.Marshal(attributes)
 
 	if err != nil {
+		log.Printf("This is the error: %s", err)
 		return err
 	}
 
 	if err := json.Unmarshal(bytes, model); err != nil {
+		log.Printf("This is the error: %s", err)
 		return err
 	}
 

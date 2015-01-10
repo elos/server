@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/elos/server/data"
+	"gopkg.in/mgo.v2/bson"
 )
 
 // Definition {{{
@@ -13,8 +14,8 @@ const Kind data.Kind = "event"
 
 type Event struct {
 	// Core
-	ID        data.ID   `json:"id" bson:"_id,omitempty"`
-	CreatedAt time.Time `json:"created_at" bson:"created_at"`
+	ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
 
 	// Properties
 	Name      string    `json:"name"`
@@ -45,7 +46,7 @@ func Create(name string, userIdString string) (data.Model, error) {
 	}
 
 	event := &Event{
-		ID:        userId,
+		ID:        userId.(bson.ObjectId),
 		CreatedAt: time.Now(),
 		Name:      name,
 	}
@@ -71,7 +72,7 @@ func Create(name string, userIdString string) (data.Model, error) {
 
 func Find(id data.ID) (data.Model, error) {
 	event := New()
-	event.ID = id
+	event.ID = id.(bson.ObjectId)
 
 	if err := db.PopulateById(event); err != nil {
 		return event, err

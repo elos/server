@@ -21,6 +21,8 @@ type NullConnection struct {
 	Error  error
 	agent  data.Agent
 	m      sync.Mutex
+
+	LastWrite interface{}
 }
 
 // Allocates and returns a new *NullConnection
@@ -57,6 +59,8 @@ func (c *NullConnection) WriteJSON(v interface{}) error {
 	if c.Closed {
 		return ConnectionClosedError
 	}
+
+	c.LastWrite = v
 
 	c.Writes[v] = true
 	return nil

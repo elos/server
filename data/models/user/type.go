@@ -6,6 +6,7 @@ import (
 
 	"github.com/elos/server/data"
 	"github.com/elos/server/util"
+	"gopkg.in/mgo.v2/bson"
 )
 
 // Definition {{{
@@ -14,8 +15,8 @@ const Kind data.Kind = "user"
 
 type User struct {
 	// Core
-	ID        data.ID   `json:"id" bson:"_id,omitempty"`
-	CreatedAt time.Time `json:"created_at" bson:"created_at"`
+	ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
 
 	// Properties
 	Name string `json:"name"`
@@ -37,7 +38,7 @@ func New() *User {
 // Creates a with a NAME
 func Create(name string) (*User, error) {
 	user := &User{
-		ID:        data.NewObjectID(),
+		ID:        data.NewObjectID().(bson.ObjectId),
 		CreatedAt: time.Now(),
 		Name:      name,
 		Key:       util.RandomString(64),
@@ -76,7 +77,7 @@ func Authenticate(id string, key string) (data.Model, bool, error) {
 // Finds a user model by an id
 func Find(id data.ID) (data.Model, error) {
 	user := &User{
-		ID: id,
+		ID: id.(bson.ObjectId),
 	}
 
 	// Find a user that has specified id

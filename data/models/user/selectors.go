@@ -2,6 +2,7 @@ package user
 
 import (
 	"github.com/elos/server/data"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func (u *User) Kind() data.Kind {
@@ -9,7 +10,10 @@ func (u *User) Kind() data.Kind {
 }
 
 func (u *User) SetID(id data.ID) {
-	u.ID = id
+	vid, ok := id.(bson.ObjectId)
+	if ok {
+		u.ID = vid
+	}
 }
 
 func (u *User) GetID() data.ID {

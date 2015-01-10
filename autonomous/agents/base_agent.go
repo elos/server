@@ -50,7 +50,6 @@ func (b *BaseAgent) GetManager() autonomous.Manager {
 }
 
 func (b *BaseAgent) Stop() {
-
 	go func() { b.stop <- true }()
 }
 
@@ -77,4 +76,11 @@ func (b *BaseAgent) DecrementProcesses() {
 	defer b.m.Unlock()
 
 	b.processes -= 1
+}
+
+func (b *BaseAgent) Start() {
+	b.m.Lock()
+	defer b.m.Unlock()
+
+	b.running = true
 }
