@@ -11,12 +11,10 @@ import (
 type Kind string
 
 type Model interface {
-	// Core
-	SetID(ID)
-	GetID() ID
-	Kind() Kind
+	Agent
 
-	// Persistence
+	SetID(ID)
+	Kind() Kind
 	Save() error
 
 	// For model updates

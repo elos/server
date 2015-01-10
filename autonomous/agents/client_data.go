@@ -9,21 +9,18 @@ import (
 )
 
 type ClientDataAgent struct {
-	running bool
-	stop    chan bool
-	read    chan *data.Envelope
+	*BaseAgent
+	DB data.DB
 
-	DB         data.DB
-	DataAgent  data.Agent
-	Manager    autonomous.Manager
+	read       chan *data.Envelope
 	Connection conn.Connection
 }
 
 func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 	a := &ClientDataAgent{
+		BaseAgent:  NewBaseAgent(),
 		Connection: c,
 		DB:         db,
-		stop:       make(chan bool),
 		read:       make(chan *data.Envelope),
 	}
 
@@ -32,30 +29,10 @@ func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 	return a
 }
 
-func (a *ClientDataAgent) SetDataAgent(da data.Agent) {
-	if da != nil {
-		a.DataAgent = da
-	}
-}
-
-func (a *ClientDataAgent) GetDataAgent() data.Agent {
-	return a.DataAgent
-}
-
-func (a *ClientDataAgent) SetManager(m autonomous.Manager) {
-	if m != nil {
-		a.Manager = m
-	}
-}
-
-func (a *ClientDataAgent) GetManager() autonomous.Manager {
-	return a.Manager
-}
-
 func (a *ClientDataAgent) Start() {
 	go ReadConnection(a.Connection, &a.read, &a.stop)
 
-	modelsChannel := *a.DB.RegisterForUpdates(a.DataAgent)
+	modelsChannel := *a.DB.RegisterForUpdates(a.GetDataAgent())
 
 	for {
 		select {
@@ -71,18 +48,6 @@ func (a *ClientDataAgent) Start() {
 			continue
 		}
 	}
-}
-
-func (a *ClientDataAgent) Stop() {
-	a.stop <- true
-}
-
-func (a *ClientDataAgent) Kill() {
-	a.stop <- true
-}
-
-func (a *ClientDataAgent) Alive() bool {
-	return a.running
 }
 
 func ReadConnection(c conn.Connection, rc *chan *data.Envelope, endChannel *chan bool) {

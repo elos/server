@@ -7,15 +7,13 @@ import (
 
 var ConnectionClosedError = errors.New("SocketConnection is closed")
 
-type Connection interface {
-	Agent() data.Agent
+type AnonConnection interface {
 	WriteJSON(interface{}) error
 	ReadJSON(interface{}) error
 	Close() error
 }
 
-type AnonConnection interface {
-	WriteJSON(interface{}) error
-	ReadJSON(interface{}) error
-	Close() error
+type Connection interface {
+	AnonConnection
+	Agent() data.Agent
 }

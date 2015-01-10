@@ -4,13 +4,11 @@ import (
 	"github.com/elos/server/autonomous/managers"
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models/user"
-	// 	"log"
 )
 
 var Outfitter *managers.Outfitter
 
 func SetupServices(db data.DB) {
-	return
 	Outfitter = managers.NewOutfitter()
 	go Outfitter.Run()
 
