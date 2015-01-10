@@ -6,30 +6,49 @@ import (
 )
 
 type NullHub struct {
+	Alive            bool
 	m                sync.Mutex
-	registeredAgents map[autonomous.Agent]bool
+	RegisteredAgents map[autonomous.Agent]bool
 }
 
-func NewNullHub() autonomous.Manager {
+func NewNullHub() *NullHub {
 	return &NullHub{
-		registeredAgents: make(map[autonomous.Agent]bool),
+		RegisteredAgents: make(map[autonomous.Agent]bool),
 	}
 }
 
 func (h *NullHub) StartAgent(a autonomous.Agent) {
 	h.m.Lock()
-	h.registeredAgents[a] = true
-	h.m.Unlock()
+	defer h.m.Unlock()
+
+	h.RegisteredAgents[a] = true
 }
 
 func (h *NullHub) StopAgent(a autonomous.Agent) {
 	h.m.Lock()
-	h.registeredAgents[a] = false
-	h.m.Unlock()
+	defer h.m.Unlock()
+
+	h.RegisteredAgents[a] = false
 }
 
 func (h *NullHub) Run() {
+	h.m.Lock()
+	defer h.m.Unlock()
+
+	h.Alive = true
 }
 
 func (h *NullHub) Die() {
+	h.m.Lock()
+	defer h.m.Unlock()
+
+	h.Alive = false
+}
+
+func (h *NullHub) Reset() {
+	h.m.Lock()
+	defer h.m.Unlock()
+
+	h.Alive = false
+	h.RegisteredAgents = make(map[autonomous.Agent]bool)
 }
