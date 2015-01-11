@@ -11,7 +11,7 @@ import (
 	"github.com/elos/server/data/models/user"
 )
 
-var DefaultClientDataHub = managers.NewNullHub()
+var DefaultClientDataHub autonomous.Manager = managers.NewNullHub()
 
 func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agent, upgrader conn.WebSocketUpgrader, hub autonomous.Manager) {
 	connection, err := upgrader.Upgrade(w, r, a)
