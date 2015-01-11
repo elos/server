@@ -18,6 +18,7 @@ var _ = Describe("AgentHub", func() {
 		})
 
 		It("Allocates and returns a *AgentHub", func() {
+			Expect(true).To(BeTrue())
 		})
 
 		It("Allocates the Start Channel", func() {
