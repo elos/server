@@ -2,6 +2,7 @@ package managers
 
 import (
 	"github.com/elos/server/autonomous"
+	"log"
 )
 
 /*
@@ -43,17 +44,25 @@ func (h *AgentHub) Run() {
 			go a.Start()
 			h.registeredAgents[a] = false
 		case _ = <-h.die:
+			log.Print("hello")
+			h.Shutdown()
+			log.Print("there")
 			break
 		}
 	}
 }
 
 func (h *AgentHub) Die() {
+	log.Print("woah")
 	h.die <- true
+	log.Print("woah")
 }
 
 func (h *AgentHub) Shutdown() {
+	log.Print("hey")
 	for a, _ := range h.registeredAgents {
+		log.Print("ho")
 		go a.Stop()
+		log.Print("ho2")
 	}
 }
