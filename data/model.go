@@ -11,10 +11,10 @@ import (
 type Kind string
 
 type Model interface {
-	Agent
-
-	SetID(ID)
 	Kind() Kind
+
+	GetID() ID
+	SetID(ID)
 	Save() error
 
 	// For model updates

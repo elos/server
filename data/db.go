@@ -13,6 +13,8 @@ type DB interface {
 	NewQuery(Kind) Query
 
 	RegisterForUpdates(Agent) *chan *Package
+
+	Type() string
 }
 
 type DBConnection interface {

@@ -4,17 +4,7 @@ import (
 	"github.com/elos/server/data"
 )
 
-func (u *User) Save() error {
-	return db.Save(u)
-}
-
-func (u *User) Concerned() []data.ID {
-	a := make([]data.ID, 1)
-	a[0] = u.ID
-	return a
-}
-
-func (u *User) AddEvent(eventId data.ID) error {
+func (u *MongoUser) AddEvent(eventId data.ID) error {
 	if err := data.CheckID(eventId); err != nil {
 		return err
 	}
@@ -27,7 +17,7 @@ func (u *User) AddEvent(eventId data.ID) error {
 	return nil
 }
 
-func (u *User) RemoveEvent(eventId data.ID) error {
+func (u *MongoUser) RemoveEvent(eventId data.ID) error {
 	if err := data.CheckID(eventId); err != nil {
 		return err
 	}

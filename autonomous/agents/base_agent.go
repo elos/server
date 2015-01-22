@@ -3,6 +3,7 @@ package agents
 import (
 	"github.com/elos/server/autonomous"
 	"github.com/elos/server/data"
+	"log"
 	"sync"
 )
 
@@ -61,6 +62,8 @@ func (b *BaseAgent) Kill() {
 func (b *BaseAgent) Alive() bool {
 	b.m.Lock()
 	defer b.m.Unlock()
+	log.Printf("This is the alive function, this agent is: %s", b.running)
+
 	return b.running
 }
 
@@ -81,6 +84,7 @@ func (b *BaseAgent) DecrementProcesses() {
 func (b *BaseAgent) Start() {
 	b.m.Lock()
 	defer b.m.Unlock()
+	log.Print("BASE AGENT START")
 
 	b.running = true
 }

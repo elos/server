@@ -9,6 +9,8 @@ import (
 	"sync"
 )
 
+const MongoDBType = "mongo"
+
 type MongoDB struct {
 	Connections []*MongoConnection
 	Subscribers map[data.ID][]*chan *data.Package
@@ -21,6 +23,10 @@ func NewDB(addr string) (data.DB, error) {
 	db.Connect(addr)
 	db.Subscribers = make(map[data.ID][]*chan *data.Package)
 	return db, nil
+}
+
+func (db *MongoDB) Type() string {
+	return MongoDBType
 }
 
 func (db *MongoDB) Connect(addr string) error {

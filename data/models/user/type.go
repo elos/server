@@ -9,35 +9,38 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// Definition {{{
-
 const Kind data.Kind = "user"
 
-type User struct {
-	// Core
-	ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
-
-	// Properties
-	Name string `json:"name"`
-	Key  string `json:"key"`
-
-	// Links
-	EventIds []data.ID `json:"event_ids", bson:"event_ids"`
+type User interface {
+	data.Model
+	/*
+		SetCreatedAt(time.Time)
+		GetCreatedAt(time.Time)
+		SetName(string)
+		GetName(string)
+		SetKey(string)
+		GetKey(string)
+	*/
 }
-
-// }}}
 
 // Constructors {{{
 
 // Returns a new empty user struct
-func New() *User {
-	return &User{}
+func New( /*db data.DB*/ ) User {
+	/*
+		switch db.Type() {
+		case "mongo":
+			return &MongoUser{}
+		default:
+			return &MongoUser{}
+		}
+	*/
+	return &MongoUser{}
 }
 
 // Creates a with a NAME
-func Create(name string) (*User, error) {
-	user := &User{
+func Create(name string) (User, error) {
+	user := &MongoUser{
 		ID:        data.NewObjectID().(bson.ObjectId),
 		CreatedAt: time.Now(),
 		Name:      name,
@@ -67,7 +70,7 @@ func Authenticate(id string, key string) (data.Model, bool, error) {
 		return user, false, err
 	}
 
-	if user.(*User).Key != key {
+	if user.(*MongoUser).Key != key {
 		return user, false, fmt.Errorf("Invalid key")
 	}
 
@@ -76,7 +79,7 @@ func Authenticate(id string, key string) (data.Model, bool, error) {
 
 // Finds a user model by an id
 func Find(id data.ID) (data.Model, error) {
-	user := &User{
+	user := &MongoUser{
 		ID: id.(bson.ObjectId),
 	}
 
@@ -90,7 +93,7 @@ func Find(id data.ID) (data.Model, error) {
 
 // Finds a user by some field and its value
 func FindUserBy(field string, value interface{}) (data.Model, error) {
-	user := &User{}
+	user := &MongoUser{}
 
 	if err := db.PopulateByField(field, value, user); err != nil {
 		return user, err
