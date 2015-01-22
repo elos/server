@@ -37,7 +37,7 @@ func Type(kind data.Kind) (data.Model, error) {
 	var model data.Model
 
 	switch kind {
-	case event.Kind:
+	case models.EventKind:
 		model = event.New()
 	case models.UserKind:
 		model = user.New()

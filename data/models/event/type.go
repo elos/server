@@ -8,31 +8,8 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// Definition {{{
-
-const Kind data.Kind = "event"
-
-type Event struct {
-	// Core
-	ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
-
-	// Properties
-	Name      string    `json:"name"`
-	StartTime time.Time `json:"start_time" bson:"start_time"`
-	EndTime   time.Time `json:"end_time" bson:"end_time"`
-
-	// Links
-	// User   Link          `json:"user" bson:"user"`
-	UserId data.ID `json:"user_id" bson:"user_id,omitempty"`
-}
-
-// }}}
-
-// Constructors {{{
-
-func New() *Event {
-	return &Event{}
+func New() data.Model {
+	return &MongoEvent{}
 }
 
 func Create(name string, userIdString string) (data.Model, error) {
@@ -45,7 +22,7 @@ func Create(name string, userIdString string) (data.Model, error) {
 		return nil, err
 	}
 
-	event := &Event{
+	event := &MongoEvent{
 		ID:        userId.(bson.ObjectId),
 		CreatedAt: time.Now(),
 		Name:      name,
@@ -66,13 +43,9 @@ func Create(name string, userIdString string) (data.Model, error) {
 	}
 }
 
-// }}}
-
-// Type Methods {{{
-
 func Find(id data.ID) (data.Model, error) {
 	event := New()
-	event.ID = id.(bson.ObjectId)
+	event.SetID(id.(bson.ObjectId))
 
 	if err := db.PopulateById(event); err != nil {
 		return event, err
@@ -82,7 +55,7 @@ func Find(id data.ID) (data.Model, error) {
 }
 
 func FindEventBy(field string, value interface{}) (data.Model, error) {
-	event := &Event{}
+	event := &MongoEvent{}
 
 	if err := db.PopulateByField(field, value, event); err != nil {
 		return event, err
@@ -90,5 +63,3 @@ func FindEventBy(field string, value interface{}) (data.Model, error) {
 
 	return event, nil
 }
-
-// }}}
