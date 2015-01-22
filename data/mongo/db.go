@@ -3,7 +3,7 @@ package mongo
 import (
 	"fmt"
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models"
+	"github.com/elos/server/data/models/serialization"
 	"github.com/elos/server/data/transfer"
 	"gopkg.in/mgo.v2"
 	"sync"
@@ -131,7 +131,7 @@ func (db *MongoDB) RegisterForUpdates(a data.Agent) *chan *data.Package {
 }
 
 func (db *MongoDB) NotifyConcerned(m data.Model, action string) {
-	p := models.NewPackage(action, m)
+	p := serialization.NewPackage(action, m)
 	concerned := m.Concerned()
 	for _, concernedId := range concerned {
 		channels := db.Subscribers[concernedId]

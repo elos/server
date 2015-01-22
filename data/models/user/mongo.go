@@ -2,11 +2,14 @@ package user
 
 import (
 	"github.com/elos/server/data"
+	"github.com/elos/server/data/models"
 	"gopkg.in/mgo.v2/bson"
 	"time"
 )
 
 type MongoUser struct {
+	LoadedAt time.Time `json:"-" bson:"-"`
+
 	ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
 	UpdatedAt time.Time     `json:"updated_at" bson:"updated_at"`
@@ -20,7 +23,7 @@ type MongoUser struct {
 }
 
 func (u *MongoUser) Kind() data.Kind {
-	return Kind
+	return models.UserKind
 }
 
 func (u *MongoUser) SetID(id data.ID) {
@@ -96,4 +99,32 @@ func (u *MongoUser) EventIdsHash() map[data.ID]bool {
 	}
 
 	return hash
+}
+
+func (u *MongoUser) SetCreatedAt(t time.Time) {
+	u.CreatedAt = t
+}
+
+func (u *MongoUser) GetCreatedAt() time.Time {
+	return u.CreatedAt
+}
+
+func (u *MongoUser) SetUpdatedAt(t time.Time) {
+	u.UpdatedAt = t
+}
+
+func (u *MongoUser) GetUpdatedAt() time.Time {
+	return u.UpdatedAt
+}
+
+func (u *MongoUser) GetLoadedAt() time.Time {
+	return u.LoadedAt
+}
+
+func (u *MongoUser) SetKey(s string) {
+	u.Key = s
+}
+
+func (u *MongoUser) GetKey() string {
+	return u.Key
 }

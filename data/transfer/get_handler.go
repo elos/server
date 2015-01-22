@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/elos/server/conn"
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models"
+	"github.com/elos/server/data/models/serialization"
 	"github.com/elos/server/util"
 )
 
@@ -12,14 +12,14 @@ func GetHandler(e *data.Envelope, db data.DB, c conn.Connection) {
 	// kind is db.Kind
 	// info is map[string]interface{}
 	for kind, info := range e.Data {
-		model, err := models.ModelFor(kind)
+		model, err := serialization.ModelFor(kind)
 
 		if err != nil {
 			c.WriteJSON(util.ApiError{400, 400, "Oh shit", ""})
 			return
 		}
 
-		err = models.PopulateModel(model, &info)
+		err = serialization.PopulateModel(model, &info)
 
 		if err := data.CheckID(model.GetID()); err != nil {
 			c.WriteJSON(util.ApiError{400, 400, "Invalid ID", fmt.Sprintf("%s", err)})
