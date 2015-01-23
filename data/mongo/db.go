@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models/serialization"
-	"github.com/elos/server/data/transfer"
 	"gopkg.in/mgo.v2"
 	"sync"
 )
@@ -53,7 +52,7 @@ func (db *MongoDB) Save(m data.Record) error {
 		logf("Error saving record of kind %s, err: %s", m.Kind(), err)
 		return err
 	} else {
-		db.NotifyConcerned(m, transfer.POST)
+		db.NotifyConcerned(m, data.POST)
 		return nil
 	}
 }
@@ -71,7 +70,7 @@ func (db *MongoDB) Delete(m data.Record) error {
 		logf("Error deleted record of kind %s, err: %s", m.Kind(), err)
 		return err
 	} else {
-		db.NotifyConcerned(m, transfer.DELETE)
+		db.NotifyConcerned(m, data.DELETE)
 		return nil
 	}
 }
@@ -131,7 +130,7 @@ func (db *MongoDB) RegisterForUpdates(a data.Agent) *chan *data.Package {
 }
 
 func (db *MongoDB) NotifyConcerned(m data.Record, action string) {
-	p := serialization.NewPackage(action, m)
+	p := data.NewPackage(action, serialization.Map(m))
 	concerned := m.Concerned()
 	for _, concernedId := range concerned {
 		channels := db.Subscribers[concernedId]

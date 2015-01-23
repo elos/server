@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/elos/server/data"
+	"github.com/elos/server/data/mongo"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -13,11 +14,11 @@ func New() data.Record {
 }
 
 func Create(name string, userIdString string) (data.Record, error) {
-	if !data.IsObjectIDHex(userIdString) {
+	if !mongo.IsObjectIDHex(userIdString) {
 		return nil, errors.New("Invalid userId")
 	}
 
-	userId := data.NewObjectIDFromHex(userIdString)
+	userId := mongo.NewObjectIDFromHex(userIdString)
 	if err := data.CheckID(userId); err != nil {
 		return nil, err
 	}

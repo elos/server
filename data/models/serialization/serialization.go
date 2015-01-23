@@ -11,13 +11,6 @@ import (
 	"github.com/elos/server/data/models/user"
 )
 
-func NewPackage(action string, m data.Record) *data.Package {
-	return &data.Package{
-		Action: action,
-		Data:   Map(m),
-	}
-}
-
 /*
 	Returns a map like:
 	{ user: { Name: "Nick Landolfi"} }
