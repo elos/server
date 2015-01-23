@@ -28,6 +28,6 @@ func collectionForKind(s *mgo.Session, k data.Kind) (*mgo.Collection, error) {
 	return database(s).C(collectionForKind), nil
 }
 
-func collectionFor(s *mgo.Session, m data.Model) (*mgo.Collection, error) {
+func collectionFor(s *mgo.Session, m data.Record) (*mgo.Collection, error) {
 	return collectionForKind(s, m.Kind())
 }

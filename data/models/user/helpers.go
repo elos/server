@@ -12,7 +12,7 @@ import (
 	If the second return value is true, the user's credentials have been validated
 	otherwise, the user's credentials were malformed.
 */
-func Authenticate(id string, key string) (data.Model, bool, error) {
+func Authenticate(id string, key string) (data.Record, bool, error) {
 	user, err := Find(data.NewObjectIDFromHex(id))
 
 	if err != nil {
@@ -27,7 +27,7 @@ func Authenticate(id string, key string) (data.Model, bool, error) {
 }
 
 // Finds a user model by an id
-func Find(id data.ID) (data.Model, error) {
+func Find(id data.ID) (data.Record, error) {
 	user := &MongoUser{
 		ID: id.(bson.ObjectId),
 	}
@@ -41,7 +41,7 @@ func Find(id data.ID) (data.Model, error) {
 }
 
 // Finds a user by some field and its value
-func FindUserBy(field string, value interface{}) (data.Model, error) {
+func FindUserBy(field string, value interface{}) (data.Record, error) {
 	user := &MongoUser{}
 
 	if err := db.PopulateByField(field, value, user); err != nil {

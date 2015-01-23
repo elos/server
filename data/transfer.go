@@ -21,10 +21,10 @@ func NewEnvelope(action string, data map[Kind]map[string]interface{}) *Envelope 
 // Outbound
 type Package struct {
 	Action string
-	Data   map[Kind]Model
+	Data   map[Kind]Record
 }
 
-func NewPackage(action string, data map[Kind]Model) *Package {
+func NewPackage(action string, data map[Kind]Record) *Package {
 	return &Package{
 		Action: action,
 		Data:   data,

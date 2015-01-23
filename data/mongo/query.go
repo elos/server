@@ -22,7 +22,7 @@ func (db *MongoDB) NewQuery(k data.Kind) data.Query {
 	}
 }
 
-func (q *MongoQuery) Execute() (data.ModelIterator, error) {
+func (q *MongoQuery) Execute() (data.RecordIterator, error) {
 	s, err := newSession(q.db)
 	if err != nil {
 		log(err)
@@ -57,7 +57,7 @@ type Iterator struct {
 	iter *mgo.Iter
 }
 
-func (i *Iterator) Next(m data.Model) bool {
+func (i *Iterator) Next(m data.Record) bool {
 	return false
 }
 
@@ -65,7 +65,7 @@ type MongoModelIterator struct {
 	iter *mgo.Iter
 }
 
-func (i *MongoModelIterator) Next(m data.Model) bool {
+func (i *MongoModelIterator) Next(m data.Record) bool {
 	return i.iter.Next(m)
 }
 
@@ -73,7 +73,7 @@ func (i *MongoModelIterator) Close() error {
 	return i.iter.Close()
 }
 
-func query(s *mgo.Session, q *MongoQuery) (data.ModelIterator, error) {
+func query(s *mgo.Session, q *MongoQuery) (data.RecordIterator, error) {
 	c, err := collectionForKind(s, q.kind)
 	if err != nil {
 		return nil, err

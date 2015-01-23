@@ -3,7 +3,7 @@ package data
 type AttrMap map[string]interface{}
 
 type Query interface {
-	Execute() (ModelIterator, error)
+	Execute() (RecordIterator, error)
 
 	Select(AttrMap) Query
 	Limit(int) Query
@@ -11,7 +11,7 @@ type Query interface {
 	Batch(int) Query
 }
 
-type ModelIterator interface {
-	Next(Model) bool
+type RecordIterator interface {
+	Next(Record) bool
 	Close() error
 }

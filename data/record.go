@@ -10,7 +10,7 @@ import (
 */
 type Kind string
 
-type Model interface {
+type Record interface {
 	Kind() Kind
 
 	GetID() ID

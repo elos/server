@@ -8,7 +8,6 @@ import (
 const UserKind data.Kind = "user"
 const EventKind data.Kind = "event"
 
-// confusing naming right now need to fix data.Model=>data.Record
 type Model interface {
 	SetCreatedAt(time.Time)
 	GetCreatedAt() time.Time
@@ -24,7 +23,7 @@ type Nameable interface {
 }
 
 type User interface {
-	data.Model //record
+	data.Record
 	Model
 	Nameable
 
@@ -33,7 +32,7 @@ type User interface {
 }
 
 type Event interface {
-	data.Model // record
+	data.Record
 	Model
 
 	Nameable

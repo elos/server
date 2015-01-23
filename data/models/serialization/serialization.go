@@ -11,7 +11,7 @@ import (
 	"github.com/elos/server/data/models/user"
 )
 
-func NewPackage(action string, m data.Model) *data.Package {
+func NewPackage(action string, m data.Record) *data.Package {
 	return &data.Package{
 		Action: action,
 		Data:   Map(m),
@@ -24,8 +24,8 @@ func NewPackage(action string, m data.Model) *data.Package {
 	of form:
 	{ <db.Kind>: <db.Model>}
 */
-func Map(m data.Model) map[data.Kind]data.Model {
-	return map[data.Kind]data.Model{
+func Map(m data.Record) map[data.Kind]data.Record {
+	return map[data.Kind]data.Record{
 		m.Kind(): m,
 	}
 }
@@ -33,8 +33,8 @@ func Map(m data.Model) map[data.Kind]data.Model {
 /*
 	Returns a new allocated model of db.Kind KIND
 */
-func Type(kind data.Kind) (data.Model, error) {
-	var model data.Model
+func Type(kind data.Kind) (data.Record, error) {
+	var model data.Record
 
 	switch kind {
 	case models.EventKind:
@@ -49,11 +49,11 @@ func Type(kind data.Kind) (data.Model, error) {
 }
 
 // Alias for Type(db.Kind)
-func ModelFor(kind data.Kind) (data.Model, error) {
+func ModelFor(kind data.Kind) (data.Record, error) {
 	return Type(kind)
 }
 
-func PopulateModel(model data.Model, attributes *map[string]interface{}) error {
+func PopulateModel(model data.Record, attributes *map[string]interface{}) error {
 	// Cleanest way I know of transforming the data to the model's schema
 	bytes, err := json.Marshal(attributes)
 

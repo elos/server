@@ -40,7 +40,7 @@ func (db *MongoDB) Connect(addr string) error {
 	return nil
 }
 
-func (db *MongoDB) Save(m data.Model) error {
+func (db *MongoDB) Save(m data.Record) error {
 	s, err := newSession(db)
 	if err != nil {
 		log(err)
@@ -58,7 +58,7 @@ func (db *MongoDB) Save(m data.Model) error {
 	}
 }
 
-func (db *MongoDB) Delete(m data.Model) error {
+func (db *MongoDB) Delete(m data.Record) error {
 	s, err := newSession(db)
 	if err != nil {
 		log(err)
@@ -76,7 +76,7 @@ func (db *MongoDB) Delete(m data.Model) error {
 	}
 }
 
-func (db *MongoDB) PopulateById(m data.Model) error {
+func (db *MongoDB) PopulateById(m data.Record) error {
 	s, err := newSession(db)
 	if err != nil {
 		log(err)
@@ -97,7 +97,7 @@ func (db *MongoDB) PopulateById(m data.Model) error {
 	}
 }
 
-func (db *MongoDB) PopulateByField(field string, value interface{}, m data.Model) error {
+func (db *MongoDB) PopulateByField(field string, value interface{}, m data.Record) error {
 	s, err := newSession(db)
 	if err != nil {
 		log(err)
@@ -130,7 +130,7 @@ func (db *MongoDB) RegisterForUpdates(a data.Agent) *chan *data.Package {
 	return &c
 }
 
-func (db *MongoDB) NotifyConcerned(m data.Model, action string) {
+func (db *MongoDB) NotifyConcerned(m data.Record, action string) {
 	p := serialization.NewPackage(action, m)
 	concerned := m.Concerned()
 	for _, concernedId := range concerned {

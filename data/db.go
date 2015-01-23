@@ -5,10 +5,10 @@ type DB interface {
 	Connect(string) error
 
 	// Persistence
-	Save(Model) error
-	Delete(Model) error
-	PopulateById(Model) error
-	PopulateByField(string, interface{}, Model) error
+	Save(Record) error
+	Delete(Record) error
+	PopulateById(Record) error
+	PopulateByField(string, interface{}, Record) error
 
 	NewQuery(Kind) Query
 

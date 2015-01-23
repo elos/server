@@ -7,10 +7,10 @@ import (
 
 type TestDB struct {
 	ModelUpdates     chan *data.Package
-	Saved            []data.Model
-	Deleted          []data.Model
-	PopulatedById    []data.Model
-	PopulatedByField []data.Model
+	Saved            []data.Record
+	Deleted          []data.Record
+	PopulatedById    []data.Record
+	PopulatedByField []data.Record
 
 	Error bool
 }
@@ -31,10 +31,10 @@ func (db *TestDB) Type() string {
 
 func (db *TestDB) Reset() {
 	db.ModelUpdates = make(chan *data.Package)
-	db.Saved = make([]data.Model, 0)
-	db.Deleted = make([]data.Model, 0)
-	db.PopulatedById = make([]data.Model, 0)
-	db.PopulatedByField = make([]data.Model, 0)
+	db.Saved = make([]data.Record, 0)
+	db.Deleted = make([]data.Record, 0)
+	db.PopulatedById = make([]data.Record, 0)
+	db.PopulatedByField = make([]data.Record, 0)
 	db.Error = false
 }
 
@@ -50,7 +50,7 @@ func (db *TestDB) RegisterForUpdates(a data.Agent) *chan *data.Package {
 	return &db.ModelUpdates
 }
 
-func (db *TestDB) Save(m data.Model) error {
+func (db *TestDB) Save(m data.Record) error {
 	if db.Error {
 		return TestDBError
 	}
@@ -59,7 +59,7 @@ func (db *TestDB) Save(m data.Model) error {
 	return nil
 }
 
-func (db *TestDB) Delete(m data.Model) error {
+func (db *TestDB) Delete(m data.Record) error {
 	if db.Error {
 		return TestDBError
 	}
@@ -68,7 +68,7 @@ func (db *TestDB) Delete(m data.Model) error {
 	return nil
 }
 
-func (db *TestDB) PopulateById(m data.Model) error {
+func (db *TestDB) PopulateById(m data.Record) error {
 	if db.Error {
 		return TestDBError
 	}
@@ -77,7 +77,7 @@ func (db *TestDB) PopulateById(m data.Model) error {
 	return nil
 }
 
-func (db *TestDB) PopulateByField(field string, value interface{}, m data.Model) error {
+func (db *TestDB) PopulateByField(field string, value interface{}, m data.Record) error {
 	if db.Error {
 		return TestDBError
 	}

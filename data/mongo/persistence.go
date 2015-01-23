@@ -7,7 +7,7 @@ import (
 )
 
 // Saves a model, broadcasted that save over ModelUpdates
-func save(s *mgo.Session, m data.Model) error {
+func save(s *mgo.Session, m data.Record) error {
 	collection, err := collectionFor(s, m)
 	if err != nil {
 		log(err)
@@ -29,7 +29,7 @@ func save(s *mgo.Session, m data.Model) error {
 	return err
 }
 
-func remove(s *mgo.Session, m data.Model) error {
+func remove(s *mgo.Session, m data.Record) error {
 	collection, err := collectionFor(s, m)
 	if err != nil {
 		log(err)
@@ -50,7 +50,7 @@ func remove(s *mgo.Session, m data.Model) error {
 }
 
 // Populates the model data for an empty struct with a specified id
-func populateById(s *mgo.Session, m data.Model) error {
+func populateById(s *mgo.Session, m data.Record) error {
 	collection, err := collectionFor(s, m)
 	if err != nil {
 		log(err)
@@ -65,7 +65,7 @@ func populateById(s *mgo.Session, m data.Model) error {
 	return collection.FindId(m.GetID()).One(m)
 }
 
-func populateByField(s *mgo.Session, m data.Model, field string, value interface{}) error {
+func populateByField(s *mgo.Session, m data.Record, field string, value interface{}) error {
 	collection, err := collectionFor(s, m)
 	if err != nil {
 		log(err)
