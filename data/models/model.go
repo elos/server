@@ -5,15 +5,31 @@ import (
 	"time"
 )
 
-type Model interface {
-	data.Record
+type Versioned interface {
+	GetVersion() int
+}
 
+type Loaded interface {
+	GetLoadedAt() time.Time
+}
+
+type Createable interface {
 	SetCreatedAt(time.Time)
 	GetCreatedAt() time.Time
+}
+
+type Updateable interface {
 	SetUpdatedAt(time.Time)
 	GetUpdatedAt() time.Time
+}
 
-	GetLoadedAt() time.Time
+type Model interface {
+	data.Record
+	Versioned
+	Loaded
+
+	Createable
+	Updateable
 }
 
 type Nameable interface {
