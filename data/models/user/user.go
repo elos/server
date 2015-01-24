@@ -36,3 +36,11 @@ func Create(name string) (models.User, error) {
 		return user, nil
 	}
 }
+
+var CurrentUserSchema models.Schema
+var CurrentUserVersion int
+
+func SetupModel(s models.Schema, version int) {
+	CurrentUserSchema = s
+	CurrentUserVersion = version
+}

@@ -52,7 +52,7 @@ func (db *MongoDB) Save(m data.Record) error {
 		return err
 	} else {
 		db.NotifyConcerned(m, data.POST)
-		return nil
+		return db.didLoad(m)
 	}
 }
 
@@ -91,7 +91,7 @@ func (db *MongoDB) PopulateById(m data.Record) error {
 			return err
 		}
 	} else {
-		return nil
+		return db.didLoad(m)
 	}
 }
 
@@ -108,7 +108,7 @@ func (db *MongoDB) PopulateByField(field string, value interface{}, m data.Recor
 		logf("There was an error populating the %s model, error: %v", m.Kind(), err)
 		return err
 	} else {
-		return nil
+		return db.didLoad(m)
 	}
 }
 
@@ -141,6 +141,10 @@ func (db *MongoDB) NotifyConcerned(m data.Record, action string) {
 
 func nonblockingchannelsend(c chan *data.Package, p *data.Package) {
 	c <- p
+}
+
+func (db *MongoDB) didLoad(m data.Record) error {
+	return nil
 }
 
 /*

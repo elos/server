@@ -1,30 +1,43 @@
-package models
+package schema
 
 import (
 	"errors"
 	"github.com/elos/server/data"
+	"github.com/elos/server/data/models"
 )
-
-/*
-
-
-
-*/
 
 var UndefinedKindError = errors.New("Error: undefined kind")
 var UndefinedLinkError = errors.New("Error: undefined link")
 var UndefinedLinkKindError = errors.New("Error: undefined link kind")
+var InvalidSchemaError = errors.New("Error: invalid schema")
 
 type LinkKind string
 
 const MulLink LinkKind = "MANY"
 const OneLink LinkKind = "ONE"
 
-type Schema map[data.Kind]map[data.Kind]LinkKind
+type SchemaMap map[data.Kind]map[data.Kind]LinkKind
 
-// add a function to check validity of a schema
+func (s *SchemaMap) Valid() bool {
+	for outerKind, links := range *s {
+		for innerKind, _ /*linkKind*/ := range links {
+			innerLinks, ok := (*s)[innerKind]
+			if !ok {
+				return false
+			}
 
-func PossibleLink(s *Schema, this Model, other Model) (bool, error) {
+			_ /*matchingLink*/, ok = innerLinks[outerKind]
+
+			if !ok {
+				return false
+			}
+		}
+	}
+
+	return true
+}
+
+func PossibleLink(s *SchemaMap, this models.Model, other models.Model) (bool, error) {
 	thisKind := this.Kind()
 
 	links, ok := (*s)[thisKind]
@@ -44,7 +57,7 @@ func PossibleLink(s *Schema, this Model, other Model) (bool, error) {
 	return true, nil
 }
 
-func (s *Schema) LinkType(this Model, other Model) (LinkKind, error) {
+func (s *SchemaMap) LinkType(this models.Model, other models.Model) (LinkKind, error) {
 	_, err := PossibleLink(s, this, other)
 	if err != nil {
 		return "", err
@@ -53,12 +66,12 @@ func (s *Schema) LinkType(this Model, other Model) (LinkKind, error) {
 	return (*s)[this.Kind()][other.Kind()], nil
 }
 
-func LinkWith(lk LinkKind, this Model, that Model) error {
+func LinkWith(lk LinkKind, this models.Model, that models.Model) error {
 	switch lk {
 	case MulLink:
-		// this.LinkMul(that)
+		this.LinkMul(that)
 	case OneLink:
-		// this.LinkOne(that)
+		this.LinkOne(that)
 	default:
 		return UndefinedLinkKindError
 	}
@@ -66,12 +79,12 @@ func LinkWith(lk LinkKind, this Model, that Model) error {
 	return nil
 }
 
-func UnlinkWith(ln LinkKind, this Model, that Model) error {
+func UnlinkWith(ln LinkKind, this models.Model, that models.Model) error {
 	switch ln {
 	case MulLink:
-		// this.UnlinkMul(that)
+		this.UnlinkMul(that)
 	case OneLink:
-		// this.UnlinkOne(that)
+		this.UnlinkOne(that)
 	default:
 		return UndefinedLinkKindError
 	}
@@ -79,7 +92,7 @@ func UnlinkWith(ln LinkKind, this Model, that Model) error {
 	return nil
 }
 
-func (s *Schema) Link(this Model, that Model) error {
+func (s *SchemaMap) Link(this models.Model, that models.Model) error {
 	thisLinkType, err := s.LinkType(this, that)
 
 	if err != nil {
@@ -95,7 +108,7 @@ func (s *Schema) Link(this Model, that Model) error {
 	if err != nil {
 		return err
 	} else {
-		if err = LinkWith(thatLinkType, this, that); err != nil {
+		if err = LinkWith(thatLinkType, that, this); err != nil {
 			return err
 		}
 	}
@@ -103,7 +116,7 @@ func (s *Schema) Link(this Model, that Model) error {
 	return nil
 }
 
-func (s *Schema) Unlink(this Model, that Model) error {
+func (s *SchemaMap) Unlink(this models.Model, that models.Model) error {
 	thisLinkType, err := s.LinkType(this, that)
 	if err != nil {
 		return err
@@ -118,7 +131,7 @@ func (s *Schema) Unlink(this Model, that Model) error {
 	if err != nil {
 		return err
 	} else {
-		if err = UnlinkWith(thatLinkType, this, that); err != nil {
+		if err = UnlinkWith(thatLinkType, that, this); err != nil {
 			return err
 		}
 	}
@@ -126,11 +139,24 @@ func (s *Schema) Unlink(this Model, that Model) error {
 	return nil
 }
 
-var ElosSchema Schema = map[data.Kind]map[data.Kind]LinkKind{
-	UserKind: {
-		EventKind: MulLink,
-	},
-	EventKind: {
-		UserKind: OneLink,
-	},
+type VersionedSchema struct {
+	*SchemaMap
+	version int
+}
+
+func NewSchema(sm *SchemaMap, version int) (models.Schema, error) {
+	s := &VersionedSchema{
+		SchemaMap: sm,
+		version:   version,
+	}
+
+	if !s.Valid() {
+		return nil, InvalidSchemaError
+	}
+
+	return s, nil
+}
+
+func (s *VersionedSchema) GetVersion() int {
+	return s.version
 }

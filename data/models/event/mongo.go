@@ -12,6 +12,8 @@ type MongoEvent struct {
 	// Core
 	ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
+	UpdatedAt time.Time     `json:"updated_at" bson:"updated_at"`
+	LoadedAt  time.Time     `json:"-" bson:"-"`
 
 	// Properties
 	Name      string    `json:"name"`
@@ -62,7 +64,7 @@ func (e *MongoEvent) Kind() data.Kind {
 	return models.EventKind
 }
 
-func (e *MongoEvent) LinkOne(r data.Record) {
+func (e *MongoEvent) LinkOne(r models.Model) {
 	switch r.Kind() {
 	case models.UserKind:
 		e.UserID = r.GetID()
@@ -72,15 +74,15 @@ func (e *MongoEvent) LinkOne(r data.Record) {
 	}
 }
 
-func (e *MongoEvent) LinkMul(r data.Record) {
+func (e *MongoEvent) LinkMul(r models.Model) {
 	return
 }
 
-func (e *MongoEvent) UnlinkMul(r data.Record) {
+func (e *MongoEvent) UnlinkMul(r models.Model) {
 	return
 }
 
-func (e *MongoEvent) UnlinkOne(r data.Record) {
+func (e *MongoEvent) UnlinkOne(r models.Model) {
 	switch r.Kind() {
 	case models.UserKind:
 		if e.UserID == r.GetID() {
@@ -90,4 +92,32 @@ func (e *MongoEvent) UnlinkOne(r data.Record) {
 	default:
 		return
 	}
+}
+
+func (u *MongoEvent) GetLoadedAt() time.Time {
+	return u.LoadedAt
+}
+
+func (e *MongoEvent) GetCreatedAt() time.Time {
+	return e.CreatedAt
+}
+
+func (e *MongoEvent) SetCreatedAt(t time.Time) {
+	e.CreatedAt = t
+}
+
+func (e *MongoEvent) GetUpdatedAt() time.Time {
+	return e.UpdatedAt
+}
+
+func (e *MongoEvent) SetUpdatedAt(t time.Time) {
+	e.UpdatedAt = t
+}
+
+func (e *MongoEvent) GetVersion() int {
+	return CurrentEventVersion
+}
+
+func (e *MongoEvent) Schema() models.Schema {
+	return CurrentEventSchema
 }

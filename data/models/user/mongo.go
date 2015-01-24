@@ -55,7 +55,7 @@ func (u *MongoUser) Concerned() []data.ID {
 	return a
 }
 
-func (u *MongoUser) AddEvent(eventId data.ID) error {
+func (u *MongoUser) LinkEvent(eventId data.ID) error {
 	if err := data.CheckID(eventId); err != nil {
 		return err
 	}
@@ -68,7 +68,7 @@ func (u *MongoUser) AddEvent(eventId data.ID) error {
 	return nil
 }
 
-func (u *MongoUser) RemoveEvent(eventId data.ID) error {
+func (u *MongoUser) UnlinkEvent(eventId data.ID) error {
 	if err := data.CheckID(eventId); err != nil {
 		return err
 	}
@@ -136,7 +136,7 @@ func (u *MongoUser) LinkOne(r models.Model) {
 func (u *MongoUser) LinkMul(r models.Model) {
 	switch r.Kind() {
 	case models.EventKind:
-		u.AddEvent(r.GetID())
+		u.LinkEvent(r.GetID())
 	default:
 		return
 	}
@@ -145,7 +145,7 @@ func (u *MongoUser) LinkMul(r models.Model) {
 func (u *MongoUser) UnlinkMul(r models.Model) {
 	switch r.Kind() {
 	case models.EventKind:
-		u.RemoveEvent(r.GetID())
+		u.UnlinkEvent(r.GetID())
 	default:
 		return
 	}
@@ -156,5 +156,17 @@ func (u *MongoUser) UnlinkOne(r models.Model) {
 }
 
 func (u *MongoUser) GetVersion() int {
-	return 1
+	return CurrentUserVersion
+}
+
+func (u *MongoUser) AddEvent(m models.Event) error {
+	return nil
+}
+
+func (u *MongoUser) RemoveEvent(m models.Event) error {
+	return nil
+}
+
+func (u *MongoUser) Schema() models.Schema {
+	return CurrentUserSchema
 }

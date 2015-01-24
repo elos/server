@@ -5,15 +5,16 @@ import (
 	"time"
 
 	"github.com/elos/server/data"
+	"github.com/elos/server/data/models"
 	"github.com/elos/server/data/mongo"
 	"gopkg.in/mgo.v2/bson"
 )
 
-func New() data.Record {
+func New() models.Model {
 	return &MongoEvent{}
 }
 
-func Create(name string, userIdString string) (data.Record, error) {
+func Create(name string, userIdString string) (models.Model, error) {
 	if !mongo.IsObjectIDHex(userIdString) {
 		return nil, errors.New("Invalid userId")
 	}
@@ -44,7 +45,7 @@ func Create(name string, userIdString string) (data.Record, error) {
 	}
 }
 
-func Find(id data.ID) (data.Record, error) {
+func Find(id data.ID) (models.Model, error) {
 	event := New()
 	event.SetID(id.(bson.ObjectId))
 
@@ -55,7 +56,7 @@ func Find(id data.ID) (data.Record, error) {
 	return event, nil
 }
 
-func FindEventBy(field string, value interface{}) (data.Record, error) {
+func FindEventBy(field string, value interface{}) (models.Model, error) {
 	event := &MongoEvent{}
 
 	if err := db.PopulateByField(field, value, event); err != nil {
@@ -63,4 +64,12 @@ func FindEventBy(field string, value interface{}) (data.Record, error) {
 	}
 
 	return event, nil
+}
+
+var CurrentEventSchema models.Schema
+var CurrentEventVersion int
+
+func SetupModel(s models.Schema, v int) {
+	CurrentEventSchema = s
+	CurrentEventVersion = v
 }
