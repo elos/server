@@ -15,9 +15,7 @@ type ID interface {
 	Valid() bool
 }
 
-/*
-	Can be identied by and labeled by and ID
-*/
+// Can be identied by and labeled by an ID
 type Identifiable interface {
 	SetID(ID)
 	GetID() ID
@@ -36,7 +34,8 @@ type Persistable interface {
 	Relational Row
 	Mongo Document
 
-	Defines slightly height helper functions like Save
+	Defines the helper function Save
+
 	Concerned is for model update notifications
 */
 type Record interface {
@@ -55,7 +54,6 @@ type Record interface {
 	- Covers database typing for model compatability
 	- Covers Registering for changeset updates
 */
-
 type DB interface {
 	// Management
 	Connect(string) error
