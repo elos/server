@@ -42,6 +42,7 @@ func main() {
 	config.SetupModels(config.DB)
 	config.SetupRoutes(config.DB)
 	config.SetupServices(config.DB)
+	config.Sandbox(config.DB)
 
 	StartServer(*host, *port)
 }
