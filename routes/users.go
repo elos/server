@@ -8,7 +8,7 @@ import (
 )
 
 type UsersPostHandler struct {
-	DataHandler
+	data.DB
 }
 
 func (h *UsersPostHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {

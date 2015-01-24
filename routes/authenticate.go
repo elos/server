@@ -14,7 +14,7 @@ import (
 var DefaultClientDataHub autonomous.Manager = managers.NewNullHub()
 
 type AuthenticateGetHandler struct {
-	DataHandler
+	data.DB
 }
 
 func (h *AuthenticateGetHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {

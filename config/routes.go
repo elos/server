@@ -7,12 +7,9 @@ import (
 
 func SetupRoutes(db data.DB) {
 
-	UsersPost := &routes.UsersPostHandler{}
-	EventsPost := &routes.UsersPostHandler{}
-	AuthenticateGet := &routes.UsersPostHandler{}
-	UsersPost.DB = db
-	EventsPost.DB = db
-	AuthenticateGet.DB = db
+	UsersPost := &routes.UsersPostHandler{DB: db}
+	EventsPost := &routes.EventsPostHandler{DB: db}
+	AuthenticateGet := &routes.AuthenticateGetHandler{DB: db}
 
 	var RoutesMap = routes.HandlerMap{
 		"v1": routes.HandlerMap{

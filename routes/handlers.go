@@ -34,13 +34,6 @@ func NewNullHandler() *NullHandler {
 
 // NullHandler (Testing) }}}
 
-type DataHandler struct {
-	data.DB
-}
-
-func (h *DataHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-}
-
 //  ErrorHandler {{{
 
 // Allows route to handle an error
@@ -154,7 +147,7 @@ var DefaultAuthenticator auth.RequestAuthenticator = auth.AuthenticateRequest
 // AuthenticationHandler {{{
 
 type AuthenticationHandler struct {
-	DataHandler
+	data.DB
 	Authenticator          auth.RequestAuthenticator
 	NewErrorHandler        ErrorHandlerConstructor
 	NewUnauthorizedHandler UnauthorizedHandlerConstructor
