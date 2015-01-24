@@ -3,6 +3,7 @@ package test
 import (
 	"fmt"
 	"github.com/elos/server/data"
+	"github.com/elos/server/data/mongo"
 )
 
 type TestDB struct {
@@ -48,6 +49,10 @@ func (db *TestDB) Connect(addr string) error {
 
 func (db *TestDB) RegisterForUpdates(a data.Agent) *chan *data.Package {
 	return &db.ModelUpdates
+}
+
+func (db *TestDB) NewObjectID() data.ID {
+	return mongo.NewObjectID()
 }
 
 func (db *TestDB) Save(m data.Record) error {

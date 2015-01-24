@@ -38,6 +38,10 @@ func (db *MongoDB) Connect(addr string) error {
 	return nil
 }
 
+func (db *MongoDB) NewObjectID() data.ID {
+	return NewObjectID()
+}
+
 func (db *MongoDB) Save(m data.Record) error {
 	s, err := newSession(db)
 	if err != nil {

@@ -5,6 +5,7 @@ type DB interface {
 	Connect(string) error
 
 	// Persistence
+	NewObjectID() ID
 	Save(Record) error
 	Delete(Record) error
 	PopulateById(Record) error

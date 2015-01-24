@@ -103,7 +103,7 @@ func (s *SchemaMap) Link(this models.Model, that models.Model) error {
 		}
 	}
 
-	thatLinkType, err := s.LinkType(this, that)
+	thatLinkType, err := s.LinkType(that, this)
 
 	if err != nil {
 		return err
@@ -126,7 +126,7 @@ func (s *SchemaMap) Unlink(this models.Model, that models.Model) error {
 		}
 	}
 
-	thatLinkType, err := s.LinkType(this, that)
+	thatLinkType, err := s.LinkType(that, this)
 
 	if err != nil {
 		return err

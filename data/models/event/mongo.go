@@ -1,6 +1,7 @@
 package event
 
 import (
+	"log"
 	"time"
 
 	"github.com/elos/server/data"
@@ -22,7 +23,7 @@ type MongoEvent struct {
 
 	// Links
 	// User   Link          `json:"user" bson:"user"`
-	UserID data.ID `json:"user_id" bson:"user_id,omitempty"`
+	UserID bson.ObjectId `json:"user_id" bson:"user_id,omitempty"`
 }
 
 func (e *MongoEvent) Save(db data.DB) error {
@@ -57,7 +58,8 @@ func (e *MongoEvent) Kind() data.Kind {
 func (e *MongoEvent) LinkOne(r models.Model) {
 	switch r.Kind() {
 	case models.UserKind:
-		e.UserID = r.GetID()
+		log.Printf("User here %v", r)
+		e.UserID = r.GetID().(bson.ObjectId)
 	default:
 		return
 	}
@@ -75,7 +77,7 @@ func (e *MongoEvent) UnlinkOne(r models.Model) {
 	switch r.Kind() {
 	case models.UserKind:
 		if e.UserID == r.GetID() {
-			e.UserID = nil
+			e.UserID = ""
 		}
 	default:
 		return
