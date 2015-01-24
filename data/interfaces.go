@@ -15,22 +15,46 @@ type ID interface {
 	Valid() bool
 }
 
+/*
+	Can be identied by and labeled by and ID
+*/
 type Identifiable interface {
 	SetID(ID)
 	GetID() ID
 }
 
+/*
+	To be able to be persisted something must have
+	some sort of id and type
+*/
 type Persistable interface {
 	Identifiable
 	Kind() Kind
 }
 
+/*
+	Relational Row
+	Mongo Document
+
+	Defines slightly height helper functions like Save
+	Concerned is for model update notifications
+*/
 type Record interface {
 	Persistable
 
 	Save(DB) error
 	Concerned() []ID // for model updates
 }
+
+/*
+	Abstraction of a DataStore
+	- Covers underlying connection
+	- Covers id generation
+	- Covers Save, Delete and simple finds
+	- Covers advanced querying
+	- Covers database typing for model compatability
+	- Covers Registering for changeset updates
+*/
 
 type DB interface {
 	// Management
@@ -46,18 +70,30 @@ type DB interface {
 
 	NewQuery(Kind) Query
 
-	RegisterForUpdates(Identifiable) *chan *Package
-
 	Type() string
+
+	RegisterForUpdates(Identifiable) *chan *Package
 }
 
+/* Basic, basic abstraction of underlying DBConnection */
 type DBConnection interface {
 	Close()
 }
 
+/* JSON attributes to values */
 type AttrMap map[string]interface{}
+
+/* data.Kinds to records */
 type KindMap map[Kind]Record
 
+/*
+	Abstraction of a database query
+	- Covers selection
+	- Covers limiting, skipping and batching
+
+	Executing a query returns a record iterator, the
+	most elegant method of reading database lookup results
+*/
 type Query interface {
 	Execute() (RecordIterator, error)
 
@@ -67,6 +103,12 @@ type Query interface {
 	Batch(int) Query
 }
 
+/*
+	Abstraction of all database query results
+
+	Acts like an iterator - code can be written for n
+	results (batching will always handle memory load)
+*/
 type RecordIterator interface {
 	Next(Record) bool
 	Close() error
