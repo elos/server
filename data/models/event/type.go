@@ -6,6 +6,7 @@ import (
 
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models"
+	"github.com/elos/server/data/models/schema"
 	"github.com/elos/server/data/mongo"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -66,10 +67,10 @@ func FindEventBy(db data.DB, field string, value interface{}) (models.Event, err
 	return event, nil
 }
 
-var CurrentEventSchema models.Schema
+var CurrentEventSchema schema.Schema
 var CurrentEventVersion int
 
-func SetupModel(s models.Schema, v int) {
+func SetupModel(s schema.Schema, v int) {
 	CurrentEventSchema = s
 	CurrentEventVersion = v
 }

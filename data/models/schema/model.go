@@ -1,4 +1,4 @@
-package models
+package schema
 
 import (
 	"github.com/elos/server/data"

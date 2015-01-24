@@ -5,6 +5,7 @@ import (
 
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models"
+	"github.com/elos/server/data/models/schema"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -60,7 +61,7 @@ func (e *MongoEvent) Kind() data.Kind {
 	return models.EventKind
 }
 
-func (e *MongoEvent) LinkOne(r models.Model) {
+func (e *MongoEvent) LinkOne(r schema.Model) {
 	switch r.Kind() {
 	case models.UserKind:
 		e.UserID = r.GetID().(bson.ObjectId)
@@ -69,15 +70,15 @@ func (e *MongoEvent) LinkOne(r models.Model) {
 	}
 }
 
-func (e *MongoEvent) LinkMul(r models.Model) {
+func (e *MongoEvent) LinkMul(r schema.Model) {
 	return
 }
 
-func (e *MongoEvent) UnlinkMul(r models.Model) {
+func (e *MongoEvent) UnlinkMul(r schema.Model) {
 	return
 }
 
-func (e *MongoEvent) UnlinkOne(r models.Model) {
+func (e *MongoEvent) UnlinkOne(r schema.Model) {
 	switch r.Kind() {
 	case models.UserKind:
 		if e.UserID == r.GetID() {
@@ -112,7 +113,7 @@ func (e *MongoEvent) GetVersion() int {
 	return CurrentEventVersion
 }
 
-func (e *MongoEvent) Schema() models.Schema {
+func (e *MongoEvent) Schema() schema.Schema {
 	return CurrentEventSchema
 }
 

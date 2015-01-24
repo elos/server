@@ -1,9 +1,11 @@
 package models
 
+import "github.com/elos/server/data/models/schema"
+
 type Event interface {
-	Model
-	Nameable
-	Timeable
+	schema.Model
+	schema.Nameable
+	schema.Timeable
 
 	SetUser(User) error
 }

@@ -3,6 +3,7 @@ package user
 import (
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models"
+	"github.com/elos/server/data/models/schema"
 	"github.com/elos/server/data/mongo"
 	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2/bson"
@@ -38,10 +39,10 @@ func Create(db data.DB, name string) (models.User, error) {
 	}
 }
 
-var CurrentUserSchema models.Schema
+var CurrentUserSchema schema.Schema
 var CurrentUserVersion int
 
-func SetupModel(s models.Schema, version int) {
+func SetupModel(s schema.Schema, version int) {
 	CurrentUserSchema = s
 	CurrentUserVersion = version
 }

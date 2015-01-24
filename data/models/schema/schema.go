@@ -3,7 +3,6 @@ package schema
 import (
 	"errors"
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models"
 )
 
 var UndefinedKindError = errors.New("Error: undefined kind")
@@ -37,7 +36,7 @@ func (s *RelationshipMap) Valid() bool {
 	return true
 }
 
-func PossibleLink(s *RelationshipMap, this models.Model, other models.Model) (bool, error) {
+func PossibleLink(s *RelationshipMap, this Model, other Model) (bool, error) {
 	thisKind := this.Kind()
 
 	links, ok := (*s)[thisKind]
@@ -57,7 +56,7 @@ func PossibleLink(s *RelationshipMap, this models.Model, other models.Model) (bo
 	return true, nil
 }
 
-func (s *RelationshipMap) LinkType(this models.Model, other models.Model) (LinkKind, error) {
+func (s *RelationshipMap) LinkType(this Model, other Model) (LinkKind, error) {
 	_, err := PossibleLink(s, this, other)
 	if err != nil {
 		return "", err
@@ -66,7 +65,7 @@ func (s *RelationshipMap) LinkType(this models.Model, other models.Model) (LinkK
 	return (*s)[this.Kind()][other.Kind()], nil
 }
 
-func LinkWith(lk LinkKind, this models.Model, that models.Model) error {
+func LinkWith(lk LinkKind, this Model, that Model) error {
 	switch lk {
 	case MulLink:
 		this.LinkMul(that)
@@ -79,7 +78,7 @@ func LinkWith(lk LinkKind, this models.Model, that models.Model) error {
 	return nil
 }
 
-func UnlinkWith(ln LinkKind, this models.Model, that models.Model) error {
+func UnlinkWith(ln LinkKind, this Model, that Model) error {
 	switch ln {
 	case MulLink:
 		this.UnlinkMul(that)
@@ -92,7 +91,7 @@ func UnlinkWith(ln LinkKind, this models.Model, that models.Model) error {
 	return nil
 }
 
-func (s *RelationshipMap) Link(this models.Model, that models.Model) error {
+func (s *RelationshipMap) Link(this Model, that Model) error {
 	thisLinkType, err := s.LinkType(this, that)
 
 	if err != nil {
@@ -116,7 +115,7 @@ func (s *RelationshipMap) Link(this models.Model, that models.Model) error {
 	return nil
 }
 
-func (s *RelationshipMap) Unlink(this models.Model, that models.Model) error {
+func (s *RelationshipMap) Unlink(this Model, that Model) error {
 	thisLinkType, err := s.LinkType(this, that)
 	if err != nil {
 		return err
@@ -144,7 +143,7 @@ type VersionedSchema struct {
 	version int
 }
 
-func NewSchema(sm *RelationshipMap, version int) (models.Schema, error) {
+func NewSchema(sm *RelationshipMap, version int) (Schema, error) {
 	s := &VersionedSchema{
 		RelationshipMap: sm,
 		version:         version,
