@@ -1,7 +1,6 @@
 package transfer
 
 import (
-	"fmt"
 	"github.com/elos/server/conn"
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models/serialization"
@@ -20,11 +19,6 @@ func GetHandler(e *data.Envelope, db data.DB, c conn.Connection) {
 		}
 
 		err = serialization.PopulateModel(model, &info)
-
-		if err := data.CheckID(model.GetID()); err != nil {
-			c.WriteJSON(util.ApiError{400, 400, "Invalid ID", fmt.Sprintf("%s", err)})
-			return
-		}
 
 		err = db.PopulateById(model)
 

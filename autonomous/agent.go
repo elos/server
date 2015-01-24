@@ -6,8 +6,8 @@ import (
 )
 
 type Agent interface {
-	SetDataAgent(data.Agent)
-	GetDataAgent() data.Agent
+	SetDataOwner(data.Identifiable)
+	GetDataOwner() data.Identifiable
 	SetManager(Manager)
 	GetManager() Manager
 
@@ -18,4 +18,4 @@ type Agent interface {
 	Alive() bool
 }
 
-type NewAgent func(db data.DB, a data.Agent, d time.Duration) Agent
+type NewAgent func(db data.DB, a data.Identifiable, d time.Duration) Agent

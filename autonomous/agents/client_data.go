@@ -24,7 +24,7 @@ func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 		read:       make(chan *data.Envelope),
 	}
 
-	a.SetDataAgent(c.Agent())
+	a.SetDataOwner(c.Agent())
 
 	return a
 }
@@ -32,7 +32,7 @@ func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 func (a *ClientDataAgent) Start() {
 	go ReadConnection(a.Connection, &a.read, &a.stop)
 
-	modelsChannel := *a.DB.RegisterForUpdates(a.GetDataAgent())
+	modelsChannel := *a.DB.RegisterForUpdates(a.GetDataOwner())
 
 	for {
 		select {

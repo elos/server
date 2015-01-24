@@ -21,9 +21,6 @@ func Create(db data.DB, name string, userIdString string) (models.Event, error) 
 	}
 
 	userId := mongo.NewObjectIDFromHex(userIdString)
-	if err := data.CheckID(userId); err != nil {
-		return nil, err
-	}
 
 	event := &MongoEvent{
 		ID:        userId.(bson.ObjectId),

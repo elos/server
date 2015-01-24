@@ -47,7 +47,7 @@ var DefaultAgents map[time.Duration]autonomous.NewAgent = map[time.Duration]auto
 	agents.DefaultSleepAgentStartPeriod: agents.NewSleepAgent,
 }
 
-func OutfitUser(o *Outfitter, db data.DB, a data.Agent) {
+func OutfitUser(o *Outfitter, db data.DB, a data.Identifiable) {
 	for duration, newAgentFunc := range DefaultAgents {
 		autonomousAgent := newAgentFunc(db, a, duration)
 		o.StartAgent <- autonomousAgent

@@ -190,17 +190,17 @@ func (h *AuthenticationHandler) ServeHTTP(w http.ResponseWriter, r *http.Request
 // AuthenticatedHandlerFunc {{{
 
 type AuthenticatedHandler interface {
-	ServeHTTP(http.ResponseWriter, *http.Request, data.Agent)
+	ServeHTTP(http.ResponseWriter, *http.Request, data.Identifiable)
 }
 
-type AuthenticatedHandlerFunc func(http.ResponseWriter, *http.Request, data.Agent)
+type AuthenticatedHandlerFunc func(http.ResponseWriter, *http.Request, data.Identifiable)
 
-func (f AuthenticatedHandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request, a data.Agent) {
+func (f AuthenticatedHandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request, a data.Identifiable) {
 	f(w, r, a)
 }
 
 type AgentHandler struct {
-	Agent data.Agent
+	Agent data.Identifiable
 	Fn    AuthenticatedHandlerFunc
 }
 
@@ -208,7 +208,7 @@ func (h *AgentHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	h.Fn(w, r, h.Agent)
 }
 
-func NewAgentHandler(agent data.Agent, fn AuthenticatedHandlerFunc) http.Handler {
+func NewAgentHandler(agent data.Identifiable, fn AuthenticatedHandlerFunc) http.Handler {
 	return &AgentHandler{
 		Agent: agent,
 		Fn:    fn,

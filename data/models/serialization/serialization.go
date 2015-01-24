@@ -34,7 +34,7 @@ func ModelFor(kind data.Kind) (data.Record, error) {
 	return Type(kind)
 }
 
-func PopulateModel(model data.Record, attributes *map[string]interface{}) error {
+func PopulateModel(model data.Record, attributes *data.AttrMap) error {
 	// Cleanest way I know of transforming the data to the model's schema
 	bytes, err := json.Marshal(attributes)
 

@@ -19,7 +19,7 @@ type SleepAgent struct {
 	DB data.DB
 }
 
-func NewSleepAgent(db data.DB, a data.Agent, d time.Duration) autonomous.Agent {
+func NewSleepAgent(db data.DB, a data.Identifiable, d time.Duration) autonomous.Agent {
 	return &SleepAgent{
 		BaseAgent:   NewBaseAgent(),
 		startPeriod: d,

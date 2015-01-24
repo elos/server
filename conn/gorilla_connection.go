@@ -6,10 +6,10 @@ import (
 
 type GorillaConnection struct {
 	conn  AnonConnection
-	agent data.Agent
+	agent data.Identifiable
 }
 
-func NewGorillaConnection(c AnonConnection, a data.Agent) Connection {
+func NewGorillaConnection(c AnonConnection, a data.Identifiable) Connection {
 	return &GorillaConnection{
 		conn:  c,
 		agent: a,
@@ -28,6 +28,6 @@ func (c *GorillaConnection) Close() error {
 	return c.conn.Close()
 }
 
-func (c *GorillaConnection) Agent() data.Agent {
+func (c *GorillaConnection) Agent() data.Identifiable {
 	return c.agent
 }

@@ -19,24 +19,24 @@ import (
 func DeleteHandler(e *data.Envelope, db data.DB, c conn.Connection) {
 	var (
 		kind data.Kind
-		info map[string]interface{}
+		info data.AttrMap
 	)
 
 	for kind, info = range e.Data {
 		model, err := serialization.ModelFor(kind)
 
 		if err != nil { // Unrecognized Type
-			c.WriteJSON(data.NewEnvelope(data.POST, map[data.Kind]map[string]interface{}{kind: info}))
+			c.WriteJSON(data.NewEnvelope(data.POST, map[data.Kind]data.AttrMap{kind: info}))
 			continue
 		}
 
 		if err := serialization.PopulateModel(model, &info); err != nil {
-			c.WriteJSON(data.NewEnvelope(data.POST, map[data.Kind]map[string]interface{}{kind: info}))
+			c.WriteJSON(data.NewEnvelope(data.POST, map[data.Kind]data.AttrMap{kind: info}))
 			continue
 		}
 
 		if err = db.Delete(model); err != nil {
-			c.WriteJSON(data.NewEnvelope(data.POST, map[data.Kind]map[string]interface{}{kind: info}))
+			c.WriteJSON(data.NewEnvelope(data.POST, map[data.Kind]data.AttrMap{kind: info}))
 			continue
 		}
 

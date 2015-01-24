@@ -28,11 +28,11 @@ var ClientActions = map[string]bool{
 
 // Inbound
 type Envelope struct {
-	Action string                          `json:"action"`
-	Data   map[Kind]map[string]interface{} `json:"data"`
+	Action string           `json:"action"`
+	Data   map[Kind]AttrMap `json:"data"`
 }
 
-func NewEnvelope(action string, data map[Kind]map[string]interface{}) *Envelope {
+func NewEnvelope(action string, data map[Kind]AttrMap) *Envelope {
 	return &Envelope{
 		Action: action,
 		Data:   data,
@@ -41,13 +41,25 @@ func NewEnvelope(action string, data map[Kind]map[string]interface{}) *Envelope 
 
 // Outbound
 type Package struct {
-	Action string
-	Data   map[Kind]Record
+	Action string  `json:"action"`
+	Data   KindMap `json:"data"`
 }
 
 func NewPackage(action string, data map[Kind]Record) *Package {
 	return &Package{
 		Action: action,
 		Data:   data,
+	}
+}
+
+/*
+	Returns a map like:
+	{ user: { Name: "Nick Landolfi"} }
+	of form:
+	{ <db.Kind>: <db.Model>}
+*/
+func Map(m Record) KindMap {
+	return KindMap{
+		m.Kind(): m,
 	}
 }

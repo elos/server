@@ -47,12 +47,20 @@ func (db *TestDB) Connect(addr string) error {
 	return nil
 }
 
-func (db *TestDB) RegisterForUpdates(a data.Agent) *chan *data.Package {
+func (db *TestDB) RegisterForUpdates(a data.Identifiable) *chan *data.Package {
 	return &db.ModelUpdates
 }
 
 func (db *TestDB) NewObjectID() data.ID {
 	return mongo.NewObjectID()
+}
+
+func (db *TestDB) CheckID(id data.ID) error {
+	if db.Error {
+		return TestDBError
+	}
+
+	return nil
 }
 
 func (db *TestDB) Save(m data.Record) error {

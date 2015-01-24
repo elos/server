@@ -62,10 +62,6 @@ func (u *MongoUser) Concerned() []data.ID {
 }
 
 func (u *MongoUser) LinkEvent(eventId data.ID) error {
-	if err := data.CheckID(eventId); err != nil {
-		return err
-	}
-
 	if !u.EventIdsHash()[eventId] {
 		u.EventIds = append(u.EventIds, eventId.(bson.ObjectId))
 	}
@@ -74,10 +70,6 @@ func (u *MongoUser) LinkEvent(eventId data.ID) error {
 }
 
 func (u *MongoUser) UnlinkEvent(eventId data.ID) error {
-	if err := data.CheckID(eventId); err != nil {
-		return err
-	}
-
 	eventIds := u.EventIdsHash()
 
 	if eventIds[eventId] {

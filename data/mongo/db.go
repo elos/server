@@ -42,6 +42,14 @@ func (db *MongoDB) NewObjectID() data.ID {
 	return NewObjectID()
 }
 
+func (db *MongoDB) CheckID(id data.ID) error {
+	if !id.Valid() {
+		return data.InvalidIDError
+	}
+
+	return nil
+}
+
 func (db *MongoDB) Save(m data.Record) error {
 	s, err := newSession(db)
 	if err != nil {
@@ -120,7 +128,7 @@ func (db *MongoDB) GetConnection() *MongoConnection {
 	return db.Connections[0]
 }
 
-func (db *MongoDB) RegisterForUpdates(a data.Agent) *chan *data.Package {
+func (db *MongoDB) RegisterForUpdates(a data.Identifiable) *chan *data.Package {
 	db.m.Lock()
 	defer db.m.Unlock()
 

@@ -17,20 +17,20 @@ type BaseAgent struct {
 	running bool
 	stop    chan bool
 
-	dataAgent data.Agent
+	dataAgent data.Identifiable
 	manager   autonomous.Manager
 	processes int
 
 	m sync.Mutex
 }
 
-func (b *BaseAgent) SetDataAgent(a data.Agent) {
+func (b *BaseAgent) SetDataOwner(a data.Identifiable) {
 	b.m.Lock()
 	defer b.m.Unlock()
 	b.dataAgent = a
 }
 
-func (b *BaseAgent) GetDataAgent() data.Agent {
+func (b *BaseAgent) GetDataOwner() data.Identifiable {
 	b.m.Lock()
 	defer b.m.Unlock()
 

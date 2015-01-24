@@ -15,5 +15,5 @@ type AnonConnection interface {
 
 type Connection interface {
 	AnonConnection
-	Agent() data.Agent
+	Agent() data.Identifiable
 }

@@ -19,14 +19,14 @@ type NullConnection struct {
 	Reads  map[interface{}]bool
 	Closed bool
 	Error  error
-	agent  data.Agent
+	agent  data.Identifiable
 	m      sync.Mutex
 
 	LastWrite interface{}
 }
 
 // Allocates and returns a new *NullConnection
-func NewNullConnection(a data.Agent) *NullConnection {
+func NewNullConnection(a data.Identifiable) *NullConnection {
 	return (&NullConnection{agent: a}).Reset()
 }
 
@@ -94,7 +94,7 @@ func (c *NullConnection) Close() error {
 	return nil
 }
 
-func (c *NullConnection) Agent() data.Agent {
+func (c *NullConnection) Agent() data.Identifiable {
 	c.m.Lock()
 	defer c.m.Unlock()
 

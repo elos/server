@@ -21,12 +21,12 @@ func (h *AuthenticateGetHandler) ServeHTTP(w http.ResponseWriter, r *http.Reques
 	NewAuthenticationHandler(h.DB, DefaultAuthenticator,
 		NewErrorHandler,
 		NewUnauthorizedHandler,
-		AuthenticatedHandlerFunc(func(w http.ResponseWriter, r *http.Request, a data.Agent) {
+		AuthenticatedHandlerFunc(func(w http.ResponseWriter, r *http.Request, a data.Identifiable) {
 			WebSocketUpgradeHandler(w, r, a, conn.DefaultWebSocketUpgrader, DefaultClientDataHub, test.NewDB())
 		})).ServeHTTP(w, r)
 }
 
-func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agent, upgrader conn.WebSocketUpgrader, hub autonomous.Manager, db data.DB) {
+func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Identifiable, upgrader conn.WebSocketUpgrader, hub autonomous.Manager, db data.DB) {
 	connection, err := upgrader.Upgrade(w, r, a)
 
 	if err != nil {

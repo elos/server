@@ -14,7 +14,7 @@ var DefaultWebSocketUpgrader WebSocketUpgrader = NewGorillaUpgrader(1024, 1024, 
 
 // the utility a route will use to upgrade a request to a websocket
 type WebSocketUpgrader interface {
-	Upgrade(http.ResponseWriter, *http.Request, data.Agent) (Connection, error)
+	Upgrade(http.ResponseWriter, *http.Request, data.Identifiable) (Connection, error)
 }
 
 // NullUpgrader {{{
@@ -30,7 +30,7 @@ func NewNullUpgrader(c Connection) *NullUpgrader {
 	return (&NullUpgrader{Connection: c}).Reset()
 }
 
-func (u *NullUpgrader) Upgrade(w http.ResponseWriter, r *http.Request, a data.Agent) (Connection, error) {
+func (u *NullUpgrader) Upgrade(w http.ResponseWriter, r *http.Request, a data.Identifiable) (Connection, error) {
 	u.m.Lock()
 	defer u.m.Unlock()
 
@@ -65,7 +65,7 @@ type GorillaUpgrader struct {
 	Upgrader *websocket.Upgrader
 }
 
-func (u *GorillaUpgrader) Upgrade(w http.ResponseWriter, r *http.Request, a data.Agent) (Connection, error) {
+func (u *GorillaUpgrader) Upgrade(w http.ResponseWriter, r *http.Request, a data.Identifiable) (Connection, error) {
 	wc, err := u.Upgrader.Upgrade(w, r, ExtractProtocolHeader(r))
 	if err != nil {
 		return NewNullConnection(a), err

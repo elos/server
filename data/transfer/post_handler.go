@@ -11,7 +11,7 @@ import (
 func PostHandler(e *data.Envelope, db data.DB, c conn.Connection) {
 	// Reminder
 	var kind data.Kind
-	var info map[string]interface{}
+	var info data.AttrMap
 
 	for kind, info = range e.Data {
 
