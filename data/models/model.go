@@ -23,11 +23,19 @@ type Updateable interface {
 	GetUpdatedAt() time.Time
 }
 
+type Linkable interface {
+	LinkOne(Model)
+	LinkMul(Model)
+	UnlinkOne(Model)
+	UnlinkMul(Model)
+}
+
 type Model interface {
 	data.Record
 	Versioned
 	Loaded
 
+	Linkable
 	Createable
 	Updateable
 }

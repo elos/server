@@ -14,7 +14,7 @@ import (
 	otherwise, the user's credentials were malformed.
 */
 func Authenticate(id string, key string) (data.Record, bool, error) {
-	user, err := Find(data.NewObjectIDFromHex(id))
+	user, err := Find(mongo.NewObjectIDFromHex(id))
 
 	if err != nil {
 		return user, false, err

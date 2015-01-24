@@ -28,7 +28,7 @@ func (h HandlerMap) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // HTTPMethodHandler {{{
 
-// Redirects http requests based on the requests HTTP method
+// Redirects http requests based on the request's HTTP method
 type HTTPMethodHandler struct {
 	NewBadMethodHandler BadMethodHandlerConstructor
 	Methods             map[string]http.Handler
@@ -36,7 +36,7 @@ type HTTPMethodHandler struct {
 
 // Satisfies http.Handler interface, will dispatch ServeHTTP to
 // one of it's method handlers, if one doesn't exist for the
-// specified method then it handles the response with the invalidMethodHandler
+// specified method then it handles the response with a BadMethodHandler
 func (h *HTTPMethodHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	handler, ok := h.Methods[r.Method]
 	if ok {
@@ -69,7 +69,7 @@ func join(prefix string, route string) string {
 	return fmt.Sprintf("%s/%s", prefix, route)
 }
 
-// Exported SetupRoutes calls the recursively defined setupRoutes helper
+// Calls the recursively defined SetupRoutes
 func SetupHTTPRoutes(hm HandlerMap) {
 	SetupRoutes(hm, http.DefaultServeMux, "")
 }

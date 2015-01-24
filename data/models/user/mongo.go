@@ -19,7 +19,7 @@ type MongoUser struct {
 	Key  string `json:"key"`
 
 	// Links
-	EventIds []data.ID `json:"event_ids", bson:"event_ids"`
+	EventIds []bson.ObjectId `json:"event_ids", bson:"event_ids"`
 }
 
 func (u *MongoUser) Kind() data.Kind {
@@ -61,7 +61,7 @@ func (u *MongoUser) AddEvent(eventId data.ID) error {
 	}
 
 	if !u.EventIdsHash()[eventId] {
-		u.EventIds = append(u.EventIds, eventId)
+		u.EventIds = append(u.EventIds, eventId.(bson.ObjectId))
 		return u.Save()
 	}
 
@@ -77,10 +77,10 @@ func (u *MongoUser) RemoveEvent(eventId data.ID) error {
 
 	if eventIds[eventId] {
 		eventIds[eventId] = false
-		ids := make([]data.ID, 0)
+		ids := make([]bson.ObjectId, 0)
 		for id := range eventIds {
 			if eventIds[id] {
-				ids = append(ids, id)
+				ids = append(ids, id.(bson.ObjectId))
 			}
 		}
 
@@ -127,4 +127,34 @@ func (u *MongoUser) SetKey(s string) {
 
 func (u *MongoUser) GetKey() string {
 	return u.Key
+}
+
+func (u *MongoUser) LinkOne(r models.Model) {
+	return
+}
+
+func (u *MongoUser) LinkMul(r models.Model) {
+	switch r.Kind() {
+	case models.EventKind:
+		u.AddEvent(r.GetID())
+	default:
+		return
+	}
+}
+
+func (u *MongoUser) UnlinkMul(r models.Model) {
+	switch r.Kind() {
+	case models.EventKind:
+		u.RemoveEvent(r.GetID())
+	default:
+		return
+	}
+}
+
+func (u *MongoUser) UnlinkOne(r models.Model) {
+	return
+}
+
+func (u *MongoUser) GetVersion() int {
+	return 1
 }

@@ -12,18 +12,6 @@ import (
 )
 
 /*
-	Returns a map like:
-	{ user: { Name: "Nick Landolfi"} }
-	of form:
-	{ <db.Kind>: <db.Model>}
-*/
-func Map(m data.Record) map[data.Kind]data.Record {
-	return map[data.Kind]data.Record{
-		m.Kind(): m,
-	}
-}
-
-/*
 	Returns a new allocated model of db.Kind KIND
 */
 func Type(kind data.Kind) (data.Record, error) {

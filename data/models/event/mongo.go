@@ -20,7 +20,7 @@ type MongoEvent struct {
 
 	// Links
 	// User   Link          `json:"user" bson:"user"`
-	UserId data.ID `json:"user_id" bson:"user_id,omitempty"`
+	UserID data.ID `json:"user_id" bson:"user_id,omitempty"`
 }
 
 func (e *MongoEvent) Save() error {
@@ -29,7 +29,7 @@ func (e *MongoEvent) Save() error {
 
 func (e *MongoEvent) Concerned() []data.ID {
 	a := make([]data.ID, 1)
-	a[0] = e.UserId
+	a[0] = e.UserID
 	return a
 }
 
@@ -38,11 +38,11 @@ func (e *MongoEvent) SetUser(userId data.ID) error {
 		return err
 	}
 
-	if e.UserId == userId {
+	if e.UserID == userId {
 		return nil
 	}
 
-	e.UserId = userId
+	e.UserID = userId
 
 	return e.Save()
 }
@@ -60,4 +60,34 @@ func (e *MongoEvent) SetID(id data.ID) {
 
 func (e *MongoEvent) Kind() data.Kind {
 	return models.EventKind
+}
+
+func (e *MongoEvent) LinkOne(r data.Record) {
+	switch r.Kind() {
+	case models.UserKind:
+		e.UserID = r.GetID()
+		e.Save()
+	default:
+		return
+	}
+}
+
+func (e *MongoEvent) LinkMul(r data.Record) {
+	return
+}
+
+func (e *MongoEvent) UnlinkMul(r data.Record) {
+	return
+}
+
+func (e *MongoEvent) UnlinkOne(r data.Record) {
+	switch r.Kind() {
+	case models.UserKind:
+		if e.UserID == r.GetID() {
+			e.UserID = nil
+			e.Save()
+		}
+	default:
+		return
+	}
 }
