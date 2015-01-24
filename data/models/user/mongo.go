@@ -159,12 +159,12 @@ func (u *MongoUser) GetVersion() int {
 	return CurrentUserVersion
 }
 
-func (u *MongoUser) AddEvent(m models.Event) error {
-	return nil
+func (u *MongoUser) AddEvent(e models.Event) error {
+	return u.Schema().Link(u, e)
 }
 
-func (u *MongoUser) RemoveEvent(m models.Event) error {
-	return nil
+func (u *MongoUser) RemoveEvent(e models.Event) error {
+	return u.Schema().Unlink(u, e)
 }
 
 func (u *MongoUser) Schema() models.Schema {

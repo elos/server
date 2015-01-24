@@ -5,5 +5,5 @@ type Event interface {
 	Nameable
 	Timeable
 
-	SetUser(User)
+	SetUser(User) error
 }

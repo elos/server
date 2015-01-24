@@ -10,11 +10,11 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func New() models.Model {
+func New() models.Event {
 	return &MongoEvent{}
 }
 
-func Create(name string, userIdString string) (models.Model, error) {
+func Create(name string, userIdString string) (models.Event, error) {
 	if !mongo.IsObjectIDHex(userIdString) {
 		return nil, errors.New("Invalid userId")
 	}
@@ -45,7 +45,7 @@ func Create(name string, userIdString string) (models.Model, error) {
 	}
 }
 
-func Find(id data.ID) (models.Model, error) {
+func Find(id data.ID) (models.Event, error) {
 	event := New()
 	event.SetID(id.(bson.ObjectId))
 
@@ -56,7 +56,7 @@ func Find(id data.ID) (models.Model, error) {
 	return event, nil
 }
 
-func FindEventBy(field string, value interface{}) (models.Model, error) {
+func FindEventBy(field string, value interface{}) (models.Event, error) {
 	event := &MongoEvent{}
 
 	if err := db.PopulateByField(field, value, event); err != nil {

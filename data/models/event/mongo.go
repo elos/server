@@ -35,18 +35,8 @@ func (e *MongoEvent) Concerned() []data.ID {
 	return a
 }
 
-func (e *MongoEvent) SetUser(userId data.ID) error {
-	if err := data.CheckID(userId); err != nil {
-		return err
-	}
-
-	if e.UserID == userId {
-		return nil
-	}
-
-	e.UserID = userId
-
-	return e.Save()
+func (e *MongoEvent) SetUser(u models.User) error {
+	return e.Schema().Link(e, u)
 }
 
 func (e *MongoEvent) GetID() data.ID {
@@ -120,4 +110,28 @@ func (e *MongoEvent) GetVersion() int {
 
 func (e *MongoEvent) Schema() models.Schema {
 	return CurrentEventSchema
+}
+
+func (e *MongoEvent) GetEndTime() time.Time {
+	return e.EndTime
+}
+
+func (e *MongoEvent) SetEndTime(t time.Time) {
+	e.EndTime = t
+}
+
+func (e *MongoEvent) SetStartTime(t time.Time) {
+	e.StartTime = t
+}
+
+func (e *MongoEvent) GetStartTime() time.Time {
+	return e.StartTime
+}
+
+func (e *MongoEvent) SetName(n string) {
+	e.Name = n
+}
+
+func (e *MongoEvent) GetName() string {
+	return e.Name
 }

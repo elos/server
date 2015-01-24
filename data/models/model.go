@@ -7,6 +7,7 @@ import (
 
 type Linker interface {
 	Link(Model, Model) error
+	Unlink(Model, Model) error
 }
 
 type Validateable interface {
@@ -64,6 +65,6 @@ type Nameable interface {
 type Timeable interface {
 	SetStartTime(time.Time)
 	GetStartTime() time.Time
-	SetEndTime() time.Time
+	SetEndTime(time.Time)
 	GetEndTime() time.Time
 }
