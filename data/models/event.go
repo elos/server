@@ -1,6 +1,8 @@
 package models
 
-import "github.com/elos/server/data/models/schema"
+import (
+	"github.com/elos/server/data/schema"
+)
 
 type Event interface {
 	schema.Model

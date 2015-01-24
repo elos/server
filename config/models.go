@@ -4,8 +4,8 @@ import (
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models"
 	"github.com/elos/server/data/models/event"
-	"github.com/elos/server/data/models/schema"
 	"github.com/elos/server/data/models/user"
+	"github.com/elos/server/data/schema"
 	"log"
 )
 

@@ -5,7 +5,7 @@ import (
 
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models"
-	"github.com/elos/server/data/models/schema"
+	"github.com/elos/server/data/schema"
 	"gopkg.in/mgo.v2/bson"
 )
 
