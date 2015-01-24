@@ -46,7 +46,12 @@ func (u *MongoUser) GetName() string {
 }
 
 func (u *MongoUser) Save(db data.DB) error {
-	return db.Save(u)
+	valid, err := Validate(u)
+	if valid {
+		return db.Save(u)
+	} else {
+		return err
+	}
 }
 
 func (u *MongoUser) Concerned() []data.ID {
@@ -167,4 +172,9 @@ func (u *MongoUser) RemoveEvent(e models.Event) error {
 
 func (u *MongoUser) Schema() models.Schema {
 	return CurrentUserSchema
+}
+
+func (u *MongoUser) Valid() bool {
+	valid, _ := Validate(u)
+	return valid
 }

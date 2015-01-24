@@ -9,7 +9,7 @@ import (
 	"log"
 )
 
-var SchemaMap schema.SchemaMap = map[data.Kind]map[data.Kind]schema.LinkKind{
+var RMap schema.RelationshipMap = map[data.Kind]map[data.Kind]schema.LinkKind{
 	models.UserKind: {
 		models.EventKind: schema.MulLink,
 	},
@@ -21,7 +21,7 @@ var SchemaMap schema.SchemaMap = map[data.Kind]map[data.Kind]schema.LinkKind{
 const DataVersion = 1
 
 func SetupModels(db data.DB) {
-	s, err := schema.NewSchema(&SchemaMap, DataVersion)
+	s, err := schema.NewSchema(&RMap, DataVersion)
 	if err != nil {
 		log.Fatal(err)
 	}

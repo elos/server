@@ -1,7 +1,6 @@
 package event
 
 import (
-	"log"
 	"time"
 
 	"github.com/elos/server/data"
@@ -58,7 +57,6 @@ func (e *MongoEvent) Kind() data.Kind {
 func (e *MongoEvent) LinkOne(r models.Model) {
 	switch r.Kind() {
 	case models.UserKind:
-		log.Printf("User here %v", r)
 		e.UserID = r.GetID().(bson.ObjectId)
 	default:
 		return
@@ -134,4 +132,8 @@ func (e *MongoEvent) SetName(n string) {
 
 func (e *MongoEvent) GetName() string {
 	return e.Name
+}
+
+func (e *MongoEvent) Valid() bool {
+	return true
 }

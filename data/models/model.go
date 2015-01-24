@@ -24,10 +24,6 @@ type Schema interface {
 	Versioned
 }
 
-type Loaded interface {
-	GetLoadedAt() time.Time
-}
-
 type Createable interface {
 	SetCreatedAt(time.Time)
 	GetCreatedAt() time.Time
@@ -48,7 +44,7 @@ type Linkable interface {
 type Model interface {
 	data.Record
 	Versioned
-	Loaded
+	Validateable
 
 	Linkable
 	Createable

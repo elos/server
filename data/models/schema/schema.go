@@ -16,9 +16,9 @@ type LinkKind string
 const MulLink LinkKind = "MANY"
 const OneLink LinkKind = "ONE"
 
-type SchemaMap map[data.Kind]map[data.Kind]LinkKind
+type RelationshipMap map[data.Kind]map[data.Kind]LinkKind
 
-func (s *SchemaMap) Valid() bool {
+func (s *RelationshipMap) Valid() bool {
 	for outerKind, links := range *s {
 		for innerKind, _ /*linkKind*/ := range links {
 			innerLinks, ok := (*s)[innerKind]
@@ -37,7 +37,7 @@ func (s *SchemaMap) Valid() bool {
 	return true
 }
 
-func PossibleLink(s *SchemaMap, this models.Model, other models.Model) (bool, error) {
+func PossibleLink(s *RelationshipMap, this models.Model, other models.Model) (bool, error) {
 	thisKind := this.Kind()
 
 	links, ok := (*s)[thisKind]
@@ -57,7 +57,7 @@ func PossibleLink(s *SchemaMap, this models.Model, other models.Model) (bool, er
 	return true, nil
 }
 
-func (s *SchemaMap) LinkType(this models.Model, other models.Model) (LinkKind, error) {
+func (s *RelationshipMap) LinkType(this models.Model, other models.Model) (LinkKind, error) {
 	_, err := PossibleLink(s, this, other)
 	if err != nil {
 		return "", err
@@ -92,7 +92,7 @@ func UnlinkWith(ln LinkKind, this models.Model, that models.Model) error {
 	return nil
 }
 
-func (s *SchemaMap) Link(this models.Model, that models.Model) error {
+func (s *RelationshipMap) Link(this models.Model, that models.Model) error {
 	thisLinkType, err := s.LinkType(this, that)
 
 	if err != nil {
@@ -116,7 +116,7 @@ func (s *SchemaMap) Link(this models.Model, that models.Model) error {
 	return nil
 }
 
-func (s *SchemaMap) Unlink(this models.Model, that models.Model) error {
+func (s *RelationshipMap) Unlink(this models.Model, that models.Model) error {
 	thisLinkType, err := s.LinkType(this, that)
 	if err != nil {
 		return err
@@ -140,14 +140,14 @@ func (s *SchemaMap) Unlink(this models.Model, that models.Model) error {
 }
 
 type VersionedSchema struct {
-	*SchemaMap
+	*RelationshipMap
 	version int
 }
 
-func NewSchema(sm *SchemaMap, version int) (models.Schema, error) {
+func NewSchema(sm *RelationshipMap, version int) (models.Schema, error) {
 	s := &VersionedSchema{
-		SchemaMap: sm,
-		version:   version,
+		RelationshipMap: sm,
+		version:         version,
 	}
 
 	if !s.Valid() {
