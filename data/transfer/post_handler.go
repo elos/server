@@ -31,7 +31,7 @@ func PostHandler(e *data.Envelope, db data.DB, c conn.Connection) {
 			model.SetID(mongo.NewObjectID())
 		}
 
-		if err = model.Save(); err != nil {
+		if err = model.Save(db); err != nil {
 			c.WriteJSON(util.ApiError{400, 400, "Error saving the model", "Check yoself"})
 			return
 		}

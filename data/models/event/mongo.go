@@ -25,7 +25,7 @@ type MongoEvent struct {
 	UserID data.ID `json:"user_id" bson:"user_id,omitempty"`
 }
 
-func (e *MongoEvent) Save() error {
+func (e *MongoEvent) Save(db data.DB) error {
 	return db.Save(e)
 }
 
@@ -58,7 +58,6 @@ func (e *MongoEvent) LinkOne(r models.Model) {
 	switch r.Kind() {
 	case models.UserKind:
 		e.UserID = r.GetID()
-		e.Save()
 	default:
 		return
 	}
@@ -77,7 +76,6 @@ func (e *MongoEvent) UnlinkOne(r models.Model) {
 	case models.UserKind:
 		if e.UserID == r.GetID() {
 			e.UserID = nil
-			e.Save()
 		}
 	default:
 		return

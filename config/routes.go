@@ -5,21 +5,29 @@ import (
 	"github.com/elos/server/routes"
 )
 
-var RoutesMap = routes.HandlerMap{
-	"v1": routes.HandlerMap{
-		"users": routes.HandlerMap{
-			routes.POST: routes.UsersPost,
-		},
-		"events": routes.HandlerMap{
-			routes.POST: routes.EventsPost,
-		},
-		"authenticate": routes.HandlerMap{
-			routes.GET: routes.AuthenticateGet,
-		},
-	},
-}
-
 func SetupRoutes(db data.DB) {
+
+	UsersPost := &routes.UsersPostHandler{}
+	EventsPost := &routes.UsersPostHandler{}
+	AuthenticateGet := &routes.UsersPostHandler{}
+	UsersPost.DB = db
+	EventsPost.DB = db
+	AuthenticateGet.DB = db
+
+	var RoutesMap = routes.HandlerMap{
+		"v1": routes.HandlerMap{
+			"users": routes.HandlerMap{
+				routes.POST: UsersPost,
+			},
+			"events": routes.HandlerMap{
+				routes.POST: EventsPost,
+			},
+			"authenticate": routes.HandlerMap{
+				routes.GET: AuthenticateGet,
+			},
+		},
+	}
+
 	routes.SetupHTTPRoutes(RoutesMap)
 	routes.DefaultClientDataHub = ClientDataHub
 }

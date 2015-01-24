@@ -45,7 +45,7 @@ func (u *MongoUser) GetName() string {
 	return u.Name
 }
 
-func (u *MongoUser) Save() error {
+func (u *MongoUser) Save(db data.DB) error {
 	return db.Save(u)
 }
 
@@ -62,7 +62,6 @@ func (u *MongoUser) LinkEvent(eventId data.ID) error {
 
 	if !u.EventIdsHash()[eventId] {
 		u.EventIds = append(u.EventIds, eventId.(bson.ObjectId))
-		return u.Save()
 	}
 
 	return nil
@@ -85,7 +84,6 @@ func (u *MongoUser) UnlinkEvent(eventId data.ID) error {
 		}
 
 		u.EventIds = ids
-		return u.Save()
 	}
 
 	return nil

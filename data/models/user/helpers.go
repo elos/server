@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/elos/server/data"
+	"github.com/elos/server/data/models"
 	"github.com/elos/server/data/mongo"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -13,8 +14,8 @@ import (
 	If the second return value is true, the user's credentials have been validated
 	otherwise, the user's credentials were malformed.
 */
-func Authenticate(id string, key string) (data.Record, bool, error) {
-	user, err := Find(mongo.NewObjectIDFromHex(id))
+func Authenticate(db data.DB, id string, key string) (data.Record, bool, error) {
+	user, err := Find(db, mongo.NewObjectIDFromHex(id))
 
 	if err != nil {
 		return user, false, err
@@ -28,7 +29,7 @@ func Authenticate(id string, key string) (data.Record, bool, error) {
 }
 
 // Finds a user model by an id
-func Find(id data.ID) (data.Record, error) {
+func Find(db data.DB, id data.ID) (models.User, error) {
 	user := &MongoUser{
 		ID: id.(bson.ObjectId),
 	}
@@ -42,7 +43,7 @@ func Find(id data.ID) (data.Record, error) {
 }
 
 // Finds a user by some field and its value
-func FindUserBy(field string, value interface{}) (data.Record, error) {
+func FindUserBy(db data.DB, field string, value interface{}) (models.User, error) {
 	user := &MongoUser{}
 
 	if err := db.PopulateByField(field, value, user); err != nil {

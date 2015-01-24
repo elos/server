@@ -14,7 +14,7 @@ func New() models.Event {
 	return &MongoEvent{}
 }
 
-func Create(name string, userIdString string) (models.Event, error) {
+func Create(db data.DB, name string, userIdString string) (models.Event, error) {
 	if !mongo.IsObjectIDHex(userIdString) {
 		return nil, errors.New("Invalid userId")
 	}
@@ -38,14 +38,14 @@ func Create(name string, userIdString string) (models.Event, error) {
 		event.Link("user", user)
 	*/
 
-	if err := event.Save(); err != nil {
+	if err := event.Save(db); err != nil {
 		return nil, err
 	} else {
 		return event, nil
 	}
 }
 
-func Find(id data.ID) (models.Event, error) {
+func Find(db data.DB, id data.ID) (models.Event, error) {
 	event := New()
 	event.SetID(id.(bson.ObjectId))
 
@@ -56,7 +56,7 @@ func Find(id data.ID) (models.Event, error) {
 	return event, nil
 }
 
-func FindEventBy(field string, value interface{}) (models.Event, error) {
+func FindEventBy(db data.DB, field string, value interface{}) (models.Event, error) {
 	event := &MongoEvent{}
 
 	if err := db.PopulateByField(field, value, event); err != nil {

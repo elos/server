@@ -1,6 +1,7 @@
 package user
 
 import (
+	"github.com/elos/server/data"
 	"github.com/elos/server/data/models"
 	"github.com/elos/server/data/mongo"
 	"github.com/elos/server/util"
@@ -22,7 +23,7 @@ func New( /*db data.DB*/ ) models.User {
 }
 
 // Creates a with a NAME
-func Create(name string) (models.User, error) {
+func Create(db data.DB, name string) (models.User, error) {
 	user := &MongoUser{
 		ID:        mongo.NewObjectID().(bson.ObjectId),
 		CreatedAt: time.Now(),
@@ -30,7 +31,7 @@ func Create(name string) (models.User, error) {
 		Key:       util.RandomString(64),
 	}
 
-	if err := user.Save(); err != nil {
+	if err := user.Save(db); err != nil {
 		return user, err
 	} else {
 		return user, nil

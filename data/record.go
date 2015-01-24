@@ -10,9 +10,16 @@ import (
 */
 type Kind string
 
-type Persistable interface {
-	Kind() Kind
+type Identifiable interface {
+	SetID(ID)
 	GetID() ID
+}
+
+type Persistable interface {
+	Identifiable
+
+	// For saving
+	Kind() Kind
 
 	// For model updates
 	Concerned() []ID
@@ -21,8 +28,7 @@ type Persistable interface {
 type Record interface {
 	Persistable
 
-	SetID(ID)
-	Save() error
+	Save(DB) error
 }
 
 func CheckID(id ID) error {

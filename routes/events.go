@@ -3,11 +3,20 @@ package routes
 import (
 	"net/http"
 
+	"github.com/elos/server/data"
 	"github.com/elos/server/data/models/event"
 )
 
-func EventsPostHandler(w http.ResponseWriter, r *http.Request, Error ErrorHandlerConstructor, Resource ResourceHandlerConstructor) {
-	event, err := event.Create(r.FormValue("name"), r.FormValue("user_id"))
+type EventsPostHandler struct {
+	DataHandler
+}
+
+func (h *EventsPostHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	EventsPostFunction(w, r, NewErrorHandler, NewResourceHandler, h.DB)
+}
+
+func EventsPostFunction(w http.ResponseWriter, r *http.Request, Error ErrorHandlerConstructor, Resource ResourceHandlerConstructor, db data.DB) {
+	event, err := event.Create(db, r.FormValue("name"), r.FormValue("user_id"))
 
 	if err != nil {
 		logf("An error occurred while create the event, err: %s", err)
@@ -17,9 +26,3 @@ func EventsPostHandler(w http.ResponseWriter, r *http.Request, Error ErrorHandle
 		Resource(201, event).ServeHTTP(w, r)
 	}
 }
-
-var EventsPost = http.HandlerFunc(
-	func(w http.ResponseWriter, r *http.Request) {
-		EventsPostHandler(w, r, NewErrorHandler, NewResourceHandler)
-	},
-)

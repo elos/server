@@ -34,6 +34,13 @@ func NewNullHandler() *NullHandler {
 
 // NullHandler (Testing) }}}
 
+type DataHandler struct {
+	data.DB
+}
+
+func (h *DataHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+}
+
 //  ErrorHandler {{{
 
 // Allows route to handle an error
@@ -147,24 +154,29 @@ var DefaultAuthenticator auth.RequestAuthenticator = auth.AuthenticateRequest
 // AuthenticationHandler {{{
 
 type AuthenticationHandler struct {
+	DataHandler
 	Authenticator          auth.RequestAuthenticator
 	NewErrorHandler        ErrorHandlerConstructor
 	NewUnauthorizedHandler UnauthorizedHandlerConstructor
 	AuthenticatedHandler   AuthenticatedHandler
 }
 
-func NewAuthenticationHandler(a auth.RequestAuthenticator, eh ErrorHandlerConstructor,
+func NewAuthenticationHandler(db data.DB, a auth.RequestAuthenticator, eh ErrorHandlerConstructor,
 	uh UnauthorizedHandlerConstructor, t AuthenticatedHandler) http.Handler {
-	return &AuthenticationHandler{
+	foo := &AuthenticationHandler{
 		Authenticator:          a,
 		NewErrorHandler:        eh,
 		NewUnauthorizedHandler: uh,
 		AuthenticatedHandler:   t,
 	}
+
+	foo.DB = db
+
+	return foo
 }
 
 func (h *AuthenticationHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	agent, authenticated, err := h.Authenticator(r)
+	agent, authenticated, err := h.Authenticator(h.DB, r)
 
 	if err != nil {
 		logf("An error occurred during authentication, err: %s", err)

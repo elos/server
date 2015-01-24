@@ -8,12 +8,25 @@ import (
 	"github.com/elos/server/autonomous/managers"
 	"github.com/elos/server/conn"
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models/user"
+	"github.com/elos/server/data/test"
 )
 
 var DefaultClientDataHub autonomous.Manager = managers.NewNullHub()
 
-func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agent, upgrader conn.WebSocketUpgrader, hub autonomous.Manager) {
+type AuthenticateGetHandler struct {
+	DataHandler
+}
+
+func (h *AuthenticateGetHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	NewAuthenticationHandler(h.DB, DefaultAuthenticator,
+		NewErrorHandler,
+		NewUnauthorizedHandler,
+		AuthenticatedHandlerFunc(func(w http.ResponseWriter, r *http.Request, a data.Agent) {
+			WebSocketUpgradeHandler(w, r, a, conn.DefaultWebSocketUpgrader, DefaultClientDataHub, test.NewDB())
+		})).ServeHTTP(w, r)
+}
+
+func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agent, upgrader conn.WebSocketUpgrader, hub autonomous.Manager, db data.DB) {
 	connection, err := upgrader.Upgrade(w, r, a)
 
 	if err != nil {
@@ -24,14 +37,6 @@ func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Agen
 
 	logf("Agent with id %s just connected over websocket", a.GetID())
 
-	agent := agents.NewClientDataAgent(connection, user.DefaultDatabase)
+	agent := agents.NewClientDataAgent(connection, db)
 	go hub.StartAgent(agent)
 }
-
-var AuthenticateGet = NewAuthenticationHandler(DefaultAuthenticator,
-	NewErrorHandler,
-	NewUnauthorizedHandler,
-	AuthenticatedHandlerFunc(func(w http.ResponseWriter, r *http.Request, a data.Agent) {
-		WebSocketUpgradeHandler(w, r, a, conn.DefaultWebSocketUpgrader, DefaultClientDataHub)
-	}),
-)

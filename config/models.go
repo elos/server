@@ -28,7 +28,4 @@ func SetupModels(db data.DB) {
 
 	user.SetupModel(s, 1)
 	event.SetupModel(s, 1)
-
-	user.SetDB(db)
-	event.SetDB(db)
 }
