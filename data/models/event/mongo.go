@@ -26,7 +26,13 @@ type MongoEvent struct {
 }
 
 func (e *MongoEvent) Save(db data.DB) error {
-	return db.Save(e)
+	valid, err := Validate(e)
+
+	if valid {
+		return db.Save(e)
+	}
+
+	return err
 }
 
 func (e *MongoEvent) Concerned() []data.ID {
