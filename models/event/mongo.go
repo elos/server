@@ -4,26 +4,21 @@ import (
 	"time"
 
 	"github.com/elos/data"
+	"github.com/elos/data/mongo"
 	"github.com/elos/schema"
 	"github.com/elos/server/models"
 	"gopkg.in/mgo.v2/bson"
 )
 
 type MongoEvent struct {
-	// Core
 	ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
 	UpdatedAt time.Time     `json:"updated_at" bson:"updated_at"`
-	LoadedAt  time.Time     `json:"-" bson:"-"`
 
-	// Properties
-	Name      string    `json:"name"`
-	StartTime time.Time `json:"start_time" bson:"start_time"`
-	EndTime   time.Time `json:"end_time" bson:"end_time"`
-
-	// Links
-	// User   Link          `json:"user" bson:"user"`
-	UserID bson.ObjectId `json:"user_id" bson:"user_id,omitempty"`
+	Name      string        `json:"name"`
+	StartTime time.Time     `json:"start_time" bson:"start_time"`
+	EndTime   time.Time     `json:"end_time" bson:"end_time"`
+	UserID    bson.ObjectId `json:"user_id" bson:"user_id,omitempty"`
 }
 
 func (e *MongoEvent) Save(db data.DB) error {
@@ -82,15 +77,11 @@ func (e *MongoEvent) UnlinkOne(r schema.Model) {
 	switch r.(type) {
 	case models.User:
 		if e.UserID == r.GetID() {
-			e.UserID = ""
+			e.UserID = *new(bson.ObjectId)
 		}
 	default:
 		return
 	}
-}
-
-func (u *MongoEvent) GetLoadedAt() time.Time {
-	return u.LoadedAt
 }
 
 func (e *MongoEvent) GetCreatedAt() time.Time {
@@ -143,4 +134,8 @@ func (e *MongoEvent) GetName() string {
 
 func (e *MongoEvent) Valid() bool {
 	return true
+}
+
+func (u *MongoEvent) DBType() data.DBType {
+	return mongo.DBType
 }
