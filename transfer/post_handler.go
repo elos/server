@@ -4,7 +4,6 @@ import (
 	"github.com/elos/server/conn"
 	"github.com/elos/server/data"
 	"github.com/elos/server/models"
-	"github.com/elos/server/data/mongo"
 	"github.com/elos/server/util"
 )
 
@@ -28,7 +27,7 @@ func PostHandler(e *Envelope, db data.DB, c conn.Connection) {
 		}
 
 		if !model.GetID().Valid() {
-			model.SetID(mongo.NewObjectID())
+			model.SetID(db.NewObjectID())
 		}
 
 		if err = model.Save(db); err != nil {

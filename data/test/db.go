@@ -3,7 +3,6 @@ package test
 import (
 	"fmt"
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/mongo"
 )
 
 type TestDB struct {
@@ -19,6 +18,20 @@ type TestDB struct {
 var TestDBError error = fmt.Errorf("TestDB Error")
 
 const TestDBType = "test"
+
+type TestDBID string
+
+func (id TestDBID) String() string {
+	return string(id)
+}
+
+func (id TestDBID) Hex() string {
+	return string(id)
+}
+
+func (id TestDBID) Valid() bool {
+	return true
+}
 
 func NewDB() *TestDB {
 	db := &TestDB{}
@@ -52,7 +65,7 @@ func (db *TestDB) RegisterForUpdates(a data.Identifiable) *chan *data.Change {
 }
 
 func (db *TestDB) NewObjectID() data.ID {
-	return mongo.NewObjectID()
+	return TestDBID("")
 }
 
 func (db *TestDB) CheckID(id data.ID) error {
