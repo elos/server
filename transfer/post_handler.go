@@ -8,7 +8,7 @@ import (
 	"github.com/elos/server/util"
 )
 
-func PostHandler(e *data.Envelope, db data.DB, c conn.Connection) {
+func PostHandler(e *Envelope, db data.DB, c conn.Connection) {
 	// Reminder
 	var kind data.Kind
 	var info data.AttrMap

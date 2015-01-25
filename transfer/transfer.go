@@ -1,4 +1,8 @@
-package data
+package transfer
+
+import (
+	"github.com/elos/server/data"
+)
 
 /*
 	Data structures for the transfer of data
@@ -28,11 +32,11 @@ var ClientActions = map[string]bool{
 
 // Inbound
 type Envelope struct {
-	Action string           `json:"action"`
-	Data   map[Kind]AttrMap `json:"data"`
+	Action string                     `json:"action"`
+	Data   map[data.Kind]data.AttrMap `json:"data"`
 }
 
-func NewEnvelope(action string, data map[Kind]AttrMap) *Envelope {
+func NewEnvelope(action string, data map[data.Kind]data.AttrMap) *Envelope {
 	return &Envelope{
 		Action: action,
 		Data:   data,
@@ -41,11 +45,11 @@ func NewEnvelope(action string, data map[Kind]AttrMap) *Envelope {
 
 // Outbound
 type Package struct {
-	Action string  `json:"action"`
-	Data   KindMap `json:"data"`
+	Action string       `json:"action"`
+	Data   data.KindMap `json:"data"`
 }
 
-func NewPackage(action string, data map[Kind]Record) *Package {
+func NewPackage(action string, data map[data.Kind]data.Record) *Package {
 	return &Package{
 		Action: action,
 		Data:   data,
@@ -58,8 +62,8 @@ func NewPackage(action string, data map[Kind]Record) *Package {
 	of form:
 	{ <db.Kind>: <db.Model>}
 */
-func Map(m Record) KindMap {
-	return KindMap{
+func Map(m data.Record) data.KindMap {
+	return data.KindMap{
 		m.Kind(): m,
 	}
 }

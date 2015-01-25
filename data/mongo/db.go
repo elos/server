@@ -11,7 +11,7 @@ const MongoDBType = "mongo"
 
 type MongoDB struct {
 	Connections []*MongoConnection
-	Subscribers map[data.ID][]*chan *data.Package
+	Subscribers map[data.ID][]*chan *data.Change
 	m           sync.Mutex
 }
 
@@ -19,7 +19,7 @@ func NewDB(addr string) (data.DB, error) {
 	db := &MongoDB{}
 	db.Connections = make([]*MongoConnection, 0)
 	db.Connect(addr)
-	db.Subscribers = make(map[data.ID][]*chan *data.Package)
+	db.Subscribers = make(map[data.ID][]*chan *data.Change)
 	return db, nil
 }
 
@@ -63,7 +63,7 @@ func (db *MongoDB) Save(m data.Record) error {
 		logf("Error saving record of kind %s, err: %s", m.Kind(), err)
 		return err
 	} else {
-		db.NotifyConcerned(m, data.POST)
+		db.NotifyConcerned(data.NewChange(data.Update, m))
 		return db.didLoad(m)
 	}
 }
@@ -81,7 +81,7 @@ func (db *MongoDB) Delete(m data.Record) error {
 		logf("Error deleted record of kind %s, err: %s", m.Kind(), err)
 		return err
 	} else {
-		db.NotifyConcerned(m, data.DELETE)
+		db.NotifyConcerned(data.NewChange(data.Delete, m))
 		return nil
 	}
 }
@@ -128,30 +128,29 @@ func (db *MongoDB) GetConnection() *MongoConnection {
 	return db.Connections[0]
 }
 
-func (db *MongoDB) RegisterForUpdates(a data.Identifiable) *chan *data.Package {
+func (db *MongoDB) RegisterForUpdates(a data.Identifiable) *chan *data.Change {
 	db.m.Lock()
 	defer db.m.Unlock()
 
 	id := a.GetID()
-	c := make(chan *data.Package)
+	c := make(chan *data.Change)
 
 	db.Subscribers[id] = append(db.Subscribers[id], &c)
 
 	return &c
 }
 
-func (db *MongoDB) NotifyConcerned(m data.Record, action string) {
-	p := data.NewPackage(action, data.Map(m))
-	concerned := m.Concerned()
+func (db *MongoDB) NotifyConcerned(c *data.Change) {
+	concerned := c.Concerned()
 	for _, concernedId := range concerned {
 		channels := db.Subscribers[concernedId]
 		for _, channel := range channels {
-			go nonblockingchannelsend(*channel, p)
+			go nonblockingchannelsend(*channel, c)
 		}
 	}
 }
 
-func nonblockingchannelsend(c chan *data.Package, p *data.Package) {
+func nonblockingchannelsend(c chan *data.Change, p *data.Change) {
 	c <- p
 }
 

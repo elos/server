@@ -45,6 +45,23 @@ type Record interface {
 	Concerned() []ID // for model updates
 }
 
+type ChangeKind int
+
+const Update ChangeKind = 1
+const Delete ChangeKind = 2
+
+type Change struct {
+	ChangeKind
+	Record
+}
+
+func NewChange(kind ChangeKind, r Record) *Change {
+	return &Change{
+		ChangeKind: kind,
+		Record:     r,
+	}
+}
+
 /*
 	Abstraction of a DataStore
 	- Covers underlying connection
@@ -70,7 +87,7 @@ type DB interface {
 
 	Type() string
 
-	RegisterForUpdates(Identifiable) *chan *Package
+	RegisterForUpdates(Identifiable) *chan *Change
 }
 
 /* Basic, basic abstraction of underlying DBConnection */

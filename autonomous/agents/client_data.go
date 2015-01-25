@@ -4,7 +4,7 @@ import (
 	"github.com/elos/server/autonomous"
 	"github.com/elos/server/conn"
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/transfer"
+	"github.com/elos/server/transfer"
 	"log"
 )
 
@@ -12,7 +12,7 @@ type ClientDataAgent struct {
 	*BaseAgent
 	DB data.DB
 
-	read       chan *data.Envelope
+	read       chan *transfer.Envelope
 	Connection conn.Connection
 }
 
@@ -21,7 +21,7 @@ func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 		BaseAgent:  NewBaseAgent(),
 		Connection: c,
 		DB:         db,
-		read:       make(chan *data.Envelope),
+		read:       make(chan *transfer.Envelope),
 	}
 
 	a.SetDataOwner(c.Agent())
@@ -50,10 +50,10 @@ func (a *ClientDataAgent) Start() {
 	}
 }
 
-func ReadConnection(c conn.Connection, rc *chan *data.Envelope, endChannel *chan bool) {
+func ReadConnection(c conn.Connection, rc *chan *transfer.Envelope, endChannel *chan bool) {
 	// TODO add read limit and deadline
 	for {
-		var e data.Envelope
+		var e transfer.Envelope
 
 		err := c.ReadJSON(&e)
 

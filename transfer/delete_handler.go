@@ -12,10 +12,10 @@ import (
 
 	Successful removal prompts a direct data.DELETE response
 
-	Unsuccessful removal prompts a direct data.POST response
+	Unsuccessful removal prompts a direct POST response
 	containing the record in question
 */
-func DeleteHandler(e *data.Envelope, db data.DB, c conn.Connection) {
+func DeleteHandler(e *Envelope, db data.DB, c conn.Connection) {
 	var (
 		kind data.Kind
 		info data.AttrMap
@@ -25,20 +25,20 @@ func DeleteHandler(e *data.Envelope, db data.DB, c conn.Connection) {
 		model, err := models.ModelFor(kind)
 
 		if err != nil { // Unrecognized Type
-			c.WriteJSON(data.NewEnvelope(data.POST, map[data.Kind]data.AttrMap{kind: info}))
+			c.WriteJSON(NewEnvelope(POST, map[data.Kind]data.AttrMap{kind: info}))
 			continue
 		}
 
 		if err := models.PopulateModel(model, &info); err != nil {
-			c.WriteJSON(data.NewEnvelope(data.POST, map[data.Kind]data.AttrMap{kind: info}))
+			c.WriteJSON(NewEnvelope(POST, map[data.Kind]data.AttrMap{kind: info}))
 			continue
 		}
 
 		if err = db.Delete(model); err != nil {
-			c.WriteJSON(data.NewEnvelope(data.POST, map[data.Kind]data.AttrMap{kind: info}))
+			c.WriteJSON(NewEnvelope(POST, map[data.Kind]data.AttrMap{kind: info}))
 			continue
 		}
 
-		c.WriteJSON(data.NewPackage(data.DELETE, data.Map(model)))
+		c.WriteJSON(NewPackage(DELETE, Map(model)))
 	}
 }

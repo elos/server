@@ -8,28 +8,28 @@ import (
 
 type Router struct {
 	Handlers map[string]ActionHandler
-	Actions  map[string]chan *data.Envelope
+	Actions  map[string]chan *Envelope
 }
 
 func (r *Router) Handler(action string, handler ActionHandler) {
 }
 
-func (r *Router) Route(e *data.Envelope, db data.DB, c conn.Connection) {
+func (r *Router) Route(e *Envelope, db data.DB, c conn.Connection) {
 }
 
-type ActionHandler func(*data.Envelope, data.DB, conn.Connection)
+type ActionHandler func(*Envelope, data.DB, conn.Connection)
 
-func Route(e *data.Envelope, db data.DB, c conn.Connection) {
+func Route(e *Envelope, db data.DB, c conn.Connection) {
 	switch e.Action {
-	case data.POST:
+	case POST:
 		go PostHandler(e, db, c)
-	case data.GET:
+	case GET:
 		go GetHandler(e, db, c)
-	case data.DELETE:
+	case DELETE:
 		go DeleteHandler(e, db, c)
-	case data.SYNC:
+	case SYNC:
 		go SyncHandler(e, db, c)
-	case data.ECHO:
+	case ECHO:
 		go EchoHandler(e, db, c)
 	default:
 		c.WriteJSON(util.NewInvalidMethodError())

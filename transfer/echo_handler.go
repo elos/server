@@ -5,6 +5,6 @@ import (
 	"github.com/elos/server/data"
 )
 
-func SyncHandler(e *data.Envelope, db data.DB, c conn.Connection) {
-	// not implemented
+func EchoHandler(e *Envelope, db data.DB, c conn.Connection) {
+	c.WriteJSON(e)
 }
