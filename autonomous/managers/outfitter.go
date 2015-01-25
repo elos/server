@@ -38,7 +38,7 @@ func (o *Outfitter) Run() {
 			o.registeredAgents[a] = true
 		case a := <-o.StopAgent:
 			go a.Stop()
-			o.registeredAgents[a] = false
+			delete(o.registeredAgents, a)
 		}
 	}
 }

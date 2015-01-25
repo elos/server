@@ -28,7 +28,7 @@ func (h *NullHub) StopAgent(a autonomous.Agent) {
 	h.m.Lock()
 	defer h.m.Unlock()
 
-	h.RegisteredAgents[a] = false
+	delete(h.RegisteredAgents, a)
 }
 
 func (h *NullHub) Run() {

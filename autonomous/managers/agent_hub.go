@@ -42,7 +42,7 @@ func (h *AgentHub) Run() {
 			h.registeredAgents[a] = true
 		case a := <-h.Stop:
 			go a.Start()
-			h.registeredAgents[a] = false
+			delete(h.registeredAgents, a)
 		case _ = <-h.die:
 			log.Print("hello")
 			h.Shutdown()
