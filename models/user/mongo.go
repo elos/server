@@ -3,7 +3,7 @@ package user
 import (
 	"github.com/elos/server/data"
 	"github.com/elos/server/models"
-	"github.com/elos/server/data/schema"
+	"github.com/elos/server/schema"
 	"gopkg.in/mgo.v2/bson"
 	"time"
 )

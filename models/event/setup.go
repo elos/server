@@ -2,7 +2,7 @@ package event
 
 import (
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/schema"
+	"github.com/elos/server/schema"
 )
 
 var CurrentEventKind data.Kind

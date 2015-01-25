@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/schema"
+	"github.com/elos/server/schema"
 )
 
 /*
