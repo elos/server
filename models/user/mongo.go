@@ -2,6 +2,7 @@ package user
 
 import (
 	"github.com/elos/data"
+	"github.com/elos/data/mongo"
 	"github.com/elos/schema"
 	"github.com/elos/server/models"
 	"gopkg.in/mgo.v2/bson"
@@ -9,18 +10,13 @@ import (
 )
 
 type MongoUser struct {
-	LoadedAt time.Time `json:"-" bson:"-"`
-
 	ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
 	UpdatedAt time.Time     `json:"updated_at" bson:"updated_at"`
 
-	// Properties
-	Name string `json:"name"`
-	Key  string `json:"key"`
-
-	// Links
-	EventIds []bson.ObjectId `json:"event_ids" bson:"event_ids"`
+	Name     string      `json:"name"`
+	Key      string      `json:"key"`
+	EventIDs mongo.IDSet `json:"event_ids" bson:"event_ids"`
 }
 
 func (u *MongoUser) Kind() data.Kind {
@@ -61,40 +57,14 @@ func (u *MongoUser) Concerned() []data.ID {
 	return a
 }
 
-func (u *MongoUser) LinkEvent(eventId data.ID) error {
-	if !u.EventIdsHash()[eventId] {
-		u.EventIds = append(u.EventIds, eventId.(bson.ObjectId))
-	}
-
+func (u *MongoUser) LinkEvent(eventID bson.ObjectId) error {
+	u.EventIDs = mongo.AddID(u.EventIDs, eventID)
 	return nil
 }
 
-func (u *MongoUser) UnlinkEvent(eventId data.ID) error {
-	eventIds := u.EventIdsHash()
-
-	if eventIds[eventId] {
-		eventIds[eventId] = false
-		ids := make([]bson.ObjectId, 0)
-		for id := range eventIds {
-			if eventIds[id] {
-				ids = append(ids, id.(bson.ObjectId))
-			}
-		}
-
-		u.EventIds = ids
-	}
-
+func (u *MongoUser) UnlinkEvent(eventID bson.ObjectId) error {
+	u.EventIDs = mongo.DropID(u.EventIDs, eventID)
 	return nil
-}
-
-func (u *MongoUser) EventIdsHash() map[data.ID]bool {
-	hash := make(map[data.ID]bool, len(u.EventIds))
-
-	for _, id := range u.EventIds {
-		hash[id] = true
-	}
-
-	return hash
 }
 
 func (u *MongoUser) SetCreatedAt(t time.Time) {
@@ -113,10 +83,6 @@ func (u *MongoUser) GetUpdatedAt() time.Time {
 	return u.UpdatedAt
 }
 
-func (u *MongoUser) GetLoadedAt() time.Time {
-	return u.LoadedAt
-}
-
 func (u *MongoUser) SetKey(s string) {
 	u.Key = s
 }
@@ -132,7 +98,7 @@ func (u *MongoUser) LinkOne(r schema.Model) {
 func (u *MongoUser) LinkMul(r schema.Model) {
 	switch r.(type) {
 	case models.Event:
-		u.LinkEvent(r.GetID())
+		u.LinkEvent(r.GetID().(bson.ObjectId))
 	default:
 		return
 	}
@@ -141,7 +107,7 @@ func (u *MongoUser) LinkMul(r schema.Model) {
 func (u *MongoUser) UnlinkMul(r schema.Model) {
 	switch r.(type) {
 	case models.Event:
-		u.UnlinkEvent(r.GetID())
+		u.UnlinkEvent(r.GetID().(bson.ObjectId))
 	default:
 		return
 	}
@@ -170,4 +136,8 @@ func (u *MongoUser) Schema() schema.Schema {
 func (u *MongoUser) Valid() bool {
 	valid, _ := Validate(u)
 	return valid
+}
+
+func (u *MongoUser) DBType() data.DBType {
+	return mongo.DBType
 }
