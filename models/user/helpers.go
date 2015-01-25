@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models"
+	"github.com/elos/server/models"
 	"github.com/elos/server/data/mongo"
 	"gopkg.in/mgo.v2/bson"
 )

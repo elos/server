@@ -138,13 +138,13 @@ func (s *RelationshipMap) Unlink(this Model, that Model) error {
 	return nil
 }
 
-type VersionedSchema struct {
+type VersionedRelationshipMap struct {
 	*RelationshipMap
 	version int
 }
 
 func NewSchema(sm *RelationshipMap, version int) (Schema, error) {
-	s := &VersionedSchema{
+	s := &VersionedRelationshipMap{
 		RelationshipMap: sm,
 		version:         version,
 	}
@@ -156,6 +156,6 @@ func NewSchema(sm *RelationshipMap, version int) (Schema, error) {
 	return s, nil
 }
 
-func (s *VersionedSchema) GetVersion() int {
+func (s *VersionedRelationshipMap) GetVersion() int {
 	return s.version
 }

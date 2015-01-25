@@ -3,7 +3,7 @@ package config
 import (
 	"github.com/elos/server/autonomous/managers"
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models/user"
+	"github.com/elos/server/models/user"
 )
 
 var Outfitter *managers.Outfitter

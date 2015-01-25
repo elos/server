@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models/user"
+	"github.com/elos/server/models/user"
 )
 
 type RequestAuthenticator func(data.DB, *http.Request) (data.Identifiable, bool, error)

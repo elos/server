@@ -3,7 +3,7 @@ package transfer
 import (
 	"github.com/elos/server/conn"
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models"
+	"github.com/elos/server/models"
 	"github.com/elos/server/data/mongo"
 	"github.com/elos/server/util"
 )

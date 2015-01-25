@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models"
+	"github.com/elos/server/models"
 	"github.com/elos/server/data/schema"
 	"gopkg.in/mgo.v2/bson"
 )

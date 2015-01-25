@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models/user"
+	"github.com/elos/server/models/user"
 )
 
 type UsersPostHandler struct {

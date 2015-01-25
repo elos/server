@@ -2,7 +2,7 @@ package event
 
 import (
 	"errors"
-	"github.com/elos/server/data/models"
+	"github.com/elos/server/models"
 )
 
 var NoNameError = errors.New("Error: event must have a name")

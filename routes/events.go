@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models/event"
+	"github.com/elos/server/models/event"
 )
 
 type EventsPostHandler struct {

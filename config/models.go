@@ -2,9 +2,9 @@ package config
 
 import (
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models"
-	"github.com/elos/server/data/models/event"
-	"github.com/elos/server/data/models/user"
+	"github.com/elos/server/models"
+	"github.com/elos/server/models/event"
+	"github.com/elos/server/models/user"
 	"github.com/elos/server/data/schema"
 	"log"
 )
