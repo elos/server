@@ -58,12 +58,12 @@ func (e *MongoEvent) SetID(id data.ID) {
 }
 
 func (e *MongoEvent) Kind() data.Kind {
-	return models.EventKind
+	return CurrentEventKind
 }
 
 func (e *MongoEvent) LinkOne(r schema.Model) {
-	switch r.Kind() {
-	case models.UserKind:
+	switch r.(type) {
+	case models.User:
 		e.UserID = r.GetID().(bson.ObjectId)
 	default:
 		return
@@ -79,8 +79,8 @@ func (e *MongoEvent) UnlinkMul(r schema.Model) {
 }
 
 func (e *MongoEvent) UnlinkOne(r schema.Model) {
-	switch r.Kind() {
-	case models.UserKind:
+	switch r.(type) {
+	case models.User:
 		if e.UserID == r.GetID() {
 			e.UserID = ""
 		}

@@ -20,11 +20,11 @@ type MongoUser struct {
 	Key  string `json:"key"`
 
 	// Links
-	EventIds []bson.ObjectId `json:"event_ids", bson:"event_ids"`
+	EventIds []bson.ObjectId `json:"event_ids" bson:"event_ids"`
 }
 
 func (u *MongoUser) Kind() data.Kind {
-	return models.UserKind
+	return CurrentUserKind
 }
 
 func (u *MongoUser) SetID(id data.ID) {
@@ -130,8 +130,8 @@ func (u *MongoUser) LinkOne(r schema.Model) {
 }
 
 func (u *MongoUser) LinkMul(r schema.Model) {
-	switch r.Kind() {
-	case models.EventKind:
+	switch r.(type) {
+	case models.Event:
 		u.LinkEvent(r.GetID())
 	default:
 		return
@@ -139,8 +139,8 @@ func (u *MongoUser) LinkMul(r schema.Model) {
 }
 
 func (u *MongoUser) UnlinkMul(r schema.Model) {
-	switch r.Kind() {
-	case models.EventKind:
+	switch r.(type) {
+	case models.Event:
 		u.UnlinkEvent(r.GetID())
 	default:
 		return

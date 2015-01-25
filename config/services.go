@@ -3,7 +3,6 @@ package config
 import (
 	"github.com/elos/server/autonomous/managers"
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models"
 	"github.com/elos/server/data/models/user"
 )
 
@@ -13,7 +12,7 @@ func SetupServices(db data.DB) {
 	Outfitter = managers.NewOutfitter()
 	go Outfitter.Run()
 
-	iter, err := db.NewQuery(models.UserKind).Execute()
+	iter, err := db.NewQuery(UserKind).Execute()
 	if err != nil {
 	}
 

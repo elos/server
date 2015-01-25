@@ -4,7 +4,6 @@ import (
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models"
 	"github.com/elos/server/data/mongo"
-	"github.com/elos/server/data/schema"
 	"github.com/elos/server/util"
 	"gopkg.in/mgo.v2/bson"
 	"time"
@@ -37,12 +36,4 @@ func Create(db data.DB, name string) (models.User, error) {
 	} else {
 		return user, nil
 	}
-}
-
-var CurrentUserSchema schema.Schema
-var CurrentUserVersion int
-
-func SetupModel(s schema.Schema, version int) {
-	CurrentUserSchema = s
-	CurrentUserVersion = version
 }

@@ -9,12 +9,15 @@ import (
 	"log"
 )
 
+const UserKind data.Kind = "user"
+const EventKind data.Kind = "event"
+
 var RMap schema.RelationshipMap = map[data.Kind]map[data.Kind]schema.LinkKind{
-	models.UserKind: {
-		models.EventKind: schema.MulLink,
+	UserKind: {
+		EventKind: schema.MulLink,
 	},
-	models.EventKind: {
-		models.UserKind: schema.OneLink,
+	EventKind: {
+		UserKind: schema.OneLink,
 	},
 }
 
@@ -26,6 +29,9 @@ func SetupModels(db data.DB) {
 		log.Fatal(err)
 	}
 
-	user.SetupModel(s, 1)
-	event.SetupModel(s, 1)
+	user.SetupModel(s, UserKind, 1)
+	event.SetupModel(s, EventKind, 1)
+
+	models.Register(UserKind, func() schema.Model { return user.New() })
+	models.Register(EventKind, func() schema.Model { return event.New() })
 }

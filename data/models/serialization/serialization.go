@@ -7,34 +7,28 @@ import (
 
 	"github.com/elos/server/data"
 	"github.com/elos/server/data/models"
-	"github.com/elos/server/data/models/event"
-	"github.com/elos/server/data/models/user"
+	"github.com/elos/server/data/schema"
 )
 
 /*
 	Returns a new allocated model of db.Kind KIND
 */
-func Type(kind data.Kind) (data.Record, error) {
-	var model data.Record
+func Type(kind data.Kind) (schema.Model, error) {
+	constructor, ok := models.RegisteredModels[kind]
 
-	switch kind {
-	case models.EventKind:
-		model = event.New()
-	case models.UserKind:
-		model = user.New()
-	default:
+	if !ok {
 		return nil, fmt.Errorf("Unrecognized type")
 	}
 
-	return model, nil
+	return constructor(), nil
 }
 
 // Alias for Type(db.Kind)
-func ModelFor(kind data.Kind) (data.Record, error) {
+func ModelFor(kind data.Kind) (schema.Model, error) {
 	return Type(kind)
 }
 
-func PopulateModel(model data.Record, attributes *data.AttrMap) error {
+func PopulateModel(model schema.Model, attributes *data.AttrMap) error {
 	// Cleanest way I know of transforming the data to the model's schema
 	bytes, err := json.Marshal(attributes)
 
