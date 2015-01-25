@@ -1,4 +1,4 @@
-package serialization
+package models
 
 import (
 	"encoding/json"
@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models"
 	"github.com/elos/server/data/schema"
 )
 
@@ -14,7 +13,7 @@ import (
 	Returns a new allocated model of db.Kind KIND
 */
 func Type(kind data.Kind) (schema.Model, error) {
-	constructor, ok := models.RegisteredModels[kind]
+	constructor, ok := RegisteredModels[kind]
 
 	if !ok {
 		return nil, fmt.Errorf("Unrecognized type")

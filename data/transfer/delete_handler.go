@@ -3,8 +3,7 @@ package transfer
 import (
 	"github.com/elos/server/conn"
 	"github.com/elos/server/data"
-	"github.com/elos/server/data/models/serialization"
-	// "github.com/elos/server/util"
+	"github.com/elos/server/data/models"
 )
 
 /*
@@ -23,14 +22,14 @@ func DeleteHandler(e *data.Envelope, db data.DB, c conn.Connection) {
 	)
 
 	for kind, info = range e.Data {
-		model, err := serialization.ModelFor(kind)
+		model, err := models.ModelFor(kind)
 
 		if err != nil { // Unrecognized Type
 			c.WriteJSON(data.NewEnvelope(data.POST, map[data.Kind]data.AttrMap{kind: info}))
 			continue
 		}
 
-		if err := serialization.PopulateModel(model, &info); err != nil {
+		if err := models.PopulateModel(model, &info); err != nil {
 			c.WriteJSON(data.NewEnvelope(data.POST, map[data.Kind]data.AttrMap{kind: info}))
 			continue
 		}
