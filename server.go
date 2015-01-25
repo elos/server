@@ -9,8 +9,8 @@ import (
 	"os/signal"
 	"path/filepath"
 
+	"github.com/elos/data/mongo"
 	"github.com/elos/server/config"
-	"github.com/elos/server/data/mongo"
 	"github.com/elos/server/util/logging"
 )
 

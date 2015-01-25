@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/elos/server/data"
+	"github.com/elos/data"
 	"github.com/elos/server/schema"
 )
 

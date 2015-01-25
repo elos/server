@@ -1,7 +1,7 @@
 package schema
 
 import (
-	"github.com/elos/server/data"
+	"github.com/elos/data"
 	"time"
 )
 

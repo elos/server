@@ -3,9 +3,9 @@ package user
 import (
 	"fmt"
 
-	"github.com/elos/server/data"
+	"github.com/elos/data"
+	"github.com/elos/data/mongo"
 	"github.com/elos/server/models"
-	"github.com/elos/server/data/mongo"
 	"gopkg.in/mgo.v2/bson"
 )
 

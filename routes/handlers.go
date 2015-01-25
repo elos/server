@@ -1,11 +1,12 @@
 package routes
 
 import (
-	"github.com/elos/server/data"
-	"github.com/elos/server/util"
-	"github.com/elos/server/util/auth"
 	"net/http"
 	"sync"
+
+	"github.com/elos/data"
+	"github.com/elos/server/util"
+	"github.com/elos/server/util/auth"
 )
 
 // NullHandler (Testing) {{{

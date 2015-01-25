@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/elos/server/data"
+	"github.com/elos/data"
 	"github.com/elos/server/models/user"
 )
 

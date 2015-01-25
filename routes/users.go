@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	"github.com/elos/server/data"
+	"github.com/elos/data"
 	"github.com/elos/server/models/user"
 )
 

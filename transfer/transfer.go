@@ -1,7 +1,7 @@
 package transfer
 
 import (
-	"github.com/elos/server/data"
+	"github.com/elos/data"
 )
 
 /*

@@ -1,7 +1,7 @@
 package conn
 
 import (
-	"github.com/elos/server/data"
+	"github.com/elos/data"
 	"sync"
 )
 

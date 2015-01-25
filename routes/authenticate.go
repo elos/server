@@ -3,12 +3,12 @@ package routes
 import (
 	"net/http"
 
+	"github.com/elos/data"
+	"github.com/elos/data/test"
 	"github.com/elos/server/autonomous"
 	"github.com/elos/server/autonomous/agents"
 	"github.com/elos/server/autonomous/managers"
 	"github.com/elos/server/conn"
-	"github.com/elos/server/data"
-	"github.com/elos/server/data/test"
 )
 
 var DefaultClientDataHub autonomous.Manager = managers.NewNullHub()

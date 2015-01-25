@@ -1,7 +1,7 @@
 package conn
 
 import (
-	"github.com/elos/server/data"
+	"github.com/elos/data"
 	"github.com/gorilla/websocket"
 	"net/http"
 	"sync"

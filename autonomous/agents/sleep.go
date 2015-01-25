@@ -4,8 +4,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/elos/data"
 	"github.com/elos/server/autonomous"
-	"github.com/elos/server/data"
 )
 
 var DefaultSleepAgentStartPeriod time.Duration = 10 * time.Second

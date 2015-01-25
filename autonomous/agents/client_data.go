@@ -1,9 +1,9 @@
 package agents
 
 import (
+	"github.com/elos/data"
 	"github.com/elos/server/autonomous"
 	"github.com/elos/server/conn"
-	"github.com/elos/server/data"
 	"github.com/elos/server/transfer"
 	"log"
 )

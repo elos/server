@@ -3,8 +3,8 @@ package config
 import (
 	"log"
 
-	"github.com/elos/server/data"
-	"github.com/elos/server/data/mongo"
+	"github.com/elos/data"
+	"github.com/elos/data/mongo"
 )
 
 /*

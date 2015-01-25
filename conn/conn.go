@@ -2,7 +2,7 @@ package conn
 
 import (
 	"errors"
-	"github.com/elos/server/data"
+	"github.com/elos/data"
 )
 
 var ConnectionClosedError = errors.New("SocketConnection is closed")
