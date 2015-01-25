@@ -2,7 +2,7 @@ package models
 
 import (
 	"github.com/elos/data"
-	"github.com/elos/server/schema"
+	"github.com/elos/schema"
 )
 
 type ModelConstructor func() schema.Model

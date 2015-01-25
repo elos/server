@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/elos/server/schema"
+	"github.com/elos/schema"
 )
 
 type User interface {

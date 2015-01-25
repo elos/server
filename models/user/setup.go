@@ -2,7 +2,7 @@ package user
 
 import (
 	"github.com/elos/data"
-	"github.com/elos/server/schema"
+	"github.com/elos/schema"
 )
 
 var CurrentUserKind data.Kind
