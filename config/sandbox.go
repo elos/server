@@ -21,9 +21,9 @@ func Sandbox(db data.DB) {
 
 	e.SetUser(u)
 
-	u.Save(db)
-	e.Save(db)
+	db.Save(u)
+	db.Save(e)
 
-	Logf("User id: %s", u.GetID())
-	Logf("Event id: %s", e.GetID())
+	Logf("User id: %s", u.ID())
+	Logf("Event id: %s", e.ID())
 }
