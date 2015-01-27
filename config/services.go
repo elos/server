@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/elos/data"
-	"github.com/elos/server/autonomous/managers"
+	"github.com/elos/server/managers"
 	"github.com/elos/server/models/user"
 )
 

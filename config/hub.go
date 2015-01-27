@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/elos/server/autonomous"
-	"github.com/elos/server/autonomous/managers"
+	"github.com/elos/autonomous"
+	"github.com/elos/server/managers"
 )
 
 var ClientDataHub autonomous.Manager

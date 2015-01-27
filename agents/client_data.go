@@ -1,11 +1,12 @@
 package agents
 
 import (
+	"log"
+
+	"github.com/elos/autonomous"
 	"github.com/elos/data"
-	"github.com/elos/server/autonomous"
 	"github.com/elos/server/conn"
 	"github.com/elos/server/transfer"
-	"log"
 )
 
 type ClientDataAgent struct {

@@ -1,7 +1,7 @@
 package managers
 
 import (
-	"github.com/elos/server/autonomous"
+	"github.com/elos/autonomous"
 	"log"
 )
 

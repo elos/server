@@ -9,10 +9,10 @@ import (
 	"os/signal"
 	"path/filepath"
 
+	"github.com/elos/autonomous"
 	"github.com/elos/data/mongo"
-	"github.com/elos/server/autonomous"
-	"github.com/elos/server/autonomous/managers"
 	"github.com/elos/server/config"
+	"github.com/elos/server/managers"
 	"github.com/elos/server/util/logging"
 )
 
