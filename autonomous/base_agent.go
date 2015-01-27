@@ -16,24 +16,10 @@ type BaseAgent struct {
 	running bool
 	stop    *chan bool
 
-	dataAgent data.Identifiable
 	manager   Manager
 	processes int
 
 	m sync.Mutex
-}
-
-func (b *BaseAgent) SetDataOwner(a data.Identifiable) {
-	b.m.Lock()
-	defer b.m.Unlock()
-	b.dataAgent = a
-}
-
-func (b *BaseAgent) GetDataOwner() data.Identifiable {
-	b.m.Lock()
-	defer b.m.Unlock()
-
-	return b.dataAgent
 }
 
 func (b *BaseAgent) SetManager(m Manager) {
@@ -42,7 +28,7 @@ func (b *BaseAgent) SetManager(m Manager) {
 	b.manager = m
 }
 
-func (b *BaseAgent) GetManager() Manager {
+func (b *BaseAgent) Manager() Manager {
 	b.m.Lock()
 	defer b.m.Unlock()
 
@@ -80,7 +66,7 @@ func (b *BaseAgent) DecrementProcesses() {
 	b.processes -= 1
 }
 
-func (b *BaseAgent) Start() {
+func (b *BaseAgent) Run() {
 	b.m.Lock()
 	defer b.m.Unlock()
 
@@ -101,4 +87,26 @@ func (b *BaseAgent) Shutdown() {
 	b.m.Lock()
 	defer b.m.Unlock()
 	b.running = false
+}
+
+type BaseDataAgent struct {
+	dataAgent data.Identifiable
+	m         sync.Mutex
+}
+
+func NewBaseDataAgent() *BaseDataAgent {
+	return &BaseDataAgent{}
+}
+
+func (d *BaseDataAgent) SetDataOwner(a data.Identifiable) {
+	d.m.Lock()
+	defer d.m.Unlock()
+	d.dataAgent = a
+}
+
+func (d *BaseDataAgent) DataOwner() data.Identifiable {
+	d.m.Lock()
+	defer d.m.Unlock()
+
+	return d.dataAgent
 }

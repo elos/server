@@ -10,6 +10,7 @@ import (
 
 type ClientDataAgent struct {
 	*autonomous.BaseAgent
+	*autonomous.BaseDataAgent
 	DB data.DB
 
 	read       chan *transfer.Envelope
@@ -18,10 +19,11 @@ type ClientDataAgent struct {
 
 func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 	a := &ClientDataAgent{
-		BaseAgent:  autonomous.NewBaseAgent(),
-		Connection: c,
-		DB:         db,
-		read:       make(chan *transfer.Envelope),
+		BaseAgent:     autonomous.NewBaseAgent(),
+		BaseDataAgent: autonomous.NewBaseDataAgent(),
+		Connection:    c,
+		DB:            db,
+		read:          make(chan *transfer.Envelope),
 	}
 
 	a.SetDataOwner(c.Agent())
@@ -29,10 +31,10 @@ func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 	return a
 }
 
-func (a *ClientDataAgent) Start() {
+func (a *ClientDataAgent) Run() {
 	a.startup()
 	stopChannel := a.BaseAgent.StopChannel()
-	modelsChannel := *a.DB.RegisterForUpdates(a.GetDataOwner())
+	modelsChannel := *a.DB.RegisterForUpdates(a.DataOwner())
 
 	for {
 		select {

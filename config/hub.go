@@ -13,5 +13,5 @@ func SetupClientDataHub() {
 }
 
 func ShutdownClientDataHub() {
-	ClientDataHub.Die()
+	ClientDataHub.Stop()
 }

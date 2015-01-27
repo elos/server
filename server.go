@@ -55,7 +55,7 @@ func NewServer(host string, port int, verbose bool) *Server {
 	}
 }
 
-func (s *Server) Start() {
+func (s *Server) Run() {
 	s.startup()
 	stopChannel := s.BaseAgent.StopChannel()
 

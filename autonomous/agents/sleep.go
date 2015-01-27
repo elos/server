@@ -27,9 +27,10 @@ func NewSleepAgent(db data.DB, a data.Identifiable, d time.Duration) autonomous.
 	}
 }
 
-func (s *SleepAgent) Start() {
+func (s *SleepAgent) Run() {
 	s.startup()
 	stopChannel := s.BaseAgent.StopChannel()
+
 	for {
 		select {
 		case _ = <-s.ticker.C:

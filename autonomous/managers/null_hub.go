@@ -6,13 +6,14 @@ import (
 )
 
 type NullHub struct {
-	Alive            bool
+	*autonomous.BaseAgent
 	m                sync.Mutex
 	RegisteredAgents map[autonomous.Agent]bool
 }
 
 func NewNullHub() *NullHub {
 	return &NullHub{
+		BaseAgent:        autonomous.NewBaseAgent(),
 		RegisteredAgents: make(map[autonomous.Agent]bool),
 	}
 }
@@ -31,24 +32,12 @@ func (h *NullHub) StopAgent(a autonomous.Agent) {
 	delete(h.RegisteredAgents, a)
 }
 
-func (h *NullHub) Run() {
-	h.m.Lock()
-	defer h.m.Unlock()
-
-	h.Alive = true
-}
-
-func (h *NullHub) Die() {
-	h.m.Lock()
-	defer h.m.Unlock()
-
-	h.Alive = false
-}
-
 func (h *NullHub) Reset() {
 	h.m.Lock()
 	defer h.m.Unlock()
 
-	h.Alive = false
-	h.RegisteredAgents = make(map[autonomous.Agent]bool)
+	/*
+		h.Alive = false
+		h.RegisteredAgents = make(map[autonomous.Agent]bool)
+	*/
 }
