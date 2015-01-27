@@ -35,7 +35,7 @@ func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Iden
 		return
 	}
 
-	logf("Agent with id %s just connected over websocket", a.GetID())
+	logf("Agent with id %s just connected over websocket", a.ID())
 
 	agent := agents.NewClientDataAgent(connection, db)
 	go hub.StartAgent(agent)

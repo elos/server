@@ -11,7 +11,11 @@ import (
 )
 
 func New() models.Event {
-	return &MongoEvent{}
+	return &MongoEvent{
+		Based: &models.Based{},
+		Named: &models.Named{},
+		Timed: &models.Timed{},
+	}
 }
 
 func Create(db data.DB, name string, userIdString string) (models.Event, error) {
@@ -21,21 +25,16 @@ func Create(db data.DB, name string, userIdString string) (models.Event, error) 
 
 	userId := mongo.NewObjectIDFromHex(userIdString)
 
-	event := &MongoEvent{
-		ID:        userId.(bson.ObjectId),
-		CreatedAt: time.Now(),
-		Name:      name,
-	}
+	event := New()
 
-	/*
-		user, _ := models.Find(models.UserKind, data.IDHex(userId))
+	event.SetID(userId.(bson.ObjectId))
+	event.SetCreatedAt(time.Now())
+	event.SetName(name)
 
-		db.PopulateById(user)
+	// user, _ := db.Find(models.UserKind, data.IDHex(userId))
+	//event.Schema().Link(event, user)
 
-		event.Link("user", user)
-	*/
-
-	if err := event.Save(db); err != nil {
+	if err := db.Save(event); err != nil {
 		return nil, err
 	} else {
 		return event, nil
@@ -46,7 +45,7 @@ func Find(db data.DB, id data.ID) (models.Event, error) {
 	event := New()
 	event.SetID(id.(bson.ObjectId))
 
-	if err := db.PopulateById(event); err != nil {
+	if err := db.PopulateByID(event); err != nil {
 		return event, err
 	}
 

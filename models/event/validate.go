@@ -12,21 +12,21 @@ var NoUserError = errors.New("Error: event must have a user")
 
 func Validate(e models.Event) (bool, error) {
 
-	if e.GetName() == "" {
+	if e.Name() == "" {
 		return false, NoNameError
 	}
 
-	if e.GetStartTime().IsZero() {
+	if e.StartTime().IsZero() {
 		return false, NoStartTimeError
 	}
 
-	if e.GetEndTime().IsZero() {
+	if e.EndTime().IsZero() {
 		return false, NoEndTimeError
 	}
 
 	switch e.(type) {
 	case *MongoEvent:
-		if e.(*MongoEvent).UserID == "" {
+		if e.(*MongoEvent).userID == "" {
 			return false, NoUserError
 		}
 	}

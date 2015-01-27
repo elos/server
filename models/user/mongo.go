@@ -10,13 +10,13 @@ import (
 )
 
 type MongoUser struct {
-	ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
-	UpdatedAt time.Time     `json:"updated_at" bson:"updated_at"`
+	id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	createdAt time.Time     `json:"created_at" bson:"created_at"`
+	updatedAt time.Time     `json:"updated_at" bson:"updated_at"`
 
-	Name     string      `json:"name"`
-	Key      string      `json:"key"`
-	EventIDs mongo.IDSet `json:"event_ids" bson:"event_ids"`
+	name     string      `json:"name"`
+	key      string      `json:"key"`
+	eventIDs mongo.IDSet `json:"event_ids" bson:"event_ids"`
 }
 
 func (u *MongoUser) Kind() data.Kind {
@@ -26,20 +26,20 @@ func (u *MongoUser) Kind() data.Kind {
 func (u *MongoUser) SetID(id data.ID) {
 	vid, ok := id.(bson.ObjectId)
 	if ok {
-		u.ID = vid
+		u.id = vid
 	}
 }
 
-func (u *MongoUser) GetID() data.ID {
-	return u.ID
+func (u *MongoUser) ID() data.ID {
+	return u.id
 }
 
 func (u *MongoUser) SetName(name string) {
-	u.Name = name
+	u.name = name
 }
 
-func (u *MongoUser) GetName() string {
-	return u.Name
+func (u *MongoUser) Name() string {
+	return u.name
 }
 
 func (u *MongoUser) Save(db data.DB) error {
@@ -53,42 +53,42 @@ func (u *MongoUser) Save(db data.DB) error {
 
 func (u *MongoUser) Concerned() []data.ID {
 	a := make([]data.ID, 1)
-	a[0] = u.ID
+	a[0] = u.id
 	return a
 }
 
 func (u *MongoUser) LinkEvent(eventID bson.ObjectId) error {
-	u.EventIDs = mongo.AddID(u.EventIDs, eventID)
+	u.eventIDs = mongo.AddID(u.eventIDs, eventID)
 	return nil
 }
 
 func (u *MongoUser) UnlinkEvent(eventID bson.ObjectId) error {
-	u.EventIDs = mongo.DropID(u.EventIDs, eventID)
+	u.eventIDs = mongo.DropID(u.eventIDs, eventID)
 	return nil
 }
 
 func (u *MongoUser) SetCreatedAt(t time.Time) {
-	u.CreatedAt = t
+	u.createdAt = t
 }
 
-func (u *MongoUser) GetCreatedAt() time.Time {
-	return u.CreatedAt
+func (u *MongoUser) CreatedAt() time.Time {
+	return u.createdAt
 }
 
 func (u *MongoUser) SetUpdatedAt(t time.Time) {
-	u.UpdatedAt = t
+	u.updatedAt = t
 }
 
-func (u *MongoUser) GetUpdatedAt() time.Time {
-	return u.UpdatedAt
+func (u *MongoUser) UpdatedAt() time.Time {
+	return u.updatedAt
 }
 
 func (u *MongoUser) SetKey(s string) {
-	u.Key = s
+	u.key = s
 }
 
-func (u *MongoUser) GetKey() string {
-	return u.Key
+func (u *MongoUser) Key() string {
+	return u.key
 }
 
 func (u *MongoUser) LinkOne(r schema.Model) {
@@ -98,7 +98,7 @@ func (u *MongoUser) LinkOne(r schema.Model) {
 func (u *MongoUser) LinkMul(r schema.Model) {
 	switch r.(type) {
 	case models.Event:
-		u.LinkEvent(r.GetID().(bson.ObjectId))
+		u.LinkEvent(r.ID().(bson.ObjectId))
 	default:
 		return
 	}
@@ -107,7 +107,7 @@ func (u *MongoUser) LinkMul(r schema.Model) {
 func (u *MongoUser) UnlinkMul(r schema.Model) {
 	switch r.(type) {
 	case models.Event:
-		u.UnlinkEvent(r.GetID().(bson.ObjectId))
+		u.UnlinkEvent(r.ID().(bson.ObjectId))
 	default:
 		return
 	}
@@ -117,7 +117,7 @@ func (u *MongoUser) UnlinkOne(r schema.Model) {
 	return
 }
 
-func (u *MongoUser) GetVersion() int {
+func (u *MongoUser) Version() int {
 	return CurrentUserVersion
 }
 

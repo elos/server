@@ -26,11 +26,11 @@ func PostHandler(e *Envelope, db data.DB, c conn.Connection) {
 			return
 		}
 
-		if !model.GetID().Valid() {
+		if !model.ID().Valid() {
 			model.SetID(db.NewObjectID())
 		}
 
-		if err = model.Save(db); err != nil {
+		if err = db.Save(model); err != nil {
 			c.WriteJSON(util.ApiError{400, 400, "Error saving the model", "Check yoself"})
 			return
 		}

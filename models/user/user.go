@@ -13,7 +13,7 @@ import (
 func New( /*db data.DB*/ ) models.User {
 	/*
 		switch db.Type() {
-		case "mongo":
+		case mongo.DBType:
 			return &MongoUser{}
 		default:
 			return &MongoUser{}
@@ -24,14 +24,13 @@ func New( /*db data.DB*/ ) models.User {
 
 // Creates a with a NAME
 func Create(db data.DB, name string) (models.User, error) {
-	user := &MongoUser{
-		ID:        mongo.NewObjectID().(bson.ObjectId),
-		CreatedAt: time.Now(),
-		Name:      name,
-		Key:       util.RandomString(64),
-	}
+	user := New()
+	user.SetID(mongo.NewObjectID().(bson.ObjectId))
+	user.SetCreatedAt(time.Now())
+	user.SetName(name)
+	user.SetKey(util.RandomString(64))
 
-	if err := user.Save(db); err != nil {
+	if err := db.Save(user); err != nil {
 		return user, err
 	} else {
 		return user, nil

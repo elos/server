@@ -9,11 +9,11 @@ var NoNameError = errors.New("Error: user must have a name")
 var NoKeyError = errors.New("Error: user must have a key")
 
 func Validate(u models.User) (bool, error) {
-	if u.GetName() == "" {
+	if u.Name() == "" {
 		return false, NoNameError
 	}
 
-	if u.GetKey() == "" {
+	if u.Key() == "" {
 		return false, NoKeyError
 	}
 

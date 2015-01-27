@@ -21,7 +21,7 @@ func Authenticate(db data.DB, id string, key string) (data.Record, bool, error) 
 		return user, false, err
 	}
 
-	if user.(*MongoUser).Key != key {
+	if user.Key() != key {
 		return user, false, fmt.Errorf("Invalid key")
 	}
 
@@ -30,12 +30,11 @@ func Authenticate(db data.DB, id string, key string) (data.Record, bool, error) 
 
 // Finds a user model by an id
 func Find(db data.DB, id data.ID) (models.User, error) {
-	user := &MongoUser{
-		ID: id.(bson.ObjectId),
-	}
+	user := New()
+	user.SetID(id.(bson.ObjectId))
 
 	// Find a user that has specified id
-	if err := db.PopulateById(user); err != nil {
+	if err := db.PopulateByID(user); err != nil {
 		return user, err
 	}
 

@@ -20,10 +20,10 @@ func GetHandler(e *Envelope, db data.DB, c conn.Connection) {
 
 		err = models.PopulateModel(model, &info)
 
-		err = db.PopulateById(model)
+		err = db.PopulateByID(model)
 
 		if err != nil {
-			if err == data.NotFoundError {
+			if err == data.ErrNotFound {
 				c.WriteJSON(util.ApiError{404, 404, "Not Found", "Bad id?"})
 				return
 			}

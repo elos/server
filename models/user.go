@@ -9,7 +9,7 @@ type User interface {
 	schema.Nameable
 
 	SetKey(string)
-	GetKey() string
+	Key() string
 
 	AddEvent(Event) error
 	RemoveEvent(Event) error
