@@ -11,11 +11,7 @@ import (
 )
 
 func New() models.Event {
-	return &MongoEvent{
-		Based: &models.Based{},
-		Named: &models.Named{},
-		Timed: &models.Timed{},
-	}
+	return &MongoEvent{}
 }
 
 func Create(db data.DB, name string, userIdString string) (models.Event, error) {

@@ -6,13 +6,17 @@ import (
 	"github.com/elos/schema"
 	"github.com/elos/server/models"
 	"gopkg.in/mgo.v2/bson"
+	"time"
 )
 
 type MongoEvent struct {
-	*models.Based `bson:,inline`
-	*models.Named `bson:,inline`
-	*models.Timed `bson:,inline`
-	userID        bson.ObjectId `json:"user_id" bson:"user_id,omitempty"`
+	EID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	ECreatedAt time.Time     `json:"created_at" bson:"created_at"`
+	EUpdatedAt time.Time     `json:"updated_at" bson:"updated_at"`
+	EName      string        `json:"name"`
+	EStartTime time.Time     `json:"start_time" bson:"start_time"`
+	EEndTime   time.Time     `json:"end_time" bson:"end_time"`
+	userID     bson.ObjectId `json:"user_id" bson:"user_id,omitempty"`
 }
 
 func (e *MongoEvent) Kind() data.Kind {
@@ -72,4 +76,57 @@ func (e *MongoEvent) UnlinkOne(r schema.Model) {
 
 func (e *MongoEvent) UnlinkMul(r schema.Model) {
 	return
+}
+
+// Accessors
+
+func (e *MongoEvent) ID() data.ID {
+	return e.EID
+}
+
+func (e *MongoEvent) SetID(id data.ID) {
+	vid, ok := id.(bson.ObjectId)
+	if ok {
+		e.EID = vid
+	}
+}
+
+func (e *MongoEvent) CreatedAt() time.Time {
+	return e.ECreatedAt
+}
+
+func (e *MongoEvent) SetCreatedAt(t time.Time) {
+	e.ECreatedAt = t
+}
+
+func (e *MongoEvent) UpdatedAt() time.Time {
+	return e.EUpdatedAt
+}
+
+func (e *MongoEvent) SetUpdatedAt(t time.Time) {
+	e.EUpdatedAt = t
+}
+
+func (e *MongoEvent) Name() string {
+	return e.EName
+}
+
+func (e *MongoEvent) SetName(n string) {
+	e.EName = n
+}
+
+func (e *MongoEvent) StartTime() time.Time {
+	return e.EStartTime
+}
+
+func (e *MongoEvent) SetStartTime(t time.Time) {
+	e.EStartTime = t
+}
+
+func (e *MongoEvent) EndTime() time.Time {
+	return e.EEndTime
+}
+
+func (e *MongoEvent) SetEndTime(t time.Time) {
+	e.EEndTime = t
 }

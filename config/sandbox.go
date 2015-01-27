@@ -1,25 +1,29 @@
 package config
 
 import (
-	"encoding/json"
 	"github.com/elos/data"
 	"github.com/elos/server/models/event"
-	"gopkg.in/mgo.v2/bson"
+	"github.com/elos/server/models/user"
 )
 
 func Sandbox(db data.DB) {
 	/* free sandbox at the beginning of server,
 	nice to test eventual functionality */
 
+	u := user.New()
 	e := event.New()
 
-	e.SetID(bson.ObjectIdHex("54c73e8ddd637c577a000002"))
-	db.PopulateByID(e)
-	e.SetName("hey")
-	Logf("This is the event: %v", e)
-	bytes, _ := json.Marshal(e)
-	Logf(string(bytes[:]))
-	Logf(e.Name())
+	u.SetID(db.NewObjectID())
+	e.SetID(db.NewObjectID())
 
-	Logf("Event id: %s", e.ID())
+	u.SetName("Sandy Sandbox")
+	e.SetName("Sandy's Party")
+
+	e.SetUser(u)
+
+	u.Save(db)
+	e.Save(db)
+
+	Logf("User id: %s", u.GetID())
+	Logf("Event id: %s", e.GetID())
 }
