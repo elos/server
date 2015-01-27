@@ -1,24 +1,23 @@
-package agents
+package autonomous
 
 import (
 	"github.com/elos/data"
-	"github.com/elos/server/autonomous"
 	"log"
 	"sync"
 )
 
 func NewBaseAgent() *BaseAgent {
 	return &BaseAgent{
-		stop: make(chan bool),
+		stop: new(chan bool),
 	}
 }
 
 type BaseAgent struct {
 	running bool
-	stop    chan bool
+	stop    *chan bool
 
 	dataAgent data.Identifiable
-	manager   autonomous.Manager
+	manager   Manager
 	processes int
 
 	m sync.Mutex
@@ -37,13 +36,13 @@ func (b *BaseAgent) GetDataOwner() data.Identifiable {
 	return b.dataAgent
 }
 
-func (b *BaseAgent) SetManager(m autonomous.Manager) {
+func (b *BaseAgent) SetManager(m Manager) {
 	b.m.Lock()
 	defer b.m.Unlock()
 	b.manager = m
 }
 
-func (b *BaseAgent) GetManager() autonomous.Manager {
+func (b *BaseAgent) GetManager() Manager {
 	b.m.Lock()
 	defer b.m.Unlock()
 
@@ -51,12 +50,12 @@ func (b *BaseAgent) GetManager() autonomous.Manager {
 }
 
 func (b *BaseAgent) Stop() {
-	go func() { b.stop <- true }()
+	go func() { *(b.stop) <- true }()
 }
 
 func (b *BaseAgent) Kill() {
 	// non-blocking
-	go func() { b.stop <- true }()
+	go func() { *(b.stop) <- true }()
 }
 
 func (b *BaseAgent) Alive() bool {
@@ -84,7 +83,22 @@ func (b *BaseAgent) DecrementProcesses() {
 func (b *BaseAgent) Start() {
 	b.m.Lock()
 	defer b.m.Unlock()
-	log.Print("BASE AGENT START")
 
 	b.running = true
+}
+
+func (b *BaseAgent) StopChannel() *chan bool {
+	return b.stop
+}
+
+func (b *BaseAgent) Startup() {
+	b.m.Lock()
+	defer b.m.Unlock()
+	b.running = true
+}
+
+func (b *BaseAgent) Shutdown() {
+	b.m.Lock()
+	defer b.m.Unlock()
+	b.running = false
 }

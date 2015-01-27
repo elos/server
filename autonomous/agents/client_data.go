@@ -9,7 +9,7 @@ import (
 )
 
 type ClientDataAgent struct {
-	*BaseAgent
+	*autonomous.BaseAgent
 	DB data.DB
 
 	read       chan *transfer.Envelope
@@ -18,7 +18,7 @@ type ClientDataAgent struct {
 
 func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 	a := &ClientDataAgent{
-		BaseAgent:  NewBaseAgent(),
+		BaseAgent:  autonomous.NewBaseAgent(),
 		Connection: c,
 		DB:         db,
 		read:       make(chan *transfer.Envelope),
@@ -30,8 +30,8 @@ func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 }
 
 func (a *ClientDataAgent) Start() {
-	go ReadConnection(a.Connection, &a.read, &a.stop)
-
+	a.startup()
+	stopChannel := a.BaseAgent.StopChannel()
 	modelsChannel := *a.DB.RegisterForUpdates(a.GetDataOwner())
 
 	for {
@@ -43,11 +43,20 @@ func (a *ClientDataAgent) Start() {
 		case p := <-modelsChannel:
 			log.Print("WE HAVE AN UPDATE")
 			a.WriteJSON(p)
-		case _ = <-a.stop:
-			//shutdown
-			continue
+		case _ = <-*stopChannel:
+			a.shutdown()
+			break
 		}
 	}
+}
+
+func (a *ClientDataAgent) startup() {
+	a.BaseAgent.Startup()
+	go ReadConnection(a.Connection, &a.read, a.BaseAgent.StopChannel())
+}
+
+func (a *ClientDataAgent) shutdown() {
+	a.BaseAgent.Shutdown()
 }
 
 func ReadConnection(c conn.Connection, rc *chan *transfer.Envelope, endChannel *chan bool) {
