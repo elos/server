@@ -11,7 +11,7 @@ import (
 var DefaultSleepAgentStartPeriod time.Duration = 10 * time.Second
 
 type SleepAgent struct {
-	*autonomous.BaseAgent
+	*autonomous.Core
 
 	startPeriod time.Duration
 	ticker      *time.Ticker
@@ -21,7 +21,7 @@ type SleepAgent struct {
 
 func NewSleepAgent(db data.DB, a data.Identifiable, d time.Duration) autonomous.Agent {
 	return &SleepAgent{
-		BaseAgent:   autonomous.NewBaseAgent(),
+		Core:        autonomous.NewCore(),
 		startPeriod: d,
 		DB:          db,
 	}
@@ -29,7 +29,7 @@ func NewSleepAgent(db data.DB, a data.Identifiable, d time.Duration) autonomous.
 
 func (s *SleepAgent) Run() {
 	s.startup()
-	stopChannel := s.BaseAgent.StopChannel()
+	stopChannel := s.Core.StopChannel()
 
 	for {
 		select {
@@ -43,7 +43,7 @@ func (s *SleepAgent) Run() {
 }
 
 func (s *SleepAgent) startup() {
-	s.BaseAgent.Startup()
+	s.Core.Startup()
 	s.ticker = time.NewTicker(s.startPeriod)
 	go s.Go()
 }
@@ -51,7 +51,7 @@ func (s *SleepAgent) startup() {
 func (s *SleepAgent) shutdown() {
 	s.ticker.Stop()
 	s.ticker = nil
-	s.BaseAgent.Shutdown()
+	s.Core.Shutdown()
 }
 
 func (s *SleepAgent) Go() {

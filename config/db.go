@@ -3,26 +3,11 @@ package config
 import (
 	"log"
 
-	"github.com/elos/data"
 	"github.com/elos/data/mongo"
 )
 
-/*
-	The PrimaryConnection maintiained between the server and the database
-		- Theoretically multiple connections could be created.
-*/
-var DB data.DB
-
-/*
-	Establishes a connection to the database package
-*/
-func SetupDB(addr string) data.DB {
-	if DB != nil {
-		ShutdownDB()
-	}
-
-	var err error
-	DB, err = mongo.NewDB(addr)
+func (s *Server) SetupDB(addr string) {
+	db, err := mongo.NewDB(addr)
 
 	if err != nil {
 		log.Fatal(err)
@@ -30,14 +15,9 @@ func SetupDB(addr string) data.DB {
 		Log("Database connection established")
 	}
 
-	return DB
+	s.DB = db
 }
 
-/*
-	Closes the connection to the database package
-*/
-func ShutdownDB() {
-	// DBConnection.Close()
-	// needs work
-	DB = nil
+func (s *Server) StopDB() {
+	s.DB = nil
 }

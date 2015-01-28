@@ -23,14 +23,14 @@ var RMap schema.RelationshipMap = map[data.Kind]map[data.Kind]schema.LinkKind{
 
 const DataVersion = 1
 
-func SetupModels(db data.DB) {
-	s, err := schema.NewSchema(&RMap, DataVersion)
+func (s *Server) SetupModels() {
+	sch, err := schema.NewSchema(&RMap, DataVersion)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	user.SetupModel(s, UserKind, 1)
-	event.SetupModel(s, EventKind, 1)
+	user.SetupModel(sch, UserKind, 1)
+	event.SetupModel(sch, EventKind, 1)
 
 	models.Register(UserKind, func() schema.Model { return user.New() })
 	models.Register(EventKind, func() schema.Model { return event.New() })

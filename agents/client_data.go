@@ -10,8 +10,8 @@ import (
 )
 
 type ClientDataAgent struct {
-	*autonomous.BaseAgent
-	*autonomous.BaseDataAgent
+	*autonomous.Core
+	*autonomous.Identified
 	DB data.DB
 
 	read       chan *transfer.Envelope
@@ -20,11 +20,11 @@ type ClientDataAgent struct {
 
 func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 	a := &ClientDataAgent{
-		BaseAgent:     autonomous.NewBaseAgent(),
-		BaseDataAgent: autonomous.NewBaseDataAgent(),
-		Connection:    c,
-		DB:            db,
-		read:          make(chan *transfer.Envelope),
+		Core:       autonomous.NewCore(),
+		Identified: autonomous.NewIdentified(),
+		Connection: c,
+		DB:         db,
+		read:       make(chan *transfer.Envelope),
 	}
 
 	a.SetDataOwner(c.Agent())
@@ -34,7 +34,7 @@ func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 
 func (a *ClientDataAgent) Run() {
 	a.startup()
-	stopChannel := a.BaseAgent.StopChannel()
+	stopChannel := a.Core.StopChannel()
 	modelsChannel := *a.DB.RegisterForUpdates(a.DataOwner())
 
 	for {
@@ -54,12 +54,12 @@ func (a *ClientDataAgent) Run() {
 }
 
 func (a *ClientDataAgent) startup() {
-	a.BaseAgent.Startup()
-	go ReadConnection(a.Connection, &a.read, a.BaseAgent.StopChannel())
+	a.Core.Startup()
+	go ReadConnection(a.Connection, &a.read, a.Core.StopChannel())
 }
 
 func (a *ClientDataAgent) shutdown() {
-	a.BaseAgent.Shutdown()
+	a.Core.Shutdown()
 }
 
 func ReadConnection(c conn.Connection, rc *chan *transfer.Envelope, endChannel *chan bool) {

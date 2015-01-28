@@ -1,15 +1,15 @@
 package config
 
-import (
-	"github.com/elos/data"
-	"github.com/elos/server/routes"
-)
+import "github.com/elos/server/routes"
 
-func SetupRoutes(db data.DB) {
+func (s *Server) SetupRoutes() {
+	if s.DB == nil {
+		return
+	}
 
-	UsersPost := &routes.UsersPostHandler{DB: db}
-	EventsPost := &routes.EventsPostHandler{DB: db}
-	AuthenticateGet := &routes.AuthenticateGetHandler{DB: db}
+	UsersPost := &routes.UsersPostHandler{DB: s.DB}
+	EventsPost := &routes.EventsPostHandler{DB: s.DB}
+	AuthenticateGet := &routes.AuthenticateGetHandler{DB: s.DB}
 
 	var RoutesMap = routes.HandlerMap{
 		"v1": routes.HandlerMap{
@@ -26,5 +26,5 @@ func SetupRoutes(db data.DB) {
 	}
 
 	routes.SetupHTTPRoutes(RoutesMap)
-	routes.DefaultClientDataHub = ClientDataHub
+	routes.DefaultClientDataHub = s
 }

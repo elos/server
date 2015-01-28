@@ -8,10 +8,9 @@ import (
 	"github.com/elos/data/test"
 	"github.com/elos/server/agents"
 	"github.com/elos/server/conn"
-	"github.com/elos/server/managers"
 )
 
-var DefaultClientDataHub autonomous.Manager = managers.NewNullHub()
+var DefaultClientDataHub autonomous.Manager = autonomous.NewNullHub()
 
 type AuthenticateGetHandler struct {
 	data.DB
