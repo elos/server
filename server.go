@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -12,10 +11,8 @@ import (
 	"github.com/elos/server/config"
 )
 
-var programName string
-
 func main() {
-	programName = filepath.Base(os.Args[0])
+	programName := filepath.Base(os.Args[0])
 
 	var (
 		_ = flag.String("h", "127.0.0.1", "IP Address to bind to")
@@ -33,16 +30,12 @@ func main() {
 	manager := autonomous.NewAgentHub()
 
 	go manager.StartAgent(server)
-	go HandleSignals(func() {
-		log.Print("endFunc before")
-		manager.Stop()
-		log.Print("endFunc after")
-	})
+	go HandleSignals(manager.Stop)
 
 	manager.Run()
 }
 
-func HandleSignals(endFunc func()) {
+func HandleSignals(end func()) {
 	// Intercept sigterm
 	signalChannel := make(chan os.Signal, 1)
 	signal.Notify(signalChannel, os.Interrupt)
@@ -50,6 +43,5 @@ func HandleSignals(endFunc func()) {
 	// Block on this channel
 	/*sig*/ _ = <-signalChannel
 
-	log.Print("HandleSignals signal received")
-	endFunc()
+	end()
 }
