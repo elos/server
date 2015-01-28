@@ -3,13 +3,14 @@ package routes_test
 import (
 	. "github.com/elos/server/routes"
 
-	"github.com/elos/server/data/models/user"
-	"github.com/elos/server/data/test"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+
+	"github.com/elos/data/test"
+	"github.com/elos/server/models/user"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe("Users", func() {

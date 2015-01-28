@@ -3,15 +3,16 @@ package routes_test
 import (
 	. "github.com/elos/server/routes"
 
-	"github.com/elos/server/data/models/event"
-	"github.com/elos/server/data/test"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"time"
+
+	"github.com/elos/data/test"
+	"github.com/elos/server/models/event"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+	"gopkg.in/mgo.v2/bson"
 )
 
 var _ = Describe("Events", func() {

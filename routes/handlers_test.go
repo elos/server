@@ -7,12 +7,13 @@ import (
 	. "github.com/onsi/gomega"
 
 	"errors"
-	"github.com/elos/server/data"
-	"github.com/elos/server/data/models/user"
-	"github.com/elos/server/util"
-	"github.com/elos/server/util/auth"
 	"net/http"
 	"net/http/httptest"
+
+	"github.com/elos/data"
+	"github.com/elos/server/models/user"
+	"github.com/elos/server/util"
+	"github.com/elos/server/util/auth"
 )
 
 var _ = Describe("Handlers", func() {

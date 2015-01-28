@@ -4,11 +4,12 @@ import (
 	"github.com/elos/server/conn"
 	. "github.com/elos/server/routes"
 
-	"github.com/elos/server/data/models/user"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"net/http"
 	"net/http/httptest"
+
+	"github.com/elos/server/models/user"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe("Authenticate", func() {
