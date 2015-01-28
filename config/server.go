@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/elos/autonomous"
 	"github.com/elos/data"
@@ -40,13 +39,12 @@ func NewServer(host string, port int, verbose bool) *Server {
 func (s *Server) Run() {
 	s.startup()
 	stop := *s.Core.StopChannel()
-	log.Printf("THE SERVER's STOP CHANNEL IS %v", stop)
+Run:
 	for {
 		select {
 		case _ = <-stop:
-			log.Print("STOP CHANNEL RECIEVED SOMETHING")
 			s.shutdown()
-			break
+			break Run
 		}
 	}
 }
@@ -63,18 +61,16 @@ func (s *Server) startup() {
 	s.SetupModels()
 	s.SetupRoutes()
 	s.SetupServices()
-	s.Sandbox()
+	// s.Sandbox()
 
 	go StartServer(s.host, s.port)
 }
 
 func (s *Server) shutdown() {
-	log.Print("shutting down")
-	logging.Log.Logs("Shutting down server")
+	log.Print("Shutting down server")
 	// ShutdownDB()
 	// mongo.StopDatabaseServer(sig)
 	s.Core.Shutdown()
-	os.Exit(0)
 }
 
 func StartServer(host string, port int) {
