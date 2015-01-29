@@ -62,7 +62,7 @@ func (s *Server) startup() {
 	s.Store = data.NewStore(db, sc)
 	s.SetupRoutes()
 	s.SetupServices()
-	// s.Sandbox()
+	s.Sandbox()
 
 	go StartServer(s.host, s.port)
 }

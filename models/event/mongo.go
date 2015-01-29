@@ -12,10 +12,10 @@ type MongoEvent struct {
 	EID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	ECreatedAt time.Time     `json:"created_at" bson:"created_at"`
 	EUpdatedAt time.Time     `json:"updated_at" bson:"updated_at"`
-	EName      string        `json:"name"`
+	EName      string        `json:"name" bson:"name"`
 	EStartTime time.Time     `json:"start_time" bson:"start_time"`
 	EEndTime   time.Time     `json:"end_time" bson:"end_time"`
-	userID     bson.ObjectId `json:"user_id" bson:"user_id,omitempty"`
+	UserID     bson.ObjectId `json:"user_id" bson:"user_id,omitempty"`
 }
 
 func (e *MongoEvent) Kind() data.Kind {
@@ -41,7 +41,7 @@ func (u *MongoEvent) DBType() data.DBType {
 
 func (e *MongoEvent) Concerned() []data.ID {
 	a := make([]data.ID, 1)
-	a[0] = e.userID
+	a[0] = e.UserID
 	return a
 }
 
@@ -52,7 +52,7 @@ func (e *MongoEvent) SetUser(u models.User) error {
 func (e *MongoEvent) LinkOne(r data.Model) {
 	switch r.(type) {
 	case models.User:
-		e.userID = r.ID().(bson.ObjectId)
+		e.UserID = r.ID().(bson.ObjectId)
 	default:
 		return
 	}
@@ -65,8 +65,8 @@ func (e *MongoEvent) LinkMul(r data.Model) {
 func (e *MongoEvent) UnlinkOne(r data.Model) {
 	switch r.(type) {
 	case models.User:
-		if e.userID == r.ID() {
-			e.userID = *new(bson.ObjectId)
+		if e.UserID == r.ID() {
+			e.UserID = *new(bson.ObjectId)
 		}
 	default:
 		return

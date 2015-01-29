@@ -20,7 +20,7 @@ func (h *AuthenticateGetHandler) ServeHTTP(w http.ResponseWriter, r *http.Reques
 		NewErrorHandler,
 		NewUnauthorizedHandler,
 		AuthenticatedHandlerFunc(func(w http.ResponseWriter, r *http.Request, a data.Identifiable) {
-			WebSocketUpgradeHandler(w, r, a, conn.DefaultWebSocketUpgrader, DefaultClientDataHub, data.NewNullStore())
+			WebSocketUpgradeHandler(w, r, a, conn.DefaultWebSocketUpgrader, DefaultClientDataHub, h.Store)
 		})).ServeHTTP(w, r)
 }
 

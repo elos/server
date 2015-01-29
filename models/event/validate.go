@@ -26,7 +26,7 @@ func Validate(e models.Event) (bool, error) {
 
 	switch e.(type) {
 	case *MongoEvent:
-		if e.(*MongoEvent).userID == "" {
+		if !e.(*MongoEvent).UserID.Valid() {
 			return false, NoUserError
 		}
 	}
