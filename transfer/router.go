@@ -14,23 +14,23 @@ type Router struct {
 func (r *Router) Handler(action string, handler ActionHandler) {
 }
 
-func (r *Router) Route(e *Envelope, db data.DB, c conn.Connection) {
+func (r *Router) Route(e *Envelope, s data.Store, c conn.Connection) {
 }
 
-type ActionHandler func(*Envelope, data.DB, conn.Connection)
+type ActionHandler func(*Envelope, data.Store, conn.Connection)
 
-func Route(e *Envelope, db data.DB, c conn.Connection) {
+func Route(e *Envelope, s data.Store, c conn.Connection) {
 	switch e.Action {
 	case POST:
-		go PostHandler(e, db, c)
+		go PostHandler(e, s, c)
 	case GET:
-		go GetHandler(e, db, c)
+		go GetHandler(e, s, c)
 	case DELETE:
-		go DeleteHandler(e, db, c)
+		go DeleteHandler(e, s, c)
 	case SYNC:
-		go SyncHandler(e, db, c)
+		go SyncHandler(e, s, c)
 	case ECHO:
-		go EchoHandler(e, db, c)
+		go EchoHandler(e, s, c)
 	default:
 		c.WriteJSON(util.NewInvalidMethodError())
 	}

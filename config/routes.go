@@ -3,13 +3,13 @@ package config
 import "github.com/elos/server/routes"
 
 func (s *Server) SetupRoutes() {
-	if s.DB == nil {
+	if s.Store == nil {
 		return
 	}
 
-	UsersPost := &routes.UsersPostHandler{DB: s.DB}
-	EventsPost := &routes.EventsPostHandler{DB: s.DB}
-	AuthenticateGet := &routes.AuthenticateGetHandler{DB: s.DB}
+	UsersPost := &routes.UsersPostHandler{Store: s.Store}
+	EventsPost := &routes.EventsPostHandler{Store: s.Store}
+	AuthenticateGet := &routes.AuthenticateGetHandler{Store: s.Store}
 
 	var RoutesMap = routes.HandlerMap{
 		"v1": routes.HandlerMap{

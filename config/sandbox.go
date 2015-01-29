@@ -9,7 +9,7 @@ func (s *Server) Sandbox() {
 	/* free sandbox at the beginning of server,
 	nice to test eventual functionality */
 
-	if s.DB == nil {
+	if s.Store == nil {
 		return
 	}
 

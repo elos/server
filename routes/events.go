@@ -8,15 +8,15 @@ import (
 )
 
 type EventsPostHandler struct {
-	data.DB
+	data.Store
 }
 
 func (h *EventsPostHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	EventsPostFunction(w, r, NewErrorHandler, NewResourceHandler, h.DB)
+	EventsPostFunction(w, r, NewErrorHandler, NewResourceHandler, h.Store)
 }
 
-func EventsPostFunction(w http.ResponseWriter, r *http.Request, Error ErrorHandlerConstructor, Resource ResourceHandlerConstructor, db data.DB) {
-	event, err := event.Create(db, r.FormValue("name"), r.FormValue("user_id"))
+func EventsPostFunction(w http.ResponseWriter, r *http.Request, Error ErrorHandlerConstructor, Resource ResourceHandlerConstructor, s data.Store) {
+	event, err := event.Create(s, r.FormValue("name"), r.FormValue("user_id"))
 
 	if err != nil {
 		logf("An error occurred while create the event, err: %s", err)

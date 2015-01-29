@@ -1,12 +1,12 @@
 package models
 
 import (
-	"github.com/elos/schema"
+	"github.com/elos/data"
 )
 
 type User interface {
-	schema.Model
-	schema.Nameable
+	data.Model
+	data.Nameable
 
 	SetKey(string)
 	Key() string

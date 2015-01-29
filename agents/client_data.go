@@ -12,18 +12,18 @@ import (
 type ClientDataAgent struct {
 	*autonomous.Core
 	*autonomous.Identified
-	DB data.DB
+	data.Store
 
 	read       chan *transfer.Envelope
 	Connection conn.Connection
 }
 
-func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
+func NewClientDataAgent(c conn.Connection, s data.Store) autonomous.Agent {
 	a := &ClientDataAgent{
 		Core:       autonomous.NewCore(),
 		Identified: autonomous.NewIdentified(),
 		Connection: c,
-		DB:         db,
+		Store:      s,
 		read:       make(chan *transfer.Envelope),
 	}
 
@@ -35,13 +35,13 @@ func NewClientDataAgent(c conn.Connection, db data.DB) autonomous.Agent {
 func (a *ClientDataAgent) Run() {
 	a.startup()
 	stopChannel := a.Core.StopChannel()
-	modelsChannel := *a.DB.RegisterForUpdates(a.DataOwner())
+	modelsChannel := *a.Store.RegisterForUpdates(a.DataOwner())
 
 	for {
 		select {
 		case e := <-a.read:
 			log.Print("WE HAVE A READ")
-			go transfer.Route(e, a.DB, a.Connection)
+			go transfer.Route(e, a.Store, a.Connection)
 			continue
 		case p := <-modelsChannel:
 			log.Print("WE HAVE AN UPDATE")

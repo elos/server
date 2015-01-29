@@ -2,8 +2,6 @@ package config
 
 import (
 	"github.com/elos/data"
-	"github.com/elos/schema"
-	"github.com/elos/server/models"
 	"github.com/elos/server/models/event"
 	"github.com/elos/server/models/user"
 	"log"
@@ -12,26 +10,28 @@ import (
 const UserKind data.Kind = "user"
 const EventKind data.Kind = "event"
 
-var RMap schema.RelationshipMap = map[data.Kind]map[data.Kind]schema.LinkKind{
+var RMap data.RelationshipMap = map[data.Kind]map[data.Kind]data.LinkKind{
 	UserKind: {
-		EventKind: schema.MulLink,
+		EventKind: data.MulLink,
 	},
 	EventKind: {
-		UserKind: schema.OneLink,
+		UserKind: data.OneLink,
 	},
 }
 
 const DataVersion = 1
 
-func (s *Server) SetupModels() {
-	sch, err := schema.NewSchema(&RMap, DataVersion)
+func (s *Server) SetupModels() data.Schema {
+	sch, err := data.NewSchema(&RMap, DataVersion)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	sch.Register(UserKind, func() data.Model { return user.New() })
+	sch.Register(EventKind, func() data.Model { return event.New() })
+
 	user.SetupModel(sch, UserKind, 1)
 	event.SetupModel(sch, EventKind, 1)
 
-	models.Register(UserKind, func() schema.Model { return user.New() })
-	models.Register(EventKind, func() schema.Model { return event.New() })
+	return sch
 }

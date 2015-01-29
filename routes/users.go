@@ -8,15 +8,15 @@ import (
 )
 
 type UsersPostHandler struct {
-	data.DB
+	data.Store
 }
 
 func (h *UsersPostHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	UsersPostFunction(w, r, NewErrorHandler, NewResourceHandler, h.DB)
+	UsersPostFunction(w, r, NewErrorHandler, NewResourceHandler, h.Store)
 }
 
-func UsersPostFunction(w http.ResponseWriter, r *http.Request, Error ErrorHandlerConstructor, Resource ResourceHandlerConstructor, db data.DB) {
-	user, err := user.Create(db, r.FormValue("name"))
+func UsersPostFunction(w http.ResponseWriter, r *http.Request, Error ErrorHandlerConstructor, Resource ResourceHandlerConstructor, s data.Store) {
+	user, err := user.Create(s, r.FormValue("name"))
 
 	if err != nil {
 		logf("An error occurred while creating the user, err: %s", err)

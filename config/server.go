@@ -19,7 +19,7 @@ type Server struct {
 	port    int
 	verbose bool
 
-	data.DB
+	data.Store
 }
 
 func NewServer(host string, port int, verbose bool) *Server {
@@ -57,8 +57,9 @@ func (s *Server) startup() {
 	}
 
 	SetupLog(s.verbose)
-	s.SetupDB("localhost")
-	s.SetupModels()
+	db := s.SetupDB("localhost")
+	sc := s.SetupModels()
+	s.Store = data.NewStore(db, sc)
 	s.SetupRoutes()
 	s.SetupServices()
 	// s.Sandbox()

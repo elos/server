@@ -3,10 +3,11 @@ package config
 import (
 	"log"
 
+	"github.com/elos/data"
 	"github.com/elos/data/mongo"
 )
 
-func (s *Server) SetupDB(addr string) {
+func (s *Server) SetupDB(addr string) data.DB {
 	db, err := mongo.NewDB(addr)
 
 	if err != nil {
@@ -15,9 +16,5 @@ func (s *Server) SetupDB(addr string) {
 		Log("Database connection established")
 	}
 
-	s.DB = db
-}
-
-func (s *Server) StopDB() {
-	s.DB = nil
+	return db
 }

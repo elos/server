@@ -3,24 +3,16 @@ package transfer
 import (
 	"github.com/elos/data"
 	"github.com/elos/server/conn"
-	"github.com/elos/server/models"
 	"github.com/elos/server/util"
 )
 
-func GetHandler(e *Envelope, db data.DB, c conn.Connection) {
-	// kind is db.Kind
+func GetHandler(e *Envelope, s data.Store, c conn.Connection) {
+	// kind is s.Kind
 	// info is map[string]interface{}
 	for kind, info := range e.Data {
-		model, err := models.ModelFor(kind)
+		m, _ := s.Unmarshal(kind, info)
 
-		if err != nil {
-			c.WriteJSON(util.ApiError{400, 400, "Oh shit", ""})
-			return
-		}
-
-		err = models.PopulateModel(model, &info)
-
-		err = db.PopulateByID(model)
+		err := s.PopulateByID(m)
 
 		if err != nil {
 			if err == data.ErrNotFound {
@@ -32,6 +24,6 @@ func GetHandler(e *Envelope, db data.DB, c conn.Connection) {
 			return
 		}
 
-		c.WriteJSON(model)
+		c.WriteJSON(m)
 	}
 }
