@@ -4,7 +4,7 @@ import (
 	. "github.com/elos/server/conn"
 
 	"errors"
-	"github.com/elos/server/data/models/user"
+	"github.com/elos/server/models/user"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

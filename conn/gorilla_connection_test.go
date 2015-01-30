@@ -2,7 +2,7 @@ package conn_test
 
 import (
 	. "github.com/elos/server/conn"
-	"github.com/elos/server/data/models/user"
+	"github.com/elos/server/models/user"
 
 	"errors"
 	. "github.com/onsi/ginkgo"

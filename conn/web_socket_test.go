@@ -1,16 +1,17 @@
 package conn_test
 
 import (
+	"github.com/elos/data"
 	. "github.com/elos/server/conn"
-	"github.com/elos/server/data"
-	"github.com/elos/server/data/models/user"
+	"github.com/elos/server/models/user"
 
 	"errors"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe("WebSocket", func() {
@@ -26,7 +27,7 @@ var _ = Describe("WebSocket", func() {
 	// Null Upgrader {{{
 	Describe("NullUpgrader", func() {
 		var (
-			a data.Agent
+			a data.Identifiable
 			c Connection
 			u *NullUpgrader
 
@@ -123,7 +124,7 @@ var _ = Describe("WebSocket", func() {
 			r               *http.Request
 			w               *httptest.ResponseRecorder
 			u               *GorillaUpgrader
-			a               data.Agent
+			a               data.Identifiable
 		)
 
 		BeforeEach(func() {
