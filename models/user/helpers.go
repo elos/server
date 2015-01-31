@@ -14,8 +14,8 @@ import (
 	If the second return value is true, the user's credentials have been validated
 	otherwise, the user's credentials were malformed.
 */
-func Authenticate(db data.DB, id string, key string) (data.Record, bool, error) {
-	user, err := Find(db, mongo.NewObjectIDFromHex(id))
+func Authenticate(s data.Store, id string, key string) (data.Record, bool, error) {
+	user, err := Find(s, mongo.NewObjectIDFromHex(id))
 
 	if err != nil {
 		return user, false, err
@@ -29,12 +29,21 @@ func Authenticate(db data.DB, id string, key string) (data.Record, bool, error) 
 }
 
 // Finds a user model by an id
-func Find(db data.DB, id data.ID) (models.User, error) {
-	user := New()
-	user.SetID(id.(bson.ObjectId))
+func Find(s data.Store, id data.ID) (models.User, error) {
+	user, err := New(s)
+	if err != nil {
+		return user, err
+	}
+
+	id, ok := id.(bson.ObjectId)
+	if !ok {
+		return user, data.ErrInvalidID
+	}
+
+	user.SetID(id)
 
 	// Find a user that has specified id
-	if err := db.PopulateByID(user); err != nil {
+	if err := s.PopulateByID(user); err != nil {
 		return user, err
 	}
 
@@ -42,10 +51,13 @@ func Find(db data.DB, id data.ID) (models.User, error) {
 }
 
 // Finds a user by some field and its value
-func FindUserBy(db data.DB, field string, value interface{}) (models.User, error) {
-	user := &MongoUser{}
+func FindUserBy(s data.Store, field string, value interface{}) (models.User, error) {
+	user, err := New(s)
+	if err != nil {
+		return user, err
+	}
 
-	if err := db.PopulateByField(field, value, user); err != nil {
+	if err = s.PopulateByField(field, value, user); err != nil {
 		return user, err
 	}
 
