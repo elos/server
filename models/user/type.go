@@ -13,11 +13,16 @@ var kind data.Kind
 var schema data.Schema
 var version int
 
+// Configure the kind dataKind, the schema, and version
+// to which this model package is tied
 func Setup(s data.Schema, k data.Kind, v int) {
 	kind, schema, version = k, s, v
 }
 
-// Returns a new empty user struct
+// Returns a new empty user struct.
+// Note, if the DBType of the data.Store
+// has not been implemented, it will return
+// and data.ErrInvalidDBType
 func New(s data.Store) (models.User, error) {
 	switch s.Type() {
 	case mongo.DBType:
@@ -27,7 +32,9 @@ func New(s data.Store) (models.User, error) {
 	}
 }
 
-// Creates a with a NAME
+// Creates a new models.User with the attributes supplied in
+// the second argument.
+// Create will currently extrapolate "id", "created_at", and "name".
 func Create(s data.Store, a data.AttrMap) (models.User, error) {
 	user, err := New(s)
 	if err != nil {
@@ -59,6 +66,9 @@ func Create(s data.Store, a data.AttrMap) (models.User, error) {
 	}
 }
 
+// Validates user, the first return value determines
+// overall validity. If the models is invalid the second
+// return value can be insepcted for why
 func Validate(u models.User) (bool, error) {
 	if u.Name() == "" {
 		return false, data.NewAttrError("name", "be present")
