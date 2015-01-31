@@ -21,7 +21,10 @@ func New(s data.Store) (models.User, error) {
 
 // Creates a with a NAME
 func Create(s data.Store, a data.AttrMap) (models.User, error) {
-	user, _ := New(s)
+	user, err := New(s)
+	if err != nil {
+		return user, err
+	}
 
 	if id, ok := a["id"].(bson.ObjectId); ok {
 		user.SetID(id)
