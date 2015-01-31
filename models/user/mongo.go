@@ -18,27 +18,25 @@ type mongoUser struct {
 	EventIDs mongo.IDSet `json:"event_ids" bson:"event_ids"`
 }
 
+func (u *mongoUser) DBType() data.DBType {
+	return mongo.DBType
+}
+
 func (u *mongoUser) Kind() data.Kind {
-	return CurrentUserKind
+	return kind
 }
 
-func (u *mongoUser) SetID(id data.ID) {
-	vid, ok := id.(bson.ObjectId)
-	if ok {
-		u.EID = vid
-	}
+func (u *mongoUser) Schema() data.Schema {
+	return schema
 }
 
-func (u *mongoUser) ID() data.ID {
-	return u.EID
+func (u *mongoUser) Version() int {
+	return version
 }
 
-func (u *mongoUser) SetName(name string) {
-	u.EName = name
-}
-
-func (u *mongoUser) Name() string {
-	return u.EName
+func (u *mongoUser) Valid() bool {
+	valid, _ := Validate(u)
+	return valid
 }
 
 func (u *mongoUser) Save(db data.DB) error {
@@ -64,30 +62,6 @@ func (u *mongoUser) LinkEvent(eventID bson.ObjectId) error {
 func (u *mongoUser) UnlinkEvent(eventID bson.ObjectId) error {
 	u.EventIDs = mongo.DropID(u.EventIDs, eventID)
 	return nil
-}
-
-func (u *mongoUser) SetCreatedAt(t time.Time) {
-	u.ECreatedAt = t
-}
-
-func (u *mongoUser) CreatedAt() time.Time {
-	return u.ECreatedAt
-}
-
-func (u *mongoUser) SetUpdatedAt(t time.Time) {
-	u.EUpdatedAt = t
-}
-
-func (u *mongoUser) UpdatedAt() time.Time {
-	return u.EUpdatedAt
-}
-
-func (u *mongoUser) SetKey(s string) {
-	u.EKey = s
-}
-
-func (u *mongoUser) Key() string {
-	return u.EKey
 }
 
 func (u *mongoUser) LinkOne(r data.Model) {
@@ -116,8 +90,47 @@ func (u *mongoUser) UnlinkOne(r data.Model) {
 	return
 }
 
-func (u *mongoUser) Version() int {
-	return CurrentUserVersion
+func (u *mongoUser) SetID(id data.ID) {
+	vid, ok := id.(bson.ObjectId)
+	if ok {
+		u.EID = vid
+	}
+}
+
+func (u *mongoUser) ID() data.ID {
+	return u.EID
+}
+
+func (u *mongoUser) SetName(name string) {
+	u.EName = name
+}
+
+func (u *mongoUser) Name() string {
+	return u.EName
+}
+
+func (u *mongoUser) SetCreatedAt(t time.Time) {
+	u.ECreatedAt = t
+}
+
+func (u *mongoUser) CreatedAt() time.Time {
+	return u.ECreatedAt
+}
+
+func (u *mongoUser) SetUpdatedAt(t time.Time) {
+	u.EUpdatedAt = t
+}
+
+func (u *mongoUser) UpdatedAt() time.Time {
+	return u.EUpdatedAt
+}
+
+func (u *mongoUser) SetKey(s string) {
+	u.EKey = s
+}
+
+func (u *mongoUser) Key() string {
+	return u.EKey
 }
 
 func (u *mongoUser) AddEvent(e models.Event) error {
@@ -126,17 +139,4 @@ func (u *mongoUser) AddEvent(e models.Event) error {
 
 func (u *mongoUser) RemoveEvent(e models.Event) error {
 	return u.Schema().Unlink(u, e)
-}
-
-func (u *mongoUser) Schema() data.Schema {
-	return CurrentUserSchema
-}
-
-func (u *mongoUser) Valid() bool {
-	valid, _ := Validate(u)
-	return valid
-}
-
-func (u *mongoUser) DBType() data.DBType {
-	return mongo.DBType
 }

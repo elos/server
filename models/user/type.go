@@ -9,6 +9,14 @@ import (
 	"time"
 )
 
+var kind data.Kind
+var schema data.Schema
+var version int
+
+func Setup(s data.Schema, k data.Kind, v int) {
+	kind, schema, version = k, s, v
+}
+
 // Returns a new empty user struct
 func New(s data.Store) (models.User, error) {
 	switch s.Type() {
@@ -49,4 +57,16 @@ func Create(s data.Store, a data.AttrMap) (models.User, error) {
 	} else {
 		return user, nil
 	}
+}
+
+func Validate(u models.User) (bool, error) {
+	if u.Name() == "" {
+		return false, data.NewAttrError("name", "be present")
+	}
+
+	if u.Key() == "" {
+		return false, data.NewAttrError("key", "be present")
+	}
+
+	return true, nil
 }

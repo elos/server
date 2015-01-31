@@ -14,7 +14,7 @@ import (
 	If the second return value is true, the user's credentials have been validated
 	otherwise, the user's credentials were malformed.
 */
-func Authenticate(s data.Store, id string, key string) (data.Record, bool, error) {
+func Authenticate(s data.Store, id string, key string) (models.User, bool, error) {
 	user, err := Find(s, mongo.NewObjectIDFromHex(id))
 
 	if err != nil {
@@ -51,7 +51,7 @@ func Find(s data.Store, id data.ID) (models.User, error) {
 }
 
 // Finds a user by some field and its value
-func FindUserBy(s data.Store, field string, value interface{}) (models.User, error) {
+func FindBy(s data.Store, field string, value interface{}) (models.User, error) {
 	user, err := New(s)
 	if err != nil {
 		return user, err
