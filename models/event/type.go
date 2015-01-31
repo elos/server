@@ -13,7 +13,7 @@ var kind data.Kind
 var schema data.Schema
 var version int
 
-func SetupModel(s data.Schema, k data.Kind, v int) {
+func Setup(s data.Schema, k data.Kind, v int) {
 	schema, kind, version = s, k, v
 }
 
