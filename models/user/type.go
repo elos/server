@@ -19,6 +19,10 @@ func Setup(s data.Schema, k data.Kind, v int) {
 	kind, schema, version = k, s, v
 }
 
+func NewM(s data.Store) (data.Model, error) {
+	return New(s)
+}
+
 // Returns a new empty user struct.
 // Note, if the DBType of the data.Store
 // has not been implemented, it will return

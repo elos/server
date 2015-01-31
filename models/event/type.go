@@ -17,6 +17,10 @@ func Setup(s data.Schema, k data.Kind, v int) {
 	schema, kind, version = s, k, v
 }
 
+func NewM(s data.Store) (data.Model, error) {
+	return New(s)
+}
+
 func New(s data.Store) (models.Event, error) {
 	switch s.Type() {
 	case mongo.DBType:
