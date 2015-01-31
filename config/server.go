@@ -57,9 +57,7 @@ func (s *Server) startup() {
 	}
 
 	SetupLog(s.verbose)
-	db := s.SetupDB("localhost")
-	sc := s.SetupModels()
-	s.Store = data.NewStore(db, sc)
+	s.SetupStore("localhost")
 	s.SetupRoutes()
 	s.SetupServices()
 	s.Sandbox()

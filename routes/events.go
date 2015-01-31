@@ -16,7 +16,12 @@ func (h *EventsPostHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func EventsPostFunction(w http.ResponseWriter, r *http.Request, Error ErrorHandlerConstructor, Resource ResourceHandlerConstructor, s data.Store) {
-	event, err := event.Create(s, r.FormValue("name"), r.FormValue("user_id"))
+	attrs := data.AttrMap{
+		"name":    r.FormValue("name"),
+		"user_id": r.FormValue("user_id"),
+	}
+
+	event, err := event.Create(s, attrs)
 
 	if err != nil {
 		logf("An error occurred while create the event, err: %s", err)

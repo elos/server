@@ -8,9 +8,9 @@ import (
 	"github.com/elos/server/models/user"
 )
 
-type RequestAuthenticator func(data.DB, *http.Request) (data.Identifiable, bool, error)
+type RequestAuthenticator func(data.Store, *http.Request) (data.Identifiable, bool, error)
 
-func AuthenticateRequest(db data.DB, r *http.Request) (data.Identifiable, bool, error) {
+func AuthenticateRequest(s data.Store, r *http.Request) (data.Identifiable, bool, error) {
 	// Use the WebSocket protocol header to identify and authenticate the user
 	id, key := ExtractCredentials(r)
 
@@ -18,7 +18,7 @@ func AuthenticateRequest(db data.DB, r *http.Request) (data.Identifiable, bool, 
 		return nil, false, nil
 	}
 
-	return user.Authenticate(db, id, key)
+	return user.Authenticate(s, id, key)
 }
 
 func ExtractCredentials(r *http.Request) (string, string) {

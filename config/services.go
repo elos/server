@@ -18,7 +18,7 @@ func (s *Server) SetupServices() {
 	if err != nil {
 	}
 
-	u := user.New()
+	u, _ := user.New(s.Store)
 
 	for iter.Next(u) {
 		managers.OutfitUser(Outfitter, s.Store, u)

@@ -148,14 +148,14 @@ var DefaultAuthenticator auth.RequestAuthenticator = auth.AuthenticateRequest
 // AuthenticationHandler {{{
 
 type AuthenticationHandler struct {
-	data.DB
+	data.Store
 	Authenticator          auth.RequestAuthenticator
 	NewErrorHandler        ErrorHandlerConstructor
 	NewUnauthorizedHandler UnauthorizedHandlerConstructor
 	AuthenticatedHandler   AuthenticatedHandler
 }
 
-func NewAuthenticationHandler(db data.DB, a auth.RequestAuthenticator, eh ErrorHandlerConstructor,
+func NewAuthenticationHandler(s data.Store, a auth.RequestAuthenticator, eh ErrorHandlerConstructor,
 	uh UnauthorizedHandlerConstructor, t AuthenticatedHandler) http.Handler {
 	foo := &AuthenticationHandler{
 		Authenticator:          a,
@@ -164,13 +164,13 @@ func NewAuthenticationHandler(db data.DB, a auth.RequestAuthenticator, eh ErrorH
 		AuthenticatedHandler:   t,
 	}
 
-	foo.DB = db
+	foo.Store = s
 
 	return foo
 }
 
 func (h *AuthenticationHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	agent, authenticated, err := h.Authenticator(h.DB, r)
+	agent, authenticated, err := h.Authenticator(h.Store, r)
 
 	if err != nil {
 		logf("An error occurred during authentication, err: %s", err)

@@ -13,8 +13,8 @@ func (s *Server) Sandbox() {
 		return
 	}
 
-	u := user.New()
-	e := event.New()
+	u, _ := user.New(s.Store)
+	e, _ := event.New(s.Store)
 
 	u.SetID(s.NewObjectID())
 	e.SetID(s.NewObjectID())
