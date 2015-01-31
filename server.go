@@ -15,9 +15,9 @@ func main() {
 	programName := filepath.Base(os.Args[0])
 
 	var (
-		_ = flag.String("h", "127.0.0.1", "IP Address to bind to")
-		_ = flag.Int("p", 8000, "Port to listen on")
-		_ = flag.Bool("v", true, "Whether to print verbose logs")
+		addr = flag.String("h", "127.0.0.1", "IP Address to bind to")
+		port = flag.Int("p", 8000, "Port to listen on")
+		verb = flag.Bool("v", true, "Whether to print verbose logs")
 	)
 
 	flag.Usage = func() {
@@ -26,7 +26,7 @@ func main() {
 		flag.PrintDefaults()
 	}
 
-	server := config.NewServer("127.0.0.1", 8000, true)
+	server := config.NewServer(*addr, *port, *verb)
 	manager := autonomous.NewAgentHub()
 
 	go manager.StartAgent(server)
