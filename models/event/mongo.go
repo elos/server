@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type MongoEvent struct {
+type mongoEvent struct {
 	EID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	ECreatedAt time.Time     `json:"created_at" bson:"created_at"`
 	EUpdatedAt time.Time     `json:"updated_at" bson:"updated_at"`
@@ -18,38 +18,38 @@ type MongoEvent struct {
 	UserID     bson.ObjectId `json:"user_id" bson:"user_id,omitempty"`
 }
 
-func (e *MongoEvent) Kind() data.Kind {
-	return CurrentEventKind
+func (e *mongoEvent) Kind() data.Kind {
+	return kind
 }
 
-func (e *MongoEvent) Schema() data.Schema {
-	return CurrentEventSchema
+func (e *mongoEvent) Schema() data.Schema {
+	return schema
 }
 
-func (e *MongoEvent) Version() int {
-	return CurrentEventVersion
+func (e *mongoEvent) Version() int {
+	return version
 }
 
-func (e *MongoEvent) Valid() bool {
+func (e *mongoEvent) Valid() bool {
 	valid, _ := Validate(e)
 	return valid
 }
 
-func (u *MongoEvent) DBType() data.DBType {
+func (u *mongoEvent) DBType() data.DBType {
 	return mongo.DBType
 }
 
-func (e *MongoEvent) Concerned() []data.ID {
+func (e *mongoEvent) Concerned() []data.ID {
 	a := make([]data.ID, 1)
 	a[0] = e.UserID
 	return a
 }
 
-func (e *MongoEvent) SetUser(u models.User) error {
+func (e *mongoEvent) SetUser(u models.User) error {
 	return e.Schema().Link(e, u)
 }
 
-func (e *MongoEvent) LinkOne(r data.Model) {
+func (e *mongoEvent) LinkOne(r data.Model) {
 	switch r.(type) {
 	case models.User:
 		e.UserID = r.ID().(bson.ObjectId)
@@ -58,11 +58,11 @@ func (e *MongoEvent) LinkOne(r data.Model) {
 	}
 }
 
-func (e *MongoEvent) LinkMul(r data.Model) {
+func (e *mongoEvent) LinkMul(r data.Model) {
 	return
 }
 
-func (e *MongoEvent) UnlinkOne(r data.Model) {
+func (e *mongoEvent) UnlinkOne(r data.Model) {
 	switch r.(type) {
 	case models.User:
 		if e.UserID == r.ID() {
@@ -73,59 +73,59 @@ func (e *MongoEvent) UnlinkOne(r data.Model) {
 	}
 }
 
-func (e *MongoEvent) UnlinkMul(r data.Model) {
+func (e *mongoEvent) UnlinkMul(r data.Model) {
 	return
 }
 
 // Accessors
 
-func (e *MongoEvent) ID() data.ID {
+func (e *mongoEvent) ID() data.ID {
 	return e.EID
 }
 
-func (e *MongoEvent) SetID(id data.ID) {
+func (e *mongoEvent) SetID(id data.ID) {
 	vid, ok := id.(bson.ObjectId)
 	if ok {
 		e.EID = vid
 	}
 }
 
-func (e *MongoEvent) CreatedAt() time.Time {
+func (e *mongoEvent) CreatedAt() time.Time {
 	return e.ECreatedAt
 }
 
-func (e *MongoEvent) SetCreatedAt(t time.Time) {
+func (e *mongoEvent) SetCreatedAt(t time.Time) {
 	e.ECreatedAt = t
 }
 
-func (e *MongoEvent) UpdatedAt() time.Time {
+func (e *mongoEvent) UpdatedAt() time.Time {
 	return e.EUpdatedAt
 }
 
-func (e *MongoEvent) SetUpdatedAt(t time.Time) {
+func (e *mongoEvent) SetUpdatedAt(t time.Time) {
 	e.EUpdatedAt = t
 }
 
-func (e *MongoEvent) Name() string {
+func (e *mongoEvent) Name() string {
 	return e.EName
 }
 
-func (e *MongoEvent) SetName(n string) {
+func (e *mongoEvent) SetName(n string) {
 	e.EName = n
 }
 
-func (e *MongoEvent) StartTime() time.Time {
+func (e *mongoEvent) StartTime() time.Time {
 	return e.EStartTime
 }
 
-func (e *MongoEvent) SetStartTime(t time.Time) {
+func (e *mongoEvent) SetStartTime(t time.Time) {
 	e.EStartTime = t
 }
 
-func (e *MongoEvent) EndTime() time.Time {
+func (e *mongoEvent) EndTime() time.Time {
 	return e.EEndTime
 }
 
-func (e *MongoEvent) SetEndTime(t time.Time) {
+func (e *mongoEvent) SetEndTime(t time.Time) {
 	e.EEndTime = t
 }

@@ -9,10 +9,18 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+var kind data.Kind
+var schema data.Schema
+var version int
+
+func SetupModel(s data.Schema, k data.Kind, v int) {
+	schema, kind, version = s, k, v
+}
+
 func New(s data.Store) (models.Event, error) {
 	switch s.Type() {
 	case mongo.DBType:
-		return &MongoEvent{}, nil
+		return &mongoEvent{}, nil
 	default:
 		return nil, data.ErrInvalidDBType
 	}
@@ -75,7 +83,7 @@ func Find(s data.Store, id data.ID) (models.Event, error) {
 	return event, nil
 }
 
-func FindEventBy(s data.Store, field string, value interface{}) (models.Event, error) {
+func FindBy(s data.Store, field string, value interface{}) (models.Event, error) {
 	event, err := New(s)
 	if err != nil {
 		return event, err
@@ -86,4 +94,28 @@ func FindEventBy(s data.Store, field string, value interface{}) (models.Event, e
 	}
 
 	return event, nil
+}
+
+func Validate(e models.Event) (bool, error) {
+
+	if e.Name() == "" {
+		return false, data.NewAttrError("name", "be defined")
+	}
+
+	if e.StartTime().IsZero() {
+		return false, data.NewAttrError("start_time", "be non-zero")
+	}
+
+	if e.EndTime().IsZero() {
+		return false, data.NewAttrError("end_time", "be non-zero")
+	}
+
+	switch e.(type) {
+	case *mongoEvent:
+		if !e.(*mongoEvent).UserID.Valid() {
+			return false, data.NewAttrError("user", "be set and valid")
+		}
+	}
+
+	return true, nil
 }
