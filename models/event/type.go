@@ -1,7 +1,6 @@
 package event
 
 import (
-	"errors"
 	"time"
 
 	"github.com/elos/data"
@@ -10,48 +9,79 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func New() models.Event {
-	return &MongoEvent{}
+func New(s data.Store) (models.Event, error) {
+	switch s.Type() {
+	case mongo.DBType:
+		return &MongoEvent{}, nil
+	default:
+		return nil, data.ErrInvalidDBType
+	}
 }
 
-func Create(db data.DB, name string, userIdString string) (models.Event, error) {
-	if !mongo.IsObjectIDHex(userIdString) {
-		return nil, errors.New("Invalid userId")
+func Create(s data.Store, a data.AttrMap) (models.Event, error) {
+	event, err := New(s)
+	if err != nil {
+		return event, err
 	}
 
-	userId := mongo.NewObjectIDFromHex(userIdString)
+	switch s.Type() {
+	case mongo.DBType:
+		if id, ok := a["id"].(bson.ObjectId); ok {
+			event.SetID(id)
+		} else {
+			event.SetID(mongo.NewObjectID().(bson.ObjectId))
+		}
 
-	event := New()
+	default:
+		return event, data.ErrInvalidDBType
+	}
 
-	event.SetID(userId.(bson.ObjectId))
-	event.SetCreatedAt(time.Now())
-	event.SetName(name)
+	if ca, ok := a["created_at"].(time.Time); ok {
+		event.SetCreatedAt(ca)
+	} else {
+		event.SetCreatedAt(time.Now())
+	}
 
-	// user, _ := db.Find(models.UserKind, data.IDHex(userId))
-	//event.Schema().Link(event, user)
+	if n, ok := a["name"].(string); ok {
+		event.SetName(n)
+	}
 
-	if err := db.Save(event); err != nil {
+	// Try linking to user?
+
+	if err := s.Save(event); err != nil {
 		return nil, err
 	} else {
 		return event, nil
 	}
 }
 
-func Find(db data.DB, id data.ID) (models.Event, error) {
-	event := New()
-	event.SetID(id.(bson.ObjectId))
+func Find(s data.Store, id data.ID) (models.Event, error) {
+	event, err := New(s)
+	if err != nil {
+		return event, err
+	}
 
-	if err := db.PopulateByID(event); err != nil {
+	id, ok := id.(bson.ObjectId)
+	if !ok {
+		return event, data.ErrInvalidID
+	}
+
+	event.SetID(id)
+
+	if err := s.PopulateByID(event); err != nil {
 		return event, err
 	}
 
 	return event, nil
 }
 
-func FindEventBy(db data.DB, field string, value interface{}) (models.Event, error) {
-	event := &MongoEvent{}
+func FindEventBy(s data.Store, field string, value interface{}) (models.Event, error) {
+	event, err := New(s)
+	if err != nil {
+		return event, err
+	}
 
-	if err := db.PopulateByField(field, value, event); err != nil {
+	if err = s.PopulateByField(field, value, event); err != nil {
 		return event, err
 	}
 
