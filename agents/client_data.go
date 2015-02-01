@@ -42,7 +42,6 @@ func (a *ClientDataAgent) Run() {
 		case e := <-a.read:
 			log.Print("WE HAVE A READ")
 			go transfer.Route(e, a.Store, a.Connection)
-			continue
 		case p := <-modelsChannel:
 			log.Print("WE HAVE AN UPDATE")
 			a.WriteJSON(p)

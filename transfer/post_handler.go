@@ -12,10 +12,13 @@ func PostHandler(e *Envelope, s data.Store, c conn.Connection) {
 	var info data.AttrMap
 
 	for kind, info = range e.Data {
-		m, _ := s.Unmarshal(kind, info)
+		m, err := s.Unmarshal(kind, info)
+		if err != nil {
+			c.WriteJSON(util.ApiError{400, 400, "Error", "error"})
+		}
 
 		if !m.ID().Valid() {
-			m.SetID(s.NewObjectID())
+			m.SetID(s.NewID())
 		}
 
 		if err := s.Save(m); err != nil {
