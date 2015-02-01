@@ -16,6 +16,9 @@ type User interface {
 
 	AddEvent(Event) error
 	RemoveEvent(Event) error
+
+	AddTask(Task) error
+	RemoveTask(Task) error
 }
 
 type Event interface {
@@ -24,4 +27,14 @@ type Event interface {
 	data.Timeable
 
 	SetUser(User) error
+}
+
+type Task interface {
+	data.Model
+	data.Nameable
+
+	SetUser(User) error
+
+	AddDependency(Task) error
+	RemoveDependency(Task) error
 }

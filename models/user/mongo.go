@@ -16,6 +16,7 @@ type mongoUser struct {
 	EName    string      `json:"name" bson:"name"`
 	EKey     string      `json:"key" bson:"key"`
 	EventIDs mongo.IDSet `json:"event_ids" bson:"event_ids"`
+	TaskIDs  mongo.IDSet `json:"task_ids" bson:"task_ids"`
 }
 
 func (u *mongoUser) DBType() data.DBType {
@@ -39,10 +40,10 @@ func (u *mongoUser) Valid() bool {
 	return valid
 }
 
-func (u *mongoUser) Save(db data.DB) error {
+func (u *mongoUser) Save(s data.Store) error {
 	valid, err := Validate(u)
 	if valid {
-		return db.Save(u)
+		return s.Save(u)
 	} else {
 		return err
 	}
@@ -64,30 +65,42 @@ func (u *mongoUser) UnlinkEvent(eventID bson.ObjectId) error {
 	return nil
 }
 
-func (u *mongoUser) LinkOne(r data.Model) {
-	return
-}
-
-func (u *mongoUser) LinkMul(r data.Model) {
-	switch r.(type) {
-	case models.Event:
-		u.LinkEvent(r.ID().(bson.ObjectId))
+func (u *mongoUser) Link(m data.Model, l data.Link) error {
+	switch l.Kind {
+	case data.OneLink:
+		return data.NewLinkError(u, m, l)
+	case data.MulLink:
+		switch m.(type) {
+		case models.Event:
+			return u.LinkEvent(m.ID().(bson.ObjectId))
+		case models.Task:
+			u.TaskIDs = mongo.AddID(u.TaskIDs, m.ID().(bson.ObjectId))
+			return nil
+		default:
+			return data.NewLinkError(u, m, l)
+		}
 	default:
-		return
+		return data.ErrUndefinedLinkKind
 	}
 }
 
-func (u *mongoUser) UnlinkMul(r data.Model) {
-	switch r.(type) {
-	case models.Event:
-		u.UnlinkEvent(r.ID().(bson.ObjectId))
+func (u *mongoUser) Unlink(m data.Model, l data.Link) error {
+	switch l.Kind {
+	case data.OneLink:
+		return data.NewLinkError(u, m, l)
+	case data.MulLink:
+		switch m.(type) {
+		case models.Event:
+			return u.UnlinkEvent(m.ID().(bson.ObjectId))
+		case models.Task:
+			u.TaskIDs = mongo.DropID(u.TaskIDs, m.ID().(bson.ObjectId))
+			return nil
+		default:
+			return data.NewLinkError(u, m, l)
+		}
 	default:
-		return
+		return data.ErrUndefinedLinkKind
 	}
-}
-
-func (u *mongoUser) UnlinkOne(r data.Model) {
-	return
 }
 
 func (u *mongoUser) SetID(id data.ID) {
@@ -139,4 +152,12 @@ func (u *mongoUser) AddEvent(e models.Event) error {
 
 func (u *mongoUser) RemoveEvent(e models.Event) error {
 	return u.Schema().Unlink(u, e)
+}
+
+func (u *mongoUser) AddTask(t models.Task) error {
+	return u.Schema().Link(u, t)
+}
+
+func (u *mongoUser) RemoveTask(t models.Task) error {
+	return u.Schema().Unlink(u, t)
 }
