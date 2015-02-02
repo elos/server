@@ -13,10 +13,11 @@ type mongoUser struct {
 	ECreatedAt time.Time     `json:"created_at" bson:"created_at"`
 	EUpdatedAt time.Time     `json:"updated_at" bson:"updated_at"`
 
-	EName    string      `json:"name" bson:"name"`
-	EKey     string      `json:"key" bson:"key"`
-	EventIDs mongo.IDSet `json:"event_ids" bson:"event_ids"`
-	TaskIDs  mongo.IDSet `json:"task_ids" bson:"task_ids"`
+	EName         string        `json:"name" bson:"name"`
+	EKey          string        `json:"key" bson:"key"`
+	EventIDs      mongo.IDSet   `json:"event_ids" bson:"event_ids"`
+	TaskIDs       mongo.IDSet   `json:"task_ids" bson:"task_ids"`
+	CurrentTaskID bson.ObjectId `json:"current_task" bson:"current_task,omitempty"`
 }
 
 func (u *mongoUser) DBType() data.DBType {
@@ -65,41 +66,36 @@ func (u *mongoUser) UnlinkEvent(eventID bson.ObjectId) error {
 	return nil
 }
 
-func (u *mongoUser) Link(m data.Model, l data.Link) error {
-	switch l.Kind {
-	case data.OneLink:
-		return data.NewLinkError(u, m, l)
-	case data.MulLink:
-		switch m.(type) {
-		case models.Event:
-			return u.LinkEvent(m.ID().(bson.ObjectId))
-		case models.Task:
-			u.TaskIDs = mongo.AddID(u.TaskIDs, m.ID().(bson.ObjectId))
-			return nil
-		default:
-			return data.NewLinkError(u, m, l)
-		}
+func (u *mongoUser) Link(m data.Model, n data.LinkName, l data.Link) error {
+	switch n {
+	case Events:
+		return u.LinkEvent(m.ID().(bson.ObjectId))
+	case Tasks:
+		u.TaskIDs = mongo.AddID(u.TaskIDs, m.ID().(bson.ObjectId))
+		return nil
+	case CurrentTask:
+		u.CurrentTaskID = m.ID().(bson.ObjectId)
+		return nil
 	default:
-		return data.ErrUndefinedLinkKind
+		return data.NewLinkError(u, m, n, l)
 	}
 }
 
-func (u *mongoUser) Unlink(m data.Model, l data.Link) error {
-	switch l.Kind {
-	case data.OneLink:
-		return data.NewLinkError(u, m, l)
-	case data.MulLink:
-		switch m.(type) {
-		case models.Event:
-			return u.UnlinkEvent(m.ID().(bson.ObjectId))
-		case models.Task:
-			u.TaskIDs = mongo.DropID(u.TaskIDs, m.ID().(bson.ObjectId))
-			return nil
-		default:
-			return data.NewLinkError(u, m, l)
+func (u *mongoUser) Unlink(m data.Model, n data.LinkName, l data.Link) error {
+	switch n {
+	case Events:
+		return u.UnlinkEvent(m.ID().(bson.ObjectId))
+	case Tasks:
+		u.TaskIDs = mongo.DropID(u.TaskIDs, m.ID().(bson.ObjectId))
+		return nil
+	case CurrentTask:
+		if u.CurrentTaskID == m.ID().(bson.ObjectId) {
+			u.CurrentTaskID = *new(bson.ObjectId)
 		}
+
+		return nil
 	default:
-		return data.ErrUndefinedLinkKind
+		return data.ErrUndefinedLink
 	}
 }
 
@@ -147,17 +143,17 @@ func (u *mongoUser) Key() string {
 }
 
 func (u *mongoUser) AddEvent(e models.Event) error {
-	return u.Schema().Link(u, e)
+	return u.Schema().Link(u, e, Events)
 }
 
 func (u *mongoUser) RemoveEvent(e models.Event) error {
-	return u.Schema().Unlink(u, e)
+	return u.Schema().Unlink(u, e, Events)
 }
 
 func (u *mongoUser) AddTask(t models.Task) error {
-	return u.Schema().Link(u, t)
+	return u.Schema().Link(u, t, Tasks)
 }
 
 func (u *mongoUser) RemoveTask(t models.Task) error {
-	return u.Schema().Unlink(u, t)
+	return u.Schema().Unlink(u, t, Tasks)
 }

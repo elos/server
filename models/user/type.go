@@ -9,9 +9,17 @@ import (
 	"time"
 )
 
-var kind data.Kind
-var schema data.Schema
-var version int
+var (
+	Events      data.LinkName
+	Tasks       data.LinkName
+	CurrentTask data.LinkName
+)
+
+var (
+	kind    data.Kind
+	schema  data.Schema
+	version int
+)
 
 // Configure the kind dataKind, the schema, and version
 // to which this model package is tied

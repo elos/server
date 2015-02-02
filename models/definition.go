@@ -37,4 +37,5 @@ type Task interface {
 
 	AddDependency(Task) error
 	RemoveDependency(Task) error
+	Dependencies(data.Store) data.RecordIterator
 }

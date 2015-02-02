@@ -10,36 +10,55 @@ import (
 	"github.com/elos/server/models/user"
 )
 
-const DataVersion = 1
-const UserKind data.Kind = "user"
-const EventKind data.Kind = "event"
-const TaskKind data.Kind = "task"
+const (
+	DataVersion           = 1
+	UserKind    data.Kind = "user"
+	EventKind   data.Kind = "event"
+	TaskKind    data.Kind = "task"
+)
+
+const (
+	UserEvents       data.LinkName = "events"
+	UserTasks        data.LinkName = "tasks"
+	UserCurrentTask  data.LinkName = "current_task"
+	EventUser        data.LinkName = "user"
+	TaskUser         data.LinkName = "user"
+	TaskDependencies data.LinkName = "dependencies"
+)
 
 var RMap data.RelationshipMap = data.RelationshipMap{
 	UserKind: {
-		EventKind: data.Link{
-			Name: "events",
-			Kind: data.MulLink,
+		UserEvents: data.Link{
+			Kind:    data.MulLink,
+			Other:   EventKind,
+			Inverse: EventUser,
 		},
-		TaskKind: data.Link{
-			Name: "tasks",
-			Kind: data.MulLink,
+		UserTasks: data.Link{
+			Kind:    data.MulLink,
+			Other:   TaskKind,
+			Inverse: TaskUser,
+		},
+		UserCurrentTask: data.Link{
+			Kind:  data.OneLink,
+			Other: TaskKind,
 		},
 	},
 	EventKind: {
-		UserKind: data.Link{
-			Name: "user",
-			Kind: data.OneLink,
+		EventUser: data.Link{
+			Kind:    data.OneLink,
+			Other:   UserKind,
+			Inverse: UserEvents,
 		},
 	},
 	TaskKind: {
-		UserKind: data.Link{
-			Name: "user",
-			Kind: data.OneLink,
+		TaskUser: data.Link{
+			Kind:    data.OneLink,
+			Other:   UserKind,
+			Inverse: UserTasks,
 		},
-		TaskKind: data.Link{
-			Name: "dependencies",
-			Kind: data.MulLink,
+		TaskDependencies: data.Link{
+			Kind:  data.MulLink,
+			Other: TaskKind,
 		},
 	},
 }
@@ -70,6 +89,14 @@ func (s *Server) SetupStore(addr string) {
 	s.Store.Register(TaskKind, task.NewM)
 
 	user.Setup(sch, UserKind, 1)
+	user.Events = UserEvents
+	user.Tasks = UserTasks
+	user.CurrentTask = UserCurrentTask
+
 	event.Setup(sch, EventKind, 1)
+	event.User = EventUser
+
 	task.Setup(sch, TaskKind, 1)
+	task.User = TaskUser
+	task.Dependencies = TaskDependencies
 }

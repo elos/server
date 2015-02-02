@@ -52,52 +52,32 @@ func (t *mongoTask) Concerned() []data.ID {
 	return a
 }
 
-func (t *mongoTask) Link(m data.Model, l data.Link) error {
-	switch l.Kind {
-	case data.OneLink:
-		switch m.(type) {
-		case models.User:
-			id, ok := m.ID().(bson.ObjectId)
-			if !ok {
-				return data.ErrInvalidID
-			}
+func (t *mongoTask) Link(m data.Model, n data.LinkName, l data.Link) error {
+	switch n {
+	case User:
+		id, ok := m.ID().(bson.ObjectId)
+		if !ok {
+			return data.ErrInvalidID
+		}
 
-			t.UserID = id
-		default:
-			return data.ErrUndefinedLink
-		}
-	case data.MulLink:
-		switch m.(type) {
-		case models.Task:
-			t.TaskIDs = mongo.AddID(t.TaskIDs, m.ID().(bson.ObjectId))
-		default:
-			return data.ErrUndefinedLink
-		}
+		t.UserID = id
+	case Dependencies:
+		t.TaskIDs = mongo.AddID(t.TaskIDs, m.ID().(bson.ObjectId))
 	default:
-		return data.ErrUndefinedLinkKind
+		return data.ErrUndefinedLink
 	}
 
 	return nil
 }
 
-func (t *mongoTask) Unlink(m data.Model, l data.Link) error {
-	switch l.Kind {
-	case data.OneLink:
-		switch m.(type) {
-		case models.User:
-			t.UserID = *new(bson.ObjectId)
-		default:
-			return data.ErrUndefinedLink
-		}
-	case data.MulLink:
-		switch m.(type) {
-		case models.Task:
-			t.TaskIDs = mongo.DropID(t.TaskIDs, m.ID().(bson.ObjectId))
-		default:
-			return data.ErrUndefinedLink
-		}
+func (t *mongoTask) Unlink(m data.Model, n data.LinkName, l data.Link) error {
+	switch n {
+	case User:
+		t.UserID = *new(bson.ObjectId)
+	case Dependencies:
+		t.TaskIDs = mongo.DropID(t.TaskIDs, m.ID().(bson.ObjectId))
 	default:
-		return data.ErrUndefinedLinkKind
+		return data.ErrUndefinedLink
 	}
 
 	return nil
@@ -138,13 +118,17 @@ func (t *mongoTask) SetName(n string) {
 }
 
 func (t *mongoTask) SetUser(u models.User) error {
-	return t.Schema().Link(t, u)
+	return t.Schema().Link(t, u, User)
 }
 
 func (t *mongoTask) AddDependency(other models.Task) error {
-	return t.Schema().Link(t, other)
+	return t.Schema().Link(t, other, Dependencies)
 }
 
 func (t *mongoTask) RemoveDependency(other models.Task) error {
-	return t.Schema().Unlink(t, other)
+	return t.Schema().Unlink(t, other, Dependencies)
+}
+
+func (t *mongoTask) Dependencies(s data.Store) data.RecordIterator {
+	return mongo.NewIDIter(t.TaskIDs, s)
 }

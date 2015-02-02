@@ -8,6 +8,11 @@ import (
 )
 
 var (
+	User         data.LinkName
+	Dependencies data.LinkName
+)
+
+var (
 	kind    data.Kind
 	schema  data.Schema
 	version int

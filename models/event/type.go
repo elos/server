@@ -9,9 +9,15 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-var kind data.Kind
-var schema data.Schema
-var version int
+var (
+	User data.LinkName
+)
+
+var (
+	kind    data.Kind
+	schema  data.Schema
+	version int
+)
 
 func Setup(s data.Schema, k data.Kind, v int) {
 	schema, kind, version = s, k, v

@@ -46,51 +46,36 @@ func (e *mongoEvent) Concerned() []data.ID {
 }
 
 func (e *mongoEvent) SetUser(u models.User) error {
-	return e.Schema().Link(e, u)
+	return e.Schema().Link(e, u, User)
 }
 
-func (e *mongoEvent) Link(m data.Model, l data.Link) error {
-	switch l.Kind {
-	case data.OneLink:
-		switch m.(type) {
-		case models.User:
-			id, ok := m.ID().(bson.ObjectId)
-			if !ok {
-				return data.ErrInvalidID
-			}
-
-			e.UserID = id
-
-			return nil
-		default:
-			return data.NewLinkError(e, m, l)
+func (e *mongoEvent) Link(m data.Model, n data.LinkName, l data.Link) error {
+	switch n {
+	case User:
+		id, ok := m.ID().(bson.ObjectId)
+		if !ok {
+			return data.ErrInvalidID
 		}
-	case data.MulLink:
-		return data.NewLinkError(e, m, l)
+
+		e.UserID = id
+
+		return nil
 	default:
-		return data.ErrUndefinedLinkKind
+		return data.ErrUndefinedLink
 	}
 }
 
-func (e *mongoEvent) Unlink(m data.Model, l data.Link) error {
-	switch l.Kind {
-	case data.OneLink:
-		switch m.(type) {
-		case models.User:
-			if e.UserID == m.ID().(bson.ObjectId) {
-				e.UserID = *new(bson.ObjectId)
-			}
-
-			return nil
-		default:
-			return data.NewLinkError(e, m, l)
+func (e *mongoEvent) Unlink(m data.Model, n data.LinkName, l data.Link) error {
+	switch n {
+	case User:
+		if e.UserID == m.ID().(bson.ObjectId) {
+			e.UserID = *new(bson.ObjectId)
 		}
-	case data.MulLink:
-		return data.NewLinkError(e, m, l)
 	default:
-		return data.ErrUndefinedLinkKind
+		return data.ErrUndefinedLink
 	}
 
+	return nil
 }
 
 // Accessors
