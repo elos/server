@@ -39,3 +39,35 @@ type Task interface {
 	RemoveDependency(Task) error
 	Dependencies(data.Store) data.RecordIterator
 }
+
+type Ontology interface {
+	AddClass(Class) error
+	DropClass(Class) error
+
+	AddObject(Object) error
+	DropObject(Object) error
+}
+
+type Class interface {
+	AddTrait()
+}
+
+type Trait interface {
+	Name()
+	Type()
+}
+
+type Object interface {
+	AddAttribute(string, string)
+	AddRelationship(Relationship)
+}
+
+type Attribute interface {
+	Trait()
+	Value()
+}
+
+type Relationship interface {
+	Trait()
+	Tail()
+}
