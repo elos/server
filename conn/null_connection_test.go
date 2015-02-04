@@ -1,9 +1,12 @@
 package conn_test
 
 import (
+	"github.com/elos/data"
 	. "github.com/elos/server/conn"
 
 	"errors"
+
+	"github.com/elos/server/models"
 	"github.com/elos/server/models/user"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -11,8 +14,15 @@ import (
 
 var _ = Describe("NullConnection", func() {
 
+	var (
+		u models.User
+	)
+
+	BeforeEach(func() {
+		u, _ = user.New(data.NewNullStoreWithType("mongo"))
+	})
+
 	Describe("NewNullConnection", func() {
-		u := user.New()
 		c := NewNullConnection(u)
 
 		It("Allocates and returns a new NullConnection", func() {
@@ -30,7 +40,6 @@ var _ = Describe("NullConnection", func() {
 
 	Describe("Reset()", func() {
 		It("Properly resets necessary fields", func() {
-			u := user.New()
 			c := NewNullConnection(u)
 			x := 1
 			y := 2
@@ -57,7 +66,6 @@ var _ = Describe("NullConnection", func() {
 
 	Describe("SetError()", func() {
 		It("sets the error field", func() {
-			u := user.New()
 			c := NewNullConnection(u)
 			e := errors.New("er")
 			c.SetError(e)
@@ -67,7 +75,6 @@ var _ = Describe("NullConnection", func() {
 
 	Describe("conn.Connection Implementation", func() {
 		Describe("WriteJSON", func() {
-			u := user.New()
 			Context("Error", func() {
 				Describe("Custom Error", func() {
 					It("Returns its Error field", func() {
@@ -105,7 +112,6 @@ var _ = Describe("NullConnection", func() {
 		})
 
 		Describe("ReadJSON", func() {
-			u := user.New()
 			Context("Error", func() {
 				Describe("Custom Error", func() {
 					It("Returns its Error Field", func() {
@@ -139,7 +145,6 @@ var _ = Describe("NullConnection", func() {
 
 		Describe("Close()", func() {
 			It("Succesfully closes the connection", func() {
-				u := user.New()
 				c := NewNullConnection(u)
 
 				Expect(c.WriteJSON(u)).To(BeNil())
@@ -159,7 +164,6 @@ var _ = Describe("NullConnection", func() {
 
 		Describe("Agent", func() {
 			It("Returns the agent it was intialized with", func() {
-				u := user.New()
 				c := NewNullConnection(u)
 
 				Expect(c.Agent()).To(Equal(u))

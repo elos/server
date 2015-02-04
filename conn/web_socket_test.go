@@ -24,7 +24,7 @@ var _ = Describe("WebSocket", func() {
 		Expect(DefaultWebSocketUpgrader).NotTo(BeNil())
 	})
 
-	// Null Upgrader {{{
+	// NullUpgrader {{{
 	Describe("NullUpgrader", func() {
 		var (
 			a data.Identifiable
@@ -36,7 +36,7 @@ var _ = Describe("WebSocket", func() {
 		)
 
 		BeforeEach(func() {
-			a = user.New()
+			a, _ = user.New(data.NewNullStore())
 			c = NewNullConnection(a)
 			u = NewNullUpgrader(c)
 
@@ -113,8 +113,9 @@ var _ = Describe("WebSocket", func() {
 			})
 		})
 	})
-	// Null Upgrader }}}
+	// NullUpgrader }}}
 
+	// GorillaUpgrader {{{
 	Describe("GorillaUpgrader", func() {
 		var (
 			ReadBufferSize  int
@@ -128,7 +129,7 @@ var _ = Describe("WebSocket", func() {
 		)
 
 		BeforeEach(func() {
-			a = user.New()
+			a, _ = user.New(data.NewNullStore())
 			ReadBufferSize = 1024
 			WriteBufferSize = 2014
 			CheckOrigin = true
@@ -165,6 +166,7 @@ var _ = Describe("WebSocket", func() {
 			})
 		})
 	})
+	// GorillaUpgrader }}}
 
 	// ExtractProtocolHeader {{{
 	Describe("ExtractProtocolHeader", func() {

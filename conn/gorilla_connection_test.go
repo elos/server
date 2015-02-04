@@ -1,18 +1,29 @@
 package conn_test
 
 import (
+	"github.com/elos/data"
 	. "github.com/elos/server/conn"
+	"github.com/elos/server/models"
 	"github.com/elos/server/models/user"
 
 	"errors"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
 var _ = Describe("GorillaConnection", func() {
-	u := user.New()
-	c := NewNullConnection(u)
-	gc := NewGorillaConnection(c, u)
+	var (
+		u  models.User
+		c  *NullConnection
+		gc Connection
+	)
+
+	JustBeforeEach(func() {
+		u, _ = user.New(data.NewNullStoreWithType("mongo"))
+		c = NewNullConnection(u)
+		gc = NewGorillaConnection(c, u)
+	})
 
 	Describe("NewGorillaConnection", func() {
 		It("Allocates and returns a new GorillaConnection", func() {
