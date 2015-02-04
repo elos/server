@@ -1,12 +1,11 @@
 package transfer_test
 
 import (
-	. "github.com/elos/server/data/transfer"
+	. "github.com/elos/server/transfer"
 
-	"github.com/elos/server/conn"
-	"github.com/elos/server/data"
-	"github.com/elos/server/data/models/user"
-	"github.com/elos/server/data/test"
+	"github.com/elos/conn"
+	"github.com/elos/data"
+	"github.com/elos/server/models/user"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
