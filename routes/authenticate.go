@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/elos/autonomous"
+	"github.com/elos/conn"
 	"github.com/elos/data"
 	"github.com/elos/server/agents"
-	"github.com/elos/server/conn"
 )
 
 var DefaultClientDataHub autonomous.Manager = autonomous.NewNullHub()

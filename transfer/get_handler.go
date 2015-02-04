@@ -1,8 +1,8 @@
 package transfer
 
 import (
+	"github.com/elos/conn"
 	"github.com/elos/data"
-	"github.com/elos/server/conn"
 	"github.com/elos/server/util"
 )
 

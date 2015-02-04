@@ -4,8 +4,8 @@ import (
 	"log"
 
 	"github.com/elos/autonomous"
+	"github.com/elos/conn"
 	"github.com/elos/data"
-	"github.com/elos/server/conn"
 	"github.com/elos/server/transfer"
 )
 
