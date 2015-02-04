@@ -66,8 +66,8 @@ func (u *mongoUser) UnlinkEvent(eventID bson.ObjectId) error {
 	return nil
 }
 
-func (u *mongoUser) Link(m data.Model, n data.LinkName, l data.Link) error {
-	switch n {
+func (u *mongoUser) Link(m data.Model, l data.Link) error {
+	switch l.Name {
 	case Events:
 		return u.LinkEvent(m.ID().(bson.ObjectId))
 	case Tasks:
@@ -77,12 +77,12 @@ func (u *mongoUser) Link(m data.Model, n data.LinkName, l data.Link) error {
 		u.CurrentTaskID = m.ID().(bson.ObjectId)
 		return nil
 	default:
-		return data.NewLinkError(u, m, n, l)
+		return data.NewLinkError(u, m, l)
 	}
 }
 
-func (u *mongoUser) Unlink(m data.Model, n data.LinkName, l data.Link) error {
-	switch n {
+func (u *mongoUser) Unlink(m data.Model, l data.Link) error {
+	switch l.Name {
 	case Events:
 		return u.UnlinkEvent(m.ID().(bson.ObjectId))
 	case Tasks:

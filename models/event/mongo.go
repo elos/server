@@ -49,8 +49,8 @@ func (e *mongoEvent) SetUser(u models.User) error {
 	return e.Schema().Link(e, u, User)
 }
 
-func (e *mongoEvent) Link(m data.Model, n data.LinkName, l data.Link) error {
-	switch n {
+func (e *mongoEvent) Link(m data.Model, l data.Link) error {
+	switch l.Name {
 	case User:
 		id, ok := m.ID().(bson.ObjectId)
 		if !ok {
@@ -65,8 +65,8 @@ func (e *mongoEvent) Link(m data.Model, n data.LinkName, l data.Link) error {
 	}
 }
 
-func (e *mongoEvent) Unlink(m data.Model, n data.LinkName, l data.Link) error {
-	switch n {
+func (e *mongoEvent) Unlink(m data.Model, l data.Link) error {
+	switch l.Name {
 	case User:
 		if e.UserID == m.ID().(bson.ObjectId) {
 			e.UserID = *new(bson.ObjectId)

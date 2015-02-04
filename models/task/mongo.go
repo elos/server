@@ -52,8 +52,8 @@ func (t *mongoTask) Concerned() []data.ID {
 	return a
 }
 
-func (t *mongoTask) Link(m data.Model, n data.LinkName, l data.Link) error {
-	switch n {
+func (t *mongoTask) Link(m data.Model, l data.Link) error {
+	switch l.Name {
 	case User:
 		id, ok := m.ID().(bson.ObjectId)
 		if !ok {
@@ -70,8 +70,8 @@ func (t *mongoTask) Link(m data.Model, n data.LinkName, l data.Link) error {
 	return nil
 }
 
-func (t *mongoTask) Unlink(m data.Model, n data.LinkName, l data.Link) error {
-	switch n {
+func (t *mongoTask) Unlink(m data.Model, l data.Link) error {
+	switch l.Name {
 	case User:
 		t.UserID = *new(bson.ObjectId)
 	case Dependencies:

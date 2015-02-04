@@ -29,22 +29,26 @@ const (
 var RMap data.RelationshipMap = data.RelationshipMap{
 	UserKind: {
 		UserEvents: data.Link{
+			Name:    UserEvents,
 			Kind:    data.MulLink,
 			Other:   EventKind,
 			Inverse: EventUser,
 		},
 		UserTasks: data.Link{
+			Name:    UserTasks,
 			Kind:    data.MulLink,
 			Other:   TaskKind,
 			Inverse: TaskUser,
 		},
 		UserCurrentTask: data.Link{
+			Name:  UserCurrentTask,
 			Kind:  data.OneLink,
 			Other: TaskKind,
 		},
 	},
 	EventKind: {
 		EventUser: data.Link{
+			Name:    EventUser,
 			Kind:    data.OneLink,
 			Other:   UserKind,
 			Inverse: UserEvents,
@@ -52,11 +56,13 @@ var RMap data.RelationshipMap = data.RelationshipMap{
 	},
 	TaskKind: {
 		TaskUser: data.Link{
+			Name:    TaskUser,
 			Kind:    data.OneLink,
 			Other:   UserKind,
 			Inverse: UserTasks,
 		},
 		TaskDependencies: data.Link{
+			Name:  TaskDependencies,
 			Kind:  data.MulLink,
 			Other: TaskKind,
 		},
