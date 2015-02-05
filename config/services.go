@@ -2,16 +2,16 @@ package config
 
 import (
 	"github.com/elos/models/user"
-	"github.com/elos/server/managers"
+	"github.com/elos/server/agents"
 )
 
-var Outfitter *managers.Outfitter
+var Outfitter *agents.Outfitter
 
 func (s *Server) SetupServices() {
 	if s.Store == nil {
 		return
 	}
-	Outfitter = managers.NewOutfitter()
+	Outfitter = agents.NewOutfitter()
 	go Outfitter.Run()
 
 	iter, err := s.Store.NewQuery(UserKind).Execute()
@@ -21,7 +21,7 @@ func (s *Server) SetupServices() {
 	u, _ := user.New(s.Store)
 
 	for iter.Next(u) {
-		managers.OutfitUser(Outfitter, s.Store, u)
+		agents.OutfitUser(Outfitter, s.Store, u)
 	}
 
 	if err := iter.Close(); err != nil {

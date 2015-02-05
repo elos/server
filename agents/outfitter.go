@@ -1,9 +1,8 @@
-package managers
+package agents
 
 import (
 	"github.com/elos/autonomous"
 	"github.com/elos/data"
-	"github.com/elos/server/agents"
 	"time"
 )
 
@@ -44,7 +43,7 @@ func (o *Outfitter) Run() {
 }
 
 var DefaultAgents map[time.Duration]autonomous.NewAgent = map[time.Duration]autonomous.NewAgent{
-	agents.DefaultSleepAgentStartPeriod: agents.NewSleepAgent,
+	DefaultSleepAgentStartPeriod: NewSleepAgent,
 }
 
 func OutfitUser(o *Outfitter, db data.DB, a data.Identifiable) {
