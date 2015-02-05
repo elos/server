@@ -1,8 +1,8 @@
 package config
 
 import (
+	"github.com/elos/models/user"
 	"github.com/elos/server/managers"
-	"github.com/elos/server/models/user"
 )
 
 var Outfitter *managers.Outfitter

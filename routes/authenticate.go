@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/elos/autonomous"
-	"github.com/elos/conn"
 	"github.com/elos/data"
 	"github.com/elos/server/agents"
+	"github.com/elos/transfer"
 )
 
 var DefaultClientDataHub autonomous.Manager = autonomous.NewNullHub()
@@ -20,11 +20,11 @@ func (h *AuthenticateGetHandler) ServeHTTP(w http.ResponseWriter, r *http.Reques
 		NewErrorHandler,
 		NewUnauthorizedHandler,
 		AuthenticatedHandlerFunc(func(w http.ResponseWriter, r *http.Request, a data.Identifiable) {
-			WebSocketUpgradeHandler(w, r, a, conn.DefaultWebSocketUpgrader, DefaultClientDataHub, h.Store)
+			WebSocketUpgradeHandler(w, r, a, transfer.DefaultWebSocketUpgrader, DefaultClientDataHub, h.Store)
 		})).ServeHTTP(w, r)
 }
 
-func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Identifiable, upgrader conn.WebSocketUpgrader, hub autonomous.Manager, s data.Store) {
+func WebSocketUpgradeHandler(w http.ResponseWriter, r *http.Request, a data.Identifiable, upgrader transfer.WebSocketUpgrader, hub autonomous.Manager, s data.Store) {
 	connection, err := upgrader.Upgrade(w, r, a)
 
 	if err != nil {

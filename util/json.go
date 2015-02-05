@@ -18,10 +18,14 @@ func SetContentJSON(w http.ResponseWriter) {
 	Helper function that writes an interface as JSON
 	- Takes care of nominal things such as setting the content header
 */
-func WriteJSON(w http.ResponseWriter, resource interface{}) {
+func WriteJSON(w http.ResponseWriter, resource interface{}) error {
 	SetContentJSON(w)
 
-	bytes, _ := ToJSON(resource)
+	bytes, err := ToJSON(resource)
+	if err != nil {
+		return err
+	}
 
-	w.Write(bytes)
+	_, err = w.Write(bytes)
+	return err
 }

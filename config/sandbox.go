@@ -4,9 +4,9 @@ import (
 	"log"
 
 	"github.com/elos/data"
-	"github.com/elos/server/models/event"
-	"github.com/elos/server/models/task"
-	"github.com/elos/server/models/user"
+	"github.com/elos/models/event"
+	"github.com/elos/models/task"
+	"github.com/elos/models/user"
 )
 
 func (s *Server) Sandbox() {

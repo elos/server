@@ -4,7 +4,8 @@ import (
 	"net/http"
 
 	"github.com/elos/data"
-	"github.com/elos/server/models/event"
+	"github.com/elos/models/user"
+	"github.com/elos/transfer"
 )
 
 type EventsPostHandler struct {
@@ -21,13 +22,8 @@ func EventsPostFunction(w http.ResponseWriter, r *http.Request, Error ErrorHandl
 		"user_id": r.FormValue("user_id"),
 	}
 
-	event, err := event.Create(s, attrs)
-
-	if err != nil {
-		logf("An error occurred while create the event, err: %s", err)
-		Error(err).ServeHTTP(w, r)
-	} else {
-		logf("Event was successfully created: %v", event)
-		Resource(201, event).ServeHTTP(w, r)
-	}
+	hack, _ := user.New(s)
+	c := transfer.NewHTTPConnection(w, r, hack)
+	e := transfer.New(c, transfer.POST, "event", attrs)
+	go transfer.Route(e, s)
 }

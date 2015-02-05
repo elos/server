@@ -4,7 +4,8 @@ import (
 	"net/http"
 
 	"github.com/elos/data"
-	"github.com/elos/server/models/user"
+	"github.com/elos/models/user"
+	"github.com/elos/transfer"
 )
 
 type UsersPostHandler struct {
@@ -20,13 +21,8 @@ func UsersPostFunction(w http.ResponseWriter, r *http.Request, Error ErrorHandle
 		"name": r.FormValue("name"),
 	}
 
-	user, err := user.Create(s, attrs)
-
-	if err != nil {
-		logf("An error occurred while creating the user, err: %s", err)
-		Error(err).ServeHTTP(w, r)
-	} else {
-		logf("User was successfully created: %v", user)
-		Resource(201, user).ServeHTTP(w, r)
-	}
+	hack, _ := user.New(s)
+	c := transfer.NewHTTPConnection(w, r, hack)
+	e := transfer.New(c, transfer.POST, "user", attrs)
+	go transfer.Route(e, s)
 }
