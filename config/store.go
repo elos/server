@@ -69,7 +69,7 @@ var RMap data.RelationshipMap = data.RelationshipMap{
 	},
 }
 
-func (s *Server) SetupStore(addr string) {
+func SetupStore(addr string) data.Store {
 	mongo.RegisterKind(UserKind, "users")
 	mongo.RegisterKind(EventKind, "events")
 	mongo.RegisterKind(TaskKind, "tasks")
@@ -79,20 +79,20 @@ func (s *Server) SetupStore(addr string) {
 		log.Fatal(err)
 	}
 
-	Log("Database connection established")
+	log.Print("Database connection established")
 
 	sch, err := data.NewSchema(&RMap, DataVersion)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	Log("Schema successfully validated")
+	log.Print("Schema successfully validated")
 
-	s.Store = data.NewStore(db, sch)
+	s := data.NewStore(db, sch)
 
-	s.Store.Register(UserKind, user.NewM)
-	s.Store.Register(EventKind, event.NewM)
-	s.Store.Register(TaskKind, task.NewM)
+	s.Register(UserKind, user.NewM)
+	s.Register(EventKind, event.NewM)
+	s.Register(TaskKind, task.NewM)
 
 	user.Setup(sch, UserKind, 1)
 	user.Events = UserEvents
@@ -105,4 +105,6 @@ func (s *Server) SetupStore(addr string) {
 	task.Setup(sch, TaskKind, 1)
 	task.User = TaskUser
 	task.Dependencies = TaskDependencies
+
+	return s
 }

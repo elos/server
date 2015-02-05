@@ -1,27 +1,25 @@
 package config
 
 import (
+	"github.com/elos/data"
 	"github.com/elos/models/user"
 	"github.com/elos/server/agents"
 )
 
 var Outfitter *agents.Outfitter
 
-func (s *Server) SetupServices() {
-	if s.Store == nil {
-		return
-	}
+func SetupServices(s data.Store) {
 	Outfitter = agents.NewOutfitter()
 	go Outfitter.Run()
 
-	iter, err := s.Store.NewQuery(UserKind).Execute()
+	iter, err := s.NewQuery(UserKind).Execute()
 	if err != nil {
 	}
 
-	u, _ := user.New(s.Store)
+	u, _ := user.New(s)
 
 	for iter.Next(u) {
-		agents.OutfitUser(Outfitter, s.Store, u)
+		agents.OutfitUser(Outfitter, s, u)
 	}
 
 	if err := iter.Close(); err != nil {

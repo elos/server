@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"log"
 	"net/http"
 	"sync"
 
@@ -173,14 +174,14 @@ func (h *AuthenticationHandler) ServeHTTP(w http.ResponseWriter, r *http.Request
 	agent, authenticated, err := h.Authenticator(h.Store, r)
 
 	if err != nil {
-		logf("An error occurred during authentication, err: %s", err)
+		log.Printf("An error occurred during authentication, err: %s", err)
 		h.NewErrorHandler(err).ServeHTTP(w, r)
 		return
 	}
 
 	if authenticated {
 		h.AuthenticatedHandler.ServeHTTP(w, r, agent)
-		logf("Agent with id %s authenticated", agent.ID())
+		log.Printf("Agent with id %s authenticated", agent.ID())
 	} else {
 		h.NewUnauthorizedHandler("Not authenticated").ServeHTTP(w, r)
 	}

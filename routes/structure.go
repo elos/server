@@ -2,6 +2,7 @@ package routes
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -90,7 +91,7 @@ func SetupRoutes(hm HandlerMap, mux *http.ServeMux, prefix string) {
 				methodHandler.Handle(routeName, handler)
 			} else {
 				// if you implement this, test it
-				log("this functionality is not defined")
+				log.Print("this functionality is not defined")
 			}
 		}
 	}

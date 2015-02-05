@@ -15,7 +15,7 @@ type ClientDataAgent struct {
 	transfer.SocketConnection
 }
 
-func NewClientDataAgent(c transfer.SocketConnection, s data.Store) autonomous.Agent {
+func NewClientDataAgent(c transfer.SocketConnection, s data.Store) *ClientDataAgent {
 	a := &ClientDataAgent{
 		Core:             autonomous.NewCore(),
 		Identified:       autonomous.NewIdentified(),

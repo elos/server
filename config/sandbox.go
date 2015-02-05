@@ -9,17 +9,17 @@ import (
 	"github.com/elos/models/user"
 )
 
-func (s *Server) Sandbox() {
+func Sandbox(s data.Store) {
 	/* free sandbox at the beginning of server,
 	nice to test eventual functionality */
 
-	if s.Store == nil {
+	if s == nil {
 		return
 	}
 
-	u, _ := user.Create(s.Store, data.AttrMap{"name": "Sandy Sandbox"})
+	u, _ := user.Create(s, data.AttrMap{"name": "Sandy Sandbox"})
 
-	e, _ := event.New(s.Store)
+	e, _ := event.New(s)
 
 	e.SetID(s.NewID())
 
@@ -31,12 +31,12 @@ func (s *Server) Sandbox() {
 		log.Fatal(err)
 	}
 
-	t, _ := task.New(s.Store)
+	t, _ := task.New(s)
 	t.SetID(s.NewID())
 	t.SetName("Sandy's Parent Task")
 
-	t1, _ := task.New(s.Store)
-	t2, _ := task.New(s.Store)
+	t1, _ := task.New(s)
+	t2, _ := task.New(s)
 
 	t1.SetName("Sandy's Child Task 1")
 	t2.SetName("Sandy's Child Task 2")
@@ -61,6 +61,6 @@ func (s *Server) Sandbox() {
 		log.Fatal(err)
 	}
 
-	Logf("User id: %s", u.ID())
-	Logf("Event id: %s", e.ID())
+	log.Printf("User id: %s", u.ID())
+	log.Printf("Event id: %s", e.ID())
 }
