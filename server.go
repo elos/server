@@ -10,7 +10,7 @@ import (
 
 	"github.com/elos/autonomous"
 	"github.com/elos/data/mongo"
-	"github.com/elos/server/config"
+	"github.com/elos/stack"
 )
 
 func main() {
@@ -30,19 +30,20 @@ func main() {
 	if err := mongo.StartDatabaseServer(); err != nil {
 		log.Fatal("Failed to start mongo, server can not start")
 	}
-	store := config.SetupStore("localhost")
 
-	stack := autonomous.NewAgentHub()
+	store := stack.SetupStore("localhost")
 
-	httpserver := config.NewHTTPServer(*addr, *port, store)
+	manager := autonomous.NewAgentHub()
 
-	go stack.StartAgent(httpserver)
-	go HandleSignals(stack.Stop)
+	httpserver := stack.NewHTTPServer(*addr, *port, store)
 
-	config.Sandbox(store)
-	//config.SetupServices(store)
+	go manager.StartAgent(httpserver)
+	go HandleSignals(manager.Stop)
 
-	stack.Run()
+	stack.Sandbox(store)
+	stack.SetupServices(store)
+
+	manager.Run()
 }
 
 func HandleSignals(end func()) {
