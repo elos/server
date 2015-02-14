@@ -9,7 +9,8 @@ import (
 	"path/filepath"
 
 	"github.com/elos/autonomous"
-	"github.com/elos/data/mongo"
+	"github.com/elos/httpserver"
+	"github.com/elos/mongo"
 	"github.com/elos/stack"
 )
 
@@ -23,27 +24,32 @@ func main() {
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage:\n")
-		fmt.Fprintf(os.Stderr, " %s [-h=ADDR] [-p=NUM] [-v=FLAG]\n", programName)
+		fmt.Fprintf(os.Stderr, " %s [-h=ADDR] [-p=NUM] \n", programName)
 		flag.PrintDefaults()
 	}
 
-	if err := mongo.StartDatabaseServer(); err != nil {
-		log.Fatal("Failed to start mongo, server can not start")
-	}
+	var hub autonomous.Manager = autonomous.NewHub()
+
+	go hub.Start()
+	hub.WaitStart()
+
+	mongo.Runner.ConfigFile = "mongo.conf"
+	go hub.StartAgent(mongo.Runner)
 
 	store := stack.SetupStore("localhost")
 
-	manager := autonomous.NewAgentHub()
+	server := httpserver.New(*addr, *port, store)
+	go hub.StartAgent(server)
+	server.WaitStart()
 
-	httpserver := stack.NewHTTPServer(*addr, *port, store)
+	log.Print("HTTPServer started")
 
-	go manager.StartAgent(httpserver)
-	go HandleSignals(manager.Stop)
+	go HandleSignals(hub.Stop)
 
 	stack.Sandbox(store)
 	stack.SetupServices(store)
 
-	manager.Run()
+	hub.WaitStop()
 }
 
 func HandleSignals(end func()) {
