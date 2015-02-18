@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"os/signal"
 	"path/filepath"
 
 	"github.com/elos/autonomous"
@@ -44,21 +43,10 @@ func main() {
 
 	log.Print("HTTPServer started")
 
-	go HandleSignals(hub.Stop)
+	go autonomous.HandleIntercept(hub.Stop)
 
 	stack.Sandbox(store)
 	stack.SetupServices(store)
 
 	hub.WaitStop()
-}
-
-func HandleSignals(end func()) {
-	// Intercept sigterm
-	signalChannel := make(chan os.Signal, 1)
-	signal.Notify(signalChannel, os.Interrupt)
-
-	// Block on this channel
-	/*sig*/ _ = <-signalChannel
-
-	end()
 }
