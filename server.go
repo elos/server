@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 
@@ -41,12 +40,9 @@ func main() {
 	go hub.StartAgent(server)
 	server.WaitStart()
 
-	log.Print("HTTPServer started")
+	stack.Sandbox(store)
+	stack.SetupAgents(store)
 
 	go autonomous.HandleIntercept(hub.Stop)
-
-	stack.Sandbox(store)
-	stack.SetupServices(store)
-
 	hub.WaitStop()
 }
