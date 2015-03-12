@@ -12,21 +12,23 @@ import (
 	"github.com/elos/stack"
 )
 
-func main() {
-	programName := filepath.Base(os.Args[0])
+var (
+	addr                           = flag.String("h", "127.0.0.1", "IP Address to bind to")
+	port                           = flag.Int("p", 8000, "Port to listen on")
+	programName                    = filepath.Base(os.Args[0])
+	hub         autonomous.Manager = autonomous.NewHub()
+)
 
-	var (
-		addr = flag.String("h", "127.0.0.1", "IP Address to bind to")
-		port = flag.Int("p", 8000, "Port to listen on")
-	)
-
+func setFlagUsage() {
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage:\n")
 		fmt.Fprintf(os.Stderr, " %s [-h=ADDR] [-p=NUM] \n", programName)
 		flag.PrintDefaults()
 	}
+}
 
-	var hub autonomous.Manager = autonomous.NewHub()
+func main() {
+	setFlagUsage()
 
 	go hub.Start()
 	hub.WaitStart()

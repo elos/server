@@ -1,0 +1,1332 @@
+2015-03-01T03:00:08.440-0800 [initandlisten] MongoDB starting : pid=29883 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-103.AirBears2.1918.Berkeley.EDU
+2015-03-01T03:00:08.441-0800 [initandlisten] db version v2.6.7
+2015-03-01T03:00:08.441-0800 [initandlisten] git version: nogitversion
+2015-03-01T03:00:08.441-0800 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-01T03:00:08.441-0800 [initandlisten] allocator: tcmalloc
+2015-03-01T03:00:08.441-0800 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-01T03:00:08.441-0800 [initandlisten] journal dir=/data/db/journal
+2015-03-01T03:00:08.441-0800 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-01T03:00:08.471-0800 [initandlisten] waiting for connections on port 27017
+2015-03-01T03:00:08.912-0800 [initandlisten] connection accepted from 127.0.0.1:64247 #1 (1 connection now open)
+2015-03-01T03:00:09.939-0800 [initandlisten] connection accepted from 127.0.0.1:64248 #2 (2 connections now open)
+2015-03-01T03:00:09.939-0800 [initandlisten] connection accepted from 127.0.0.1:64249 #3 (3 connections now open)
+2015-03-01T03:00:09.939-0800 [initandlisten] connection accepted from 127.0.0.1:64250 #4 (4 connections now open)
+2015-03-01T03:00:09.939-0800 [initandlisten] connection accepted from 127.0.0.1:64251 #5 (5 connections now open)
+2015-03-01T03:00:09.939-0800 [initandlisten] connection accepted from 127.0.0.1:64252 #6 (6 connections now open)
+2015-03-01T03:00:09.939-0800 [initandlisten] connection accepted from 127.0.0.1:64253 #7 (7 connections now open)
+2015-03-01T03:00:09.940-0800 [initandlisten] connection accepted from 127.0.0.1:64254 #8 (8 connections now open)
+2015-03-01T03:00:09.940-0800 [initandlisten] connection accepted from 127.0.0.1:64255 #9 (9 connections now open)
+2015-03-01T03:00:09.940-0800 [initandlisten] connection accepted from 127.0.0.1:64256 #10 (10 connections now open)
+2015-03-01T03:00:09.940-0800 [initandlisten] connection accepted from 127.0.0.1:64257 #11 (11 connections now open)
+2015-03-01T03:00:09.940-0800 [initandlisten] connection accepted from 127.0.0.1:64258 #12 (12 connections now open)
+2015-03-01T03:00:09.940-0800 [initandlisten] connection accepted from 127.0.0.1:64259 #13 (13 connections now open)
+2015-03-01T03:00:09.941-0800 [initandlisten] connection accepted from 127.0.0.1:64260 #14 (14 connections now open)
+2015-03-01T03:00:09.941-0800 [initandlisten] connection accepted from 127.0.0.1:64261 #15 (15 connections now open)
+2015-03-01T03:00:09.941-0800 [initandlisten] connection accepted from 127.0.0.1:64262 #16 (16 connections now open)
+2015-03-01T03:00:09.941-0800 [initandlisten] connection accepted from 127.0.0.1:64263 #17 (17 connections now open)
+2015-03-01T03:00:09.941-0800 [initandlisten] connection accepted from 127.0.0.1:64264 #18 (18 connections now open)
+2015-03-01T03:00:19.001-0800 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-01T03:00:19.001-0800 [signalProcessingThread] now exiting
+2015-03-01T03:00:19.001-0800 [signalProcessingThread] dbexit: 
+2015-03-01T03:00:19.001-0800 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-01T03:00:19.001-0800 [signalProcessingThread] closing listening socket: 8
+2015-03-01T03:00:19.001-0800 [signalProcessingThread] closing listening socket: 11
+2015-03-01T03:00:19.001-0800 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-01T03:00:19.002-0800 [conn18] end connection 127.0.0.1:64264 (17 connections now open)
+2015-03-01T03:00:19.002-0800 [conn17] end connection 127.0.0.1:64263 (16 connections now open)
+2015-03-01T03:00:19.003-0800 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-01T03:00:19.003-0800 [conn16] end connection 127.0.0.1:64262 (15 connections now open)
+2015-03-01T03:00:19.003-0800 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-01T03:00:19.003-0800 [conn15] end connection 127.0.0.1:64261 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn14] end connection 127.0.0.1:64260 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn12] end connection 127.0.0.1:64258 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn13] end connection 127.0.0.1:64259 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn11] end connection 127.0.0.1:64257 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn10] end connection 127.0.0.1:64256 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn9] end connection 127.0.0.1:64255 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn8] end connection 127.0.0.1:64254 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn7] end connection 127.0.0.1:64253 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn6] end connection 127.0.0.1:64252 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn5] end connection 127.0.0.1:64251 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn3] end connection 127.0.0.1:64249 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn4] end connection 127.0.0.1:64250 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn2] end connection 127.0.0.1:64248 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [conn1] end connection 127.0.0.1:64247 (14 connections now open)
+2015-03-01T03:00:19.003-0800 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-01T03:00:19.004-0800 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-01T03:00:19.004-0800 [signalProcessingThread] shutdown: final commit...
+2015-03-01T03:00:19.011-0800 [signalProcessingThread] shutdown: closing all files...
+2015-03-01T03:00:19.011-0800 [signalProcessingThread] closeAllFiles() finished
+2015-03-01T03:00:19.011-0800 [signalProcessingThread] journalCleanup...
+2015-03-01T03:00:19.011-0800 [signalProcessingThread] removeJournalFiles
+2015-03-01T03:00:19.012-0800 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-01T03:00:19.012-0800 [signalProcessingThread] dbexit: really exiting now
+2015-03-07T22:29:58.024-0800 ***** SERVER RESTARTED *****
+2015-03-07T22:29:58.056-0800 [initandlisten] MongoDB starting : pid=47171 port=27017 dbpath=/data/db 64-bit host=Nicks-MBP
+2015-03-07T22:29:58.056-0800 [initandlisten] db version v2.6.7
+2015-03-07T22:29:58.056-0800 [initandlisten] git version: nogitversion
+2015-03-07T22:29:58.056-0800 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-07T22:29:58.056-0800 [initandlisten] allocator: tcmalloc
+2015-03-07T22:29:58.056-0800 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-07T22:29:58.059-0800 [initandlisten] journal dir=/data/db/journal
+2015-03-07T22:29:58.059-0800 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-07T22:29:58.127-0800 [initandlisten] waiting for connections on port 27017
+2015-03-07T22:29:58.382-0800 [initandlisten] connection accepted from 127.0.0.1:63463 #1 (1 connection now open)
+2015-03-07T22:30:09.179-0800 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-07T22:30:09.179-0800 [signalProcessingThread] now exiting
+2015-03-07T22:30:09.179-0800 [signalProcessingThread] dbexit: 
+2015-03-07T22:30:09.180-0800 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-07T22:30:09.180-0800 [signalProcessingThread] closing listening socket: 10
+2015-03-07T22:30:09.180-0800 [signalProcessingThread] closing listening socket: 12
+2015-03-07T22:30:09.180-0800 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-07T22:30:09.181-0800 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-07T22:30:09.181-0800 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-07T22:30:09.181-0800 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-07T22:30:09.181-0800 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-07T22:30:09.182-0800 [signalProcessingThread] shutdown: final commit...
+2015-03-07T22:30:09.184-0800 [conn1] end connection 127.0.0.1:63463 (0 connections now open)
+2015-03-07T22:30:09.189-0800 [signalProcessingThread] shutdown: closing all files...
+2015-03-07T22:30:09.189-0800 [signalProcessingThread] closeAllFiles() finished
+2015-03-07T22:30:09.189-0800 [signalProcessingThread] journalCleanup...
+2015-03-07T22:30:09.189-0800 [signalProcessingThread] removeJournalFiles
+2015-03-07T22:30:09.189-0800 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-07T22:30:09.189-0800 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:05:52.477-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:05:52.508-0700 [initandlisten] MongoDB starting : pid=54645 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:05:52.508-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:05:52.508-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:05:52.508-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:05:52.508-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:05:52.508-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:05:52.510-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:05:52.510-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:05:52.577-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:05:52.840-0700 [initandlisten] connection accepted from 127.0.0.1:53822 #1 (1 connection now open)
+2015-03-09T21:06:19.707-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:06:19.707-0700 [signalProcessingThread] now exiting
+2015-03-09T21:06:19.707-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:06:19.707-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:06:19.707-0700 [signalProcessingThread] closing listening socket: 10
+2015-03-09T21:06:19.707-0700 [signalProcessingThread] closing listening socket: 12
+2015-03-09T21:06:19.707-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:06:19.708-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:06:19.708-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:06:19.708-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:06:19.708-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:06:19.708-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:06:19.711-0700 [conn1] end connection 127.0.0.1:53822 (0 connections now open)
+2015-03-09T21:06:19.715-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:06:19.716-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:06:19.716-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:06:19.716-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:06:19.716-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:06:19.716-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:07:38.056-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:07:38.084-0700 [initandlisten] MongoDB starting : pid=54795 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:07:38.084-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:07:38.084-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:07:38.084-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:07:38.084-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:07:38.084-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:07:38.084-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:07:38.084-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:07:38.150-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:07:38.426-0700 [initandlisten] connection accepted from 127.0.0.1:53861 #1 (1 connection now open)
+2015-03-09T21:08:17.294-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:08:17.294-0700 [signalProcessingThread] now exiting
+2015-03-09T21:08:17.294-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:08:17.294-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:08:17.294-0700 [signalProcessingThread] closing listening socket: 9
+2015-03-09T21:08:17.295-0700 [signalProcessingThread] closing listening socket: 11
+2015-03-09T21:08:17.295-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:08:17.295-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:08:17.295-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:08:17.295-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:08:17.295-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:08:17.295-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:08:17.298-0700 [conn1] end connection 127.0.0.1:53861 (0 connections now open)
+2015-03-09T21:08:17.302-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:08:17.303-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:08:17.303-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:08:17.303-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:08:17.303-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:08:17.303-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:09:02.644-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:09:02.654-0700 [initandlisten] MongoDB starting : pid=54924 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:09:02.654-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:09:02.654-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:09:02.654-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:09:02.654-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:09:02.654-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:09:02.654-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:09:02.654-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:09:02.685-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:09:03.123-0700 [initandlisten] connection accepted from 127.0.0.1:53900 #1 (1 connection now open)
+2015-03-09T21:09:10.993-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:09:10.993-0700 [signalProcessingThread] now exiting
+2015-03-09T21:09:10.993-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:09:10.993-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:09:10.993-0700 [signalProcessingThread] closing listening socket: 8
+2015-03-09T21:09:10.993-0700 [signalProcessingThread] closing listening socket: 9
+2015-03-09T21:09:10.993-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:09:10.993-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:09:10.993-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:09:10.994-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:09:10.994-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:09:10.994-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:09:10.994-0700 [conn1] end connection 127.0.0.1:53900 (0 connections now open)
+2015-03-09T21:09:11.001-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:09:11.001-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:09:11.001-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:09:11.001-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:09:11.001-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:09:11.001-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:11:07.295-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:11:07.330-0700 [initandlisten] MongoDB starting : pid=55088 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:11:07.330-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:11:07.330-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:11:07.330-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:11:07.330-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:11:07.330-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:11:07.331-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:11:07.331-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:11:07.394-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:11:07.667-0700 [initandlisten] connection accepted from 127.0.0.1:53944 #1 (1 connection now open)
+2015-03-09T21:12:07.437-0700 [clientcursormon] mem (MB) res:34 virt:2815
+2015-03-09T21:12:07.437-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T21:12:07.437-0700 [clientcursormon]  connections:1
+2015-03-09T21:17:07.677-0700 [clientcursormon] mem (MB) res:34 virt:2815
+2015-03-09T21:17:07.678-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T21:17:07.678-0700 [clientcursormon]  connections:1
+2015-03-09T21:17:12.239-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:17:12.240-0700 [signalProcessingThread] now exiting
+2015-03-09T21:17:12.240-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:17:12.240-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:17:12.240-0700 [signalProcessingThread] closing listening socket: 8
+2015-03-09T21:17:12.240-0700 [signalProcessingThread] closing listening socket: 11
+2015-03-09T21:17:12.240-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:17:12.240-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:17:12.240-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:17:12.240-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:17:12.240-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:17:12.240-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:17:12.242-0700 [conn1] end connection 127.0.0.1:53944 (0 connections now open)
+2015-03-09T21:17:12.244-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:17:12.244-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:17:12.244-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:17:12.244-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:17:12.245-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:17:12.245-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:19:53.086-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:19:53.119-0700 [initandlisten] MongoDB starting : pid=55352 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:19:53.120-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:19:53.120-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:19:53.120-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:19:53.120-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:19:53.120-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:19:53.120-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:19:53.120-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:19:53.182-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:19:53.463-0700 [initandlisten] connection accepted from 127.0.0.1:54114 #1 (1 connection now open)
+2015-03-09T21:20:53.248-0700 [clientcursormon] mem (MB) res:34 virt:2814
+2015-03-09T21:20:53.248-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T21:20:53.248-0700 [clientcursormon]  connections:1
+2015-03-09T21:22:14.600-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:22:14.600-0700 [signalProcessingThread] now exiting
+2015-03-09T21:22:14.600-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:22:14.600-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:22:14.600-0700 [signalProcessingThread] closing listening socket: 9
+2015-03-09T21:22:14.600-0700 [signalProcessingThread] closing listening socket: 11
+2015-03-09T21:22:14.601-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:22:14.601-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:22:14.601-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:22:14.601-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:22:14.601-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:22:14.601-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:22:14.603-0700 [conn1] end connection 127.0.0.1:54114 (0 connections now open)
+2015-03-09T21:22:14.605-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:22:14.605-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:22:14.605-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:22:14.605-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:22:14.605-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:22:14.605-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:23:53.774-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:23:53.783-0700 [initandlisten] MongoDB starting : pid=55428 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:23:53.783-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:23:53.783-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:23:53.783-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:23:53.783-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:23:53.783-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:23:53.783-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:23:53.783-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:23:53.813-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:23:54.256-0700 [initandlisten] connection accepted from 127.0.0.1:54136 #1 (1 connection now open)
+2015-03-09T21:24:53.865-0700 [clientcursormon] mem (MB) res:34 virt:2789
+2015-03-09T21:24:53.866-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T21:24:53.866-0700 [clientcursormon]  connections:1
+2015-03-09T21:25:48.246-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:25:48.246-0700 [signalProcessingThread] now exiting
+2015-03-09T21:25:48.246-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:25:48.246-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:25:48.246-0700 [signalProcessingThread] closing listening socket: 8
+2015-03-09T21:25:48.246-0700 [signalProcessingThread] closing listening socket: 9
+2015-03-09T21:25:48.246-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:25:48.246-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:25:48.246-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:25:48.246-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:25:48.246-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:25:48.246-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:25:48.247-0700 [conn1] end connection 127.0.0.1:54136 (0 connections now open)
+2015-03-09T21:25:48.250-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:25:48.250-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:25:48.250-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:25:48.250-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:25:48.251-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:25:48.251-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:31:08.208-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:31:08.238-0700 [initandlisten] MongoDB starting : pid=55687 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:31:08.239-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:31:08.239-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:31:08.239-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:31:08.239-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:31:08.239-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:31:08.239-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:31:08.239-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:31:08.302-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:31:08.587-0700 [initandlisten] connection accepted from 127.0.0.1:54258 #1 (1 connection now open)
+2015-03-09T21:31:24.432-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:31:24.432-0700 [signalProcessingThread] now exiting
+2015-03-09T21:31:24.432-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:31:24.432-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:31:24.432-0700 [signalProcessingThread] closing listening socket: 9
+2015-03-09T21:31:24.432-0700 [signalProcessingThread] closing listening socket: 11
+2015-03-09T21:31:24.432-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:31:24.432-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:31:24.432-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:31:24.432-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:31:24.433-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:31:24.433-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:31:24.435-0700 [conn1] end connection 127.0.0.1:54258 (0 connections now open)
+2015-03-09T21:31:24.439-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:31:24.440-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:31:24.440-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:31:24.440-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:31:24.440-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:31:24.440-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:32:10.421-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:32:10.430-0700 [initandlisten] MongoDB starting : pid=55750 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:32:10.430-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:32:10.430-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:32:10.430-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:32:10.430-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:32:10.430-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:32:10.431-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:32:10.431-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:32:10.461-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:32:10.904-0700 [initandlisten] connection accepted from 127.0.0.1:54270 #1 (1 connection now open)
+2015-03-09T21:33:10.508-0700 [clientcursormon] mem (MB) res:34 virt:2806
+2015-03-09T21:33:10.508-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T21:33:10.508-0700 [clientcursormon]  connections:1
+2015-03-09T21:34:04.533-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:34:04.534-0700 [signalProcessingThread] now exiting
+2015-03-09T21:34:04.534-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:34:04.534-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:34:04.534-0700 [signalProcessingThread] closing listening socket: 8
+2015-03-09T21:34:04.534-0700 [signalProcessingThread] closing listening socket: 11
+2015-03-09T21:34:04.534-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:34:04.534-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:34:04.534-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:34:04.535-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:34:04.535-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:34:04.535-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:34:04.535-0700 [conn1] end connection 127.0.0.1:54270 (0 connections now open)
+2015-03-09T21:34:04.538-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:34:04.538-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:34:04.538-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:34:04.539-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:34:04.539-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:34:04.539-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:36:40.346-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:36:40.380-0700 [initandlisten] MongoDB starting : pid=55929 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:36:40.380-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:36:40.380-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:36:40.380-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:36:40.380-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:36:40.380-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:36:40.381-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:36:40.381-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:36:40.443-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:36:40.713-0700 [initandlisten] connection accepted from 127.0.0.1:54347 #1 (1 connection now open)
+2015-03-09T21:37:05.818-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:37:05.819-0700 [signalProcessingThread] now exiting
+2015-03-09T21:37:05.819-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:37:05.819-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:37:05.819-0700 [signalProcessingThread] closing listening socket: 8
+2015-03-09T21:37:05.819-0700 [signalProcessingThread] closing listening socket: 9
+2015-03-09T21:37:05.819-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:37:05.821-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:37:05.821-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:37:05.821-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:37:05.821-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:37:05.821-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:37:05.822-0700 [conn1] end connection 127.0.0.1:54347 (0 connections now open)
+2015-03-09T21:37:05.827-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:37:05.828-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:37:05.828-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:37:05.828-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:37:05.828-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:37:05.828-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:38:58.021-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:38:58.031-0700 [initandlisten] MongoDB starting : pid=56003 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:38:58.031-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:38:58.031-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:38:58.031-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:38:58.031-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:38:58.031-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:38:58.032-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:38:58.032-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:38:58.064-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:38:58.499-0700 [initandlisten] connection accepted from 127.0.0.1:54365 #1 (1 connection now open)
+2015-03-09T21:39:40.326-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:39:40.327-0700 [signalProcessingThread] now exiting
+2015-03-09T21:39:40.327-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:39:40.327-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:39:40.327-0700 [signalProcessingThread] closing listening socket: 9
+2015-03-09T21:39:40.327-0700 [signalProcessingThread] closing listening socket: 11
+2015-03-09T21:39:40.327-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:39:40.327-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:39:40.327-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:39:40.327-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:39:40.327-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:39:40.327-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:39:40.328-0700 [conn1] end connection 127.0.0.1:54365 (0 connections now open)
+2015-03-09T21:39:40.334-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:39:40.335-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:39:40.335-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:39:40.335-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:39:40.335-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:39:40.335-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:39:44.044-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:39:44.058-0700 [initandlisten] MongoDB starting : pid=56051 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:39:44.058-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:39:44.058-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:39:44.058-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:39:44.058-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:39:44.058-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:39:44.059-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:39:44.059-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:39:44.097-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:39:44.515-0700 [initandlisten] connection accepted from 127.0.0.1:54411 #1 (1 connection now open)
+2015-03-09T21:40:44.142-0700 [clientcursormon] mem (MB) res:34 virt:2815
+2015-03-09T21:40:44.142-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T21:40:44.142-0700 [clientcursormon]  connections:1
+2015-03-09T21:41:16.617-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:41:16.617-0700 [signalProcessingThread] now exiting
+2015-03-09T21:41:16.617-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:41:16.617-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:41:16.617-0700 [signalProcessingThread] closing listening socket: 9
+2015-03-09T21:41:16.617-0700 [signalProcessingThread] closing listening socket: 11
+2015-03-09T21:41:16.618-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:41:16.618-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:41:16.618-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:41:16.618-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:41:16.618-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:41:16.618-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:41:16.618-0700 [conn1] end connection 127.0.0.1:54411 (0 connections now open)
+2015-03-09T21:41:16.622-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:41:16.622-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:41:16.622-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:41:16.622-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:41:16.622-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:41:16.622-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:41:19.971-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:41:19.981-0700 [initandlisten] MongoDB starting : pid=56100 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:41:19.981-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:41:19.981-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:41:19.981-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:41:19.981-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:41:19.981-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:41:19.981-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:41:19.981-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:41:20.008-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:41:20.446-0700 [initandlisten] connection accepted from 127.0.0.1:54427 #1 (1 connection now open)
+2015-03-09T21:42:20.050-0700 [clientcursormon] mem (MB) res:8 virt:2799
+2015-03-09T21:42:20.050-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T21:42:20.050-0700 [clientcursormon]  connections:1
+2015-03-09T21:44:48.720-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:44:48.720-0700 [signalProcessingThread] now exiting
+2015-03-09T21:44:48.720-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:44:48.720-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:44:48.720-0700 [signalProcessingThread] closing listening socket: 8
+2015-03-09T21:44:48.720-0700 [signalProcessingThread] closing listening socket: 9
+2015-03-09T21:44:48.720-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:44:48.721-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:44:48.721-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:44:48.721-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:44:48.721-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:44:48.721-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:44:48.721-0700 [conn1] end connection 127.0.0.1:54427 (0 connections now open)
+2015-03-09T21:44:48.725-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:44:48.725-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:44:48.725-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:44:48.725-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:44:48.725-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:44:48.725-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:44:52.843-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:44:52.855-0700 [initandlisten] MongoDB starting : pid=56183 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:44:52.855-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:44:52.855-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:44:52.855-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:44:52.855-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:44:52.855-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:44:52.856-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:44:52.856-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:44:52.890-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:44:53.320-0700 [initandlisten] connection accepted from 127.0.0.1:54492 #1 (1 connection now open)
+2015-03-09T21:45:52.942-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-09T21:45:52.943-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T21:45:52.943-0700 [clientcursormon]  connections:1
+2015-03-09T21:50:31.674-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:50:31.674-0700 [signalProcessingThread] now exiting
+2015-03-09T21:50:31.675-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:50:31.675-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:50:31.675-0700 [signalProcessingThread] closing listening socket: 8
+2015-03-09T21:50:31.675-0700 [signalProcessingThread] closing listening socket: 11
+2015-03-09T21:50:31.675-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:50:31.675-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:50:31.675-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:50:31.675-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:50:31.675-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:50:31.675-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:50:31.676-0700 [conn1] end connection 127.0.0.1:54492 (0 connections now open)
+2015-03-09T21:50:31.679-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:50:31.680-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:50:31.680-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:50:31.680-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:50:31.681-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:50:31.681-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:50:35.307-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:50:35.319-0700 [initandlisten] MongoDB starting : pid=56407 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:50:35.319-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:50:35.319-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:50:35.319-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:50:35.319-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:50:35.319-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:50:35.320-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:50:35.320-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:50:35.357-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:50:35.779-0700 [initandlisten] connection accepted from 127.0.0.1:54627 #1 (1 connection now open)
+2015-03-09T21:51:35.389-0700 [clientcursormon] mem (MB) res:34 virt:2806
+2015-03-09T21:51:35.389-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T21:51:35.389-0700 [clientcursormon]  connections:1
+2015-03-09T21:54:12.443-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:54:12.444-0700 [signalProcessingThread] now exiting
+2015-03-09T21:54:12.444-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:54:12.444-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:54:12.444-0700 [signalProcessingThread] closing listening socket: 8
+2015-03-09T21:54:12.445-0700 [signalProcessingThread] closing listening socket: 9
+2015-03-09T21:54:12.445-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:54:12.445-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:54:12.446-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:54:12.446-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:54:12.446-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:54:12.446-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:54:12.446-0700 [conn1] end connection 127.0.0.1:54627 (0 connections now open)
+2015-03-09T21:54:12.454-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:54:12.455-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:54:12.455-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:54:12.455-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:54:12.456-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:54:12.456-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:54:15.834-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:54:15.846-0700 [initandlisten] MongoDB starting : pid=56554 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:54:15.846-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:54:15.846-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:54:15.847-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:54:15.847-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:54:15.847-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:54:15.847-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:54:15.847-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:54:15.878-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:54:16.310-0700 [initandlisten] connection accepted from 127.0.0.1:54690 #1 (1 connection now open)
+2015-03-09T21:55:15.921-0700 [clientcursormon] mem (MB) res:34 virt:2815
+2015-03-09T21:55:15.921-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T21:55:15.921-0700 [clientcursormon]  connections:1
+2015-03-09T21:57:50.727-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T21:57:50.727-0700 [signalProcessingThread] now exiting
+2015-03-09T21:57:50.727-0700 [signalProcessingThread] dbexit: 
+2015-03-09T21:57:50.727-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T21:57:50.727-0700 [signalProcessingThread] closing listening socket: 8
+2015-03-09T21:57:50.727-0700 [signalProcessingThread] closing listening socket: 11
+2015-03-09T21:57:50.727-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T21:57:50.727-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T21:57:50.727-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T21:57:50.727-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T21:57:50.727-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T21:57:50.728-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T21:57:50.728-0700 [conn1] end connection 127.0.0.1:54690 (0 connections now open)
+2015-03-09T21:57:50.731-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T21:57:50.731-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T21:57:50.731-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T21:57:50.731-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T21:57:50.732-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T21:57:50.732-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T21:57:53.535-0700 ***** SERVER RESTARTED *****
+2015-03-09T21:57:53.545-0700 [initandlisten] MongoDB starting : pid=56835 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T21:57:53.545-0700 [initandlisten] db version v2.6.7
+2015-03-09T21:57:53.545-0700 [initandlisten] git version: nogitversion
+2015-03-09T21:57:53.545-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T21:57:53.545-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T21:57:53.545-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T21:57:53.545-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T21:57:53.545-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T21:57:53.573-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T21:57:54.017-0700 [initandlisten] connection accepted from 127.0.0.1:54733 #1 (1 connection now open)
+2015-03-09T21:58:53.608-0700 [clientcursormon] mem (MB) res:34 virt:2806
+2015-03-09T21:58:53.608-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T21:58:53.608-0700 [clientcursormon]  connections:1
+2015-03-09T22:03:53.822-0700 [clientcursormon] mem (MB) res:8 virt:2806
+2015-03-09T22:03:53.823-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T22:03:53.823-0700 [clientcursormon]  connections:1
+2015-03-09T22:06:36.016-0700 [initandlisten] connection accepted from 127.0.0.1:54916 #2 (2 connections now open)
+2015-03-09T22:06:36.018-0700 [conn2] end connection 127.0.0.1:54916 (1 connection now open)
+2015-03-09T22:06:36.043-0700 ***** SERVER RESTARTED *****
+2015-03-09T22:06:36.053-0700 [initandlisten] MongoDB starting : pid=57245 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T22:06:36.053-0700 [initandlisten] db version v2.6.7
+2015-03-09T22:06:36.053-0700 [initandlisten] git version: nogitversion
+2015-03-09T22:06:36.053-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T22:06:36.053-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T22:06:36.053-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T22:06:36.057-0700 [initandlisten] exception in initAndListen: 10310 Unable to lock file: /data/db/mongod.lock. Is a mongod instance already running?, terminating
+2015-03-09T22:06:36.057-0700 [initandlisten] dbexit: 
+2015-03-09T22:06:36.057-0700 [initandlisten] shutdown: going to close listening sockets...
+2015-03-09T22:06:36.057-0700 [initandlisten] shutdown: going to flush diaglog...
+2015-03-09T22:06:36.057-0700 [initandlisten] shutdown: going to close sockets...
+2015-03-09T22:06:36.057-0700 [initandlisten] shutdown: waiting for fs preallocator...
+2015-03-09T22:06:36.057-0700 [initandlisten] shutdown: lock for final commit...
+2015-03-09T22:06:36.057-0700 [initandlisten] shutdown: final commit...
+2015-03-09T22:06:36.057-0700 [initandlisten] shutdown: closing all files...
+2015-03-09T22:06:36.058-0700 [initandlisten] closeAllFiles() finished
+2015-03-09T22:06:36.058-0700 [initandlisten] dbexit: really exiting now
+2015-03-09T22:06:42.886-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-09T22:06:42.887-0700 [signalProcessingThread] now exiting
+2015-03-09T22:06:42.887-0700 [signalProcessingThread] dbexit: 
+2015-03-09T22:06:42.887-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-09T22:06:42.887-0700 [signalProcessingThread] closing listening socket: 8
+2015-03-09T22:06:42.887-0700 [signalProcessingThread] closing listening socket: 11
+2015-03-09T22:06:42.887-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-09T22:06:42.887-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-09T22:06:42.887-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-09T22:06:42.887-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-09T22:06:42.887-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-09T22:06:42.887-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-09T22:06:42.888-0700 [conn1] end connection 127.0.0.1:54733 (0 connections now open)
+2015-03-09T22:06:42.891-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-09T22:06:42.892-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-09T22:06:42.892-0700 [signalProcessingThread] journalCleanup...
+2015-03-09T22:06:42.892-0700 [signalProcessingThread] removeJournalFiles
+2015-03-09T22:06:42.893-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-09T22:06:42.893-0700 [signalProcessingThread] dbexit: really exiting now
+2015-03-09T22:06:45.761-0700 ***** SERVER RESTARTED *****
+2015-03-09T22:06:45.771-0700 [initandlisten] MongoDB starting : pid=57274 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-162.AirBears2.1918.Berkeley.EDU
+2015-03-09T22:06:45.771-0700 [initandlisten] db version v2.6.7
+2015-03-09T22:06:45.771-0700 [initandlisten] git version: nogitversion
+2015-03-09T22:06:45.771-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-09T22:06:45.772-0700 [initandlisten] allocator: tcmalloc
+2015-03-09T22:06:45.772-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-09T22:06:45.773-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-09T22:06:45.773-0700 [initandlisten] recover : no journal files present, no recovery needed
+2015-03-09T22:06:45.808-0700 [initandlisten] waiting for connections on port 27017
+2015-03-09T22:06:46.243-0700 [initandlisten] connection accepted from 127.0.0.1:54923 #1 (1 connection now open)
+2015-03-09T22:07:03.232-0700 [initandlisten] connection accepted from 127.0.0.1:54926 #2 (2 connections now open)
+2015-03-09T22:07:45.852-0700 [clientcursormon] mem (MB) res:34 virt:2800
+2015-03-09T22:07:45.852-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T22:07:45.852-0700 [clientcursormon]  connections:2
+2015-03-09T22:09:09.494-0700 [conn2] end connection 127.0.0.1:54926 (1 connection now open)
+2015-03-09T22:12:46.124-0700 [clientcursormon] mem (MB) res:34 virt:2800
+2015-03-09T22:12:46.125-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T22:12:46.125-0700 [clientcursormon]  connections:1
+2015-03-09T22:17:46.419-0700 [clientcursormon] mem (MB) res:34 virt:2800
+2015-03-09T22:17:46.419-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T22:17:46.419-0700 [clientcursormon]  connections:1
+2015-03-09T22:36:42.733-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-09T22:36:42.734-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T22:36:42.734-0700 [clientcursormon]  connections:1
+2015-03-09T22:50:54.821-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-09T22:50:54.821-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T22:50:54.822-0700 [clientcursormon]  connections:1
+2015-03-09T22:55:55.057-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-09T22:55:55.058-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T22:55:55.058-0700 [clientcursormon]  connections:1
+2015-03-09T23:00:55.316-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-09T23:00:55.317-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T23:00:55.317-0700 [clientcursormon]  connections:1
+2015-03-09T23:05:55.604-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-09T23:05:55.605-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-09T23:05:55.605-0700 [clientcursormon]  connections:1
+2015-03-10T00:08:48.097-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T00:08:48.098-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T00:08:48.098-0700 [clientcursormon]  connections:1
+2015-03-10T01:09:40.935-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T01:09:40.935-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T01:09:40.936-0700 [clientcursormon]  connections:1
+2015-03-10T02:58:32.310-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T02:58:32.310-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T02:58:32.310-0700 [clientcursormon]  connections:1
+2015-03-10T04:47:26.263-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T04:47:26.263-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T04:47:26.263-0700 [clientcursormon]  connections:1
+2015-03-10T06:36:19.473-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T06:36:19.473-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T06:36:19.473-0700 [clientcursormon]  connections:1
+2015-03-10T08:54:24.071-0700 [initandlisten] connection accepted from 127.0.0.1:55257 #3 (2 connections now open)
+2015-03-10T08:54:26.508-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T08:54:26.508-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T08:54:26.508-0700 [clientcursormon]  connections:2
+2015-03-10T09:14:29.059-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T09:14:29.059-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T09:14:29.059-0700 [clientcursormon]  connections:2
+2015-03-10T09:19:29.335-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T09:19:29.336-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T09:19:29.336-0700 [clientcursormon]  connections:2
+2015-03-10T09:24:29.566-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T09:24:29.567-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T09:24:29.567-0700 [clientcursormon]  connections:2
+2015-03-10T09:29:29.824-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T09:29:29.825-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T09:29:29.825-0700 [clientcursormon]  connections:2
+2015-03-10T09:34:30.083-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T09:34:30.083-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T09:34:30.083-0700 [clientcursormon]  connections:2
+2015-03-10T09:39:30.371-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T09:39:30.372-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T09:39:30.372-0700 [clientcursormon]  connections:2
+2015-03-10T09:44:30.590-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T09:44:30.591-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T09:44:30.591-0700 [clientcursormon]  connections:2
+2015-03-10T09:49:30.868-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T09:49:30.869-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T09:49:30.869-0700 [clientcursormon]  connections:2
+2015-03-10T09:54:31.116-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T09:54:31.117-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T09:54:31.117-0700 [clientcursormon]  connections:2
+2015-03-10T09:59:31.383-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T09:59:31.384-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T09:59:31.384-0700 [clientcursormon]  connections:2
+2015-03-10T10:04:31.662-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T10:04:31.663-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T10:04:31.663-0700 [clientcursormon]  connections:2
+2015-03-10T10:09:31.923-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T10:09:31.923-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T10:09:31.923-0700 [clientcursormon]  connections:2
+2015-03-10T10:14:32.154-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T10:14:32.155-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T10:14:32.155-0700 [clientcursormon]  connections:2
+2015-03-10T10:15:32.204-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T10:15:32.205-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T10:15:32.205-0700 [clientcursormon]  connections:2
+2015-03-10T10:20:32.474-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T10:20:32.475-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T10:20:32.475-0700 [clientcursormon]  connections:2
+2015-03-10T10:25:32.715-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T10:25:32.716-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T10:25:32.716-0700 [clientcursormon]  connections:2
+2015-03-10T10:30:32.949-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T10:30:32.950-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T10:30:32.950-0700 [clientcursormon]  connections:2
+2015-03-10T10:35:33.213-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T10:35:33.214-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T10:35:33.214-0700 [clientcursormon]  connections:2
+2015-03-10T10:40:33.493-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T10:40:33.494-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T10:40:33.494-0700 [clientcursormon]  connections:2
+2015-03-10T10:45:33.772-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T10:45:33.772-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T10:45:33.772-0700 [clientcursormon]  connections:2
+2015-03-10T10:50:34.054-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T10:50:34.055-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T10:50:34.055-0700 [clientcursormon]  connections:2
+2015-03-10T10:55:34.321-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T10:55:34.322-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T10:55:34.322-0700 [clientcursormon]  connections:2
+2015-03-10T11:04:22.754-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T11:04:22.754-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T11:04:22.754-0700 [clientcursormon]  connections:2
+2015-03-10T11:09:23.055-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T11:09:23.055-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T11:09:23.055-0700 [clientcursormon]  connections:2
+2015-03-10T12:27:13.739-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T12:27:13.739-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T12:27:13.740-0700 [clientcursormon]  connections:2
+2015-03-10T12:32:13.993-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T12:32:13.994-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T12:32:13.994-0700 [clientcursormon]  connections:2
+2015-03-10T12:38:10.081-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T12:38:10.081-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T12:38:10.081-0700 [clientcursormon]  connections:2
+2015-03-10T12:43:10.347-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T12:43:10.348-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T12:43:10.348-0700 [clientcursormon]  connections:2
+2015-03-10T12:49:09.855-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T12:49:09.856-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T12:49:09.856-0700 [clientcursormon]  connections:2
+2015-03-10T12:54:10.123-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T12:54:10.123-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T12:54:10.123-0700 [clientcursormon]  connections:2
+2015-03-10T12:59:10.404-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T12:59:10.404-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T12:59:10.404-0700 [clientcursormon]  connections:2
+2015-03-10T13:04:10.672-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T13:04:10.672-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T13:04:10.672-0700 [clientcursormon]  connections:2
+2015-03-10T13:09:10.913-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T13:09:10.913-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T13:09:10.913-0700 [clientcursormon]  connections:2
+2015-03-10T13:14:11.172-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T13:14:11.172-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T13:14:11.172-0700 [clientcursormon]  connections:2
+2015-03-10T13:19:11.439-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T13:19:11.440-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T13:19:11.440-0700 [clientcursormon]  connections:2
+2015-03-10T13:24:11.685-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T13:24:11.685-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T13:24:11.685-0700 [clientcursormon]  connections:2
+2015-03-10T13:29:11.950-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T13:29:11.950-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T13:29:11.950-0700 [clientcursormon]  connections:2
+2015-03-10T13:34:12.204-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T13:34:12.205-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T13:34:12.205-0700 [clientcursormon]  connections:2
+2015-03-10T13:39:12.459-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T13:39:12.460-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T13:39:12.460-0700 [clientcursormon]  connections:2
+2015-03-10T13:44:12.728-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T13:44:12.728-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T13:44:12.728-0700 [clientcursormon]  connections:2
+2015-03-10T13:49:13.009-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T13:49:13.009-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T13:49:13.009-0700 [clientcursormon]  connections:2
+2015-03-10T13:50:13.063-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T13:50:13.064-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T13:50:13.064-0700 [clientcursormon]  connections:2
+2015-03-10T13:56:31.741-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T13:56:31.741-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T13:56:31.741-0700 [clientcursormon]  connections:2
+2015-03-10T14:01:31.961-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T14:01:31.962-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:01:31.962-0700 [clientcursormon]  connections:2
+2015-03-10T14:06:32.212-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T14:06:32.213-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:06:32.213-0700 [clientcursormon]  connections:2
+2015-03-10T14:11:32.487-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T14:11:32.488-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:11:32.488-0700 [clientcursormon]  connections:2
+2015-03-10T14:16:32.758-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T14:16:32.758-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:16:32.758-0700 [clientcursormon]  connections:2
+2015-03-10T14:21:32.978-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T14:21:32.978-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:21:32.978-0700 [clientcursormon]  connections:2
+2015-03-10T14:26:33.234-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T14:26:33.234-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:26:33.234-0700 [clientcursormon]  connections:2
+2015-03-10T14:31:33.507-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T14:31:33.508-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:31:33.508-0700 [clientcursormon]  connections:2
+2015-03-10T14:36:33.773-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T14:36:33.774-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:36:33.774-0700 [clientcursormon]  connections:2
+2015-03-10T14:41:34.035-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T14:41:34.035-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:41:34.035-0700 [clientcursormon]  connections:2
+2015-03-10T14:46:34.305-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T14:46:34.306-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:46:34.306-0700 [clientcursormon]  connections:2
+2015-03-10T14:51:34.561-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T14:51:34.561-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:51:34.561-0700 [clientcursormon]  connections:2
+2015-03-10T14:56:34.843-0700 [clientcursormon] mem (MB) res:8 virt:2800
+2015-03-10T14:56:34.844-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:56:34.844-0700 [clientcursormon]  connections:2
+2015-03-10T14:59:34.970-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T14:59:34.970-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T14:59:34.970-0700 [clientcursormon]  connections:2
+2015-03-10T15:04:35.177-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T15:04:35.178-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T15:04:35.178-0700 [clientcursormon]  connections:2
+2015-03-10T15:09:35.408-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T15:09:35.408-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T15:09:35.408-0700 [clientcursormon]  connections:2
+2015-03-10T15:14:35.630-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T15:14:35.631-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T15:14:35.631-0700 [clientcursormon]  connections:2
+2015-03-10T15:19:35.929-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T15:19:35.930-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T15:19:35.930-0700 [clientcursormon]  connections:2
+2015-03-10T15:24:36.199-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T15:24:36.199-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T15:24:36.199-0700 [clientcursormon]  connections:2
+2015-03-10T15:34:11.754-0700 [clientcursormon] mem (MB) res:9 virt:2800
+2015-03-10T15:34:11.754-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T15:34:11.754-0700 [clientcursormon]  connections:2
+2015-03-10T15:38:45.980-0700 [conn3] end connection 127.0.0.1:55257 (1 connection now open)
+2015-03-10T15:38:45.981-0700 [conn1] end connection 127.0.0.1:54923 (1 connection now open)
+2015-03-10T15:43:20.353-0700 ***** SERVER RESTARTED *****
+2015-03-10T15:43:20.384-0700 [initandlisten] MongoDB starting : pid=791 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-11-94.AirBears2.1918.Berkeley.EDU
+2015-03-10T15:43:20.384-0700 [initandlisten] db version v2.6.7
+2015-03-10T15:43:20.384-0700 [initandlisten] git version: nogitversion
+2015-03-10T15:43:20.384-0700 [initandlisten] build info: Darwin miniyosemite.local 14.1.0 Darwin Kernel Version 14.1.0: Fri Dec  5 06:49:27 PST 2014; root:xnu-2782.10.67~9/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-03-10T15:43:20.384-0700 [initandlisten] allocator: tcmalloc
+2015-03-10T15:43:20.384-0700 [initandlisten] options: { config: "mongo.conf", systemLog: { destination: "file", logAppend: true, path: "./mongodb.log" } }
+2015-03-10T15:43:20.386-0700 [initandlisten] journal dir=/data/db/journal
+2015-03-10T15:43:20.387-0700 [initandlisten] recover begin
+2015-03-10T15:43:20.387-0700 [initandlisten] info no lsn file in journal/ directory
+2015-03-10T15:43:20.387-0700 [initandlisten] recover lsn: 0
+2015-03-10T15:43:20.387-0700 [initandlisten] recover /data/db/journal/j._0
+2015-03-10T15:43:20.408-0700 [initandlisten] recover cleaning up
+2015-03-10T15:43:20.408-0700 [initandlisten] removeJournalFiles
+2015-03-10T15:43:20.409-0700 [initandlisten] recover done
+2015-03-10T15:43:20.536-0700 [initandlisten] waiting for connections on port 27017
+2015-03-10T15:43:20.700-0700 [initandlisten] connection accepted from 127.0.0.1:49334 #1 (1 connection now open)
+2015-03-10T15:43:33.048-0700 [initandlisten] connection accepted from 127.0.0.1:49355 #2 (2 connections now open)
+2015-03-10T15:43:53.720-0700 [conn2] end connection 127.0.0.1:49355 (1 connection now open)
+2015-03-10T15:44:20.523-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T15:44:20.523-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T15:44:20.523-0700 [clientcursormon]  connections:1
+2015-03-10T15:49:20.216-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T15:49:20.216-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T15:49:20.216-0700 [clientcursormon]  connections:1
+2015-03-10T15:54:20.474-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T15:54:20.474-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T15:54:20.475-0700 [clientcursormon]  connections:1
+2015-03-10T15:59:20.737-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T15:59:20.737-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T15:59:20.737-0700 [clientcursormon]  connections:1
+2015-03-10T16:04:21.034-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T16:04:21.034-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T16:04:21.034-0700 [clientcursormon]  connections:1
+2015-03-10T16:09:21.326-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T16:09:21.327-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T16:09:21.327-0700 [clientcursormon]  connections:1
+2015-03-10T16:14:21.755-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T16:14:21.755-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T16:14:21.755-0700 [clientcursormon]  connections:1
+2015-03-10T16:19:22.100-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T16:19:22.100-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T16:19:22.100-0700 [clientcursormon]  connections:1
+2015-03-10T16:24:22.588-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T16:24:22.588-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T16:24:22.588-0700 [clientcursormon]  connections:1
+2015-03-10T16:29:22.954-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T16:29:22.954-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T16:29:22.954-0700 [clientcursormon]  connections:1
+2015-03-10T16:34:23.222-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T16:34:23.223-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T16:34:23.223-0700 [clientcursormon]  connections:1
+2015-03-10T16:45:36.980-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T16:45:36.980-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T16:45:36.980-0700 [clientcursormon]  connections:1
+2015-03-10T17:10:12.003-0700 [clientcursormon] mem (MB) res:34 virt:2807
+2015-03-10T17:10:12.003-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T17:10:12.003-0700 [clientcursormon]  connections:1
+2015-03-10T18:32:39.373-0700 [clientcursormon] mem (MB) res:0 virt:2807
+2015-03-10T18:32:39.453-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T18:32:39.453-0700 [clientcursormon]  connections:1
+2015-03-10T18:32:39.499-0700 [TTLMonitor] query admin.system.indexes query: { expireAfterSeconds: { $exists: true } } planSummary: EOF ntoreturn:0 ntoskip:0 nscanned:0 nscannedObjects:0 keyUpdates:0 numYields:0 locks(micros) r:4650515216 nreturned:0 reslen:20 4650531ms
+2015-03-10T18:32:39.737-0700 [TTLMonitor] query local.system.indexes query: { expireAfterSeconds: { $exists: true } } planSummary: COLLSCAN ntoreturn:0 ntoskip:0 nscanned:1 nscannedObjects:1 keyUpdates:0 numYields:0 locks(micros) r:193506 nreturned:0 reslen:20 193ms
+2015-03-10T18:32:39.985-0700 [initandlisten] connection accepted from 127.0.0.1:50128 #3 (2 connections now open)
+2015-03-10T18:37:39.800-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T18:37:39.801-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T18:37:39.801-0700 [clientcursormon]  connections:2
+2015-03-10T18:42:40.056-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T18:42:40.056-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T18:42:40.056-0700 [clientcursormon]  connections:2
+2015-03-10T18:47:40.291-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T18:47:40.291-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T18:47:40.291-0700 [clientcursormon]  connections:2
+2015-03-10T18:52:40.559-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T18:52:40.559-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T18:52:40.559-0700 [clientcursormon]  connections:2
+2015-03-10T18:57:40.847-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T18:57:40.848-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T18:57:40.848-0700 [clientcursormon]  connections:2
+2015-03-10T19:02:41.143-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T19:02:41.143-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T19:02:41.143-0700 [clientcursormon]  connections:2
+2015-03-10T19:35:07.774-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T19:35:07.774-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T19:35:07.774-0700 [clientcursormon]  connections:2
+2015-03-10T19:40:08.046-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T19:40:08.046-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T19:40:08.046-0700 [clientcursormon]  connections:2
+2015-03-10T19:45:08.320-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T19:45:08.320-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T19:45:08.320-0700 [clientcursormon]  connections:2
+2015-03-10T19:50:09.407-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T19:50:09.407-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T19:50:09.407-0700 [clientcursormon]  connections:2
+2015-03-10T19:55:09.705-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T19:55:09.705-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T19:55:09.705-0700 [clientcursormon]  connections:2
+2015-03-10T20:00:09.987-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T20:00:09.988-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T20:00:09.988-0700 [clientcursormon]  connections:2
+2015-03-10T20:05:10.248-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T20:05:10.248-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T20:05:10.248-0700 [clientcursormon]  connections:2
+2015-03-10T20:10:10.497-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T20:10:10.497-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T20:10:10.497-0700 [clientcursormon]  connections:2
+2015-03-10T20:15:10.754-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T20:15:10.754-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T20:15:10.754-0700 [clientcursormon]  connections:2
+2015-03-10T20:20:10.999-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T20:20:10.999-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T20:20:10.999-0700 [clientcursormon]  connections:2
+2015-03-10T20:25:11.253-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T20:25:11.253-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T20:25:11.253-0700 [clientcursormon]  connections:2
+2015-03-10T20:30:11.503-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T20:30:11.504-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T20:30:11.504-0700 [clientcursormon]  connections:2
+2015-03-10T20:35:11.751-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T20:35:11.751-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T20:35:11.751-0700 [clientcursormon]  connections:2
+2015-03-10T20:40:12.008-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T20:40:12.008-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T20:40:12.008-0700 [clientcursormon]  connections:2
+2015-03-10T20:45:12.268-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T20:45:12.268-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T20:45:12.268-0700 [clientcursormon]  connections:2
+2015-03-10T20:50:12.510-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T20:50:12.510-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T20:50:12.510-0700 [clientcursormon]  connections:2
+2015-03-10T20:55:12.795-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T20:55:12.796-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T20:55:12.796-0700 [clientcursormon]  connections:2
+2015-03-10T21:00:13.090-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T21:00:13.090-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T21:00:13.090-0700 [clientcursormon]  connections:2
+2015-03-10T21:05:13.348-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T21:05:13.348-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T21:05:13.348-0700 [clientcursormon]  connections:2
+2015-03-10T21:10:13.600-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T21:10:13.600-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T21:10:13.601-0700 [clientcursormon]  connections:2
+2015-03-10T21:15:13.882-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T21:15:13.882-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T21:15:13.882-0700 [clientcursormon]  connections:2
+2015-03-10T21:20:14.114-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T21:20:14.114-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T21:20:14.114-0700 [clientcursormon]  connections:2
+2015-03-10T21:25:14.369-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T21:25:14.369-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T21:25:14.369-0700 [clientcursormon]  connections:2
+2015-03-10T21:30:14.616-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T21:30:14.616-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T21:30:14.616-0700 [clientcursormon]  connections:2
+2015-03-10T21:35:14.858-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T21:35:14.859-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T21:35:14.859-0700 [clientcursormon]  connections:2
+2015-03-10T21:40:15.090-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T21:40:15.090-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T21:40:15.090-0700 [clientcursormon]  connections:2
+2015-03-10T21:45:15.393-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T21:45:15.393-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T21:45:15.393-0700 [clientcursormon]  connections:2
+2015-03-10T21:54:25.477-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T21:54:25.477-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T21:54:25.477-0700 [clientcursormon]  connections:2
+2015-03-10T21:59:25.753-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T21:59:25.754-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T21:59:25.754-0700 [clientcursormon]  connections:2
+2015-03-10T22:04:26.018-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T22:04:26.019-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T22:04:26.019-0700 [clientcursormon]  connections:2
+2015-03-10T22:09:26.297-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T22:09:26.297-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T22:09:26.297-0700 [clientcursormon]  connections:2
+2015-03-10T22:14:26.495-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T22:14:26.496-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T22:14:26.496-0700 [clientcursormon]  connections:2
+2015-03-10T22:19:26.724-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T22:19:26.725-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T22:19:26.725-0700 [clientcursormon]  connections:2
+2015-03-10T22:24:27.001-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T22:24:27.001-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T22:24:27.001-0700 [clientcursormon]  connections:2
+2015-03-10T22:29:27.302-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T22:29:27.302-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T22:29:27.302-0700 [clientcursormon]  connections:2
+2015-03-10T22:34:27.624-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T22:34:27.625-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T22:34:27.625-0700 [clientcursormon]  connections:2
+2015-03-10T22:41:48.595-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T22:41:48.595-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T22:41:48.595-0700 [clientcursormon]  connections:2
+2015-03-10T22:46:48.820-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T22:46:48.820-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T22:46:48.820-0700 [clientcursormon]  connections:2
+2015-03-10T22:51:49.036-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T22:51:49.036-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T22:51:49.036-0700 [clientcursormon]  connections:2
+2015-03-10T22:56:49.036-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T22:56:49.036-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T22:56:49.036-0700 [clientcursormon]  connections:2
+2015-03-10T23:01:49.306-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-10T23:01:49.306-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-10T23:01:49.306-0700 [clientcursormon]  connections:2
+2015-03-11T00:06:41.372-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T00:06:41.372-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T00:06:41.372-0700 [clientcursormon]  connections:2
+2015-03-11T01:07:34.090-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T01:07:34.090-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T01:07:34.090-0700 [clientcursormon]  connections:2
+2015-03-11T02:38:26.954-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T02:38:26.954-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T02:38:26.954-0700 [clientcursormon]  connections:2
+2015-03-11T06:12:12.197-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T06:12:12.197-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T06:12:12.197-0700 [clientcursormon]  connections:2
+2015-03-11T08:01:05.078-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T08:01:05.078-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T08:01:05.078-0700 [clientcursormon]  connections:2
+2015-03-11T08:36:36.052-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T08:36:36.052-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T08:36:36.052-0700 [clientcursormon]  connections:2
+2015-03-11T08:41:36.314-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T08:41:36.314-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T08:41:36.314-0700 [clientcursormon]  connections:2
+2015-03-11T08:46:36.597-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T08:46:36.597-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T08:46:36.597-0700 [clientcursormon]  connections:2
+2015-03-11T08:52:31.465-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T08:52:31.465-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T08:52:31.465-0700 [clientcursormon]  connections:2
+2015-03-11T08:57:31.749-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T08:57:31.749-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T08:57:31.749-0700 [clientcursormon]  connections:2
+2015-03-11T09:02:32.027-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T09:02:32.028-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T09:02:32.028-0700 [clientcursormon]  connections:2
+2015-03-11T09:07:32.321-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T09:07:32.321-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T09:07:32.321-0700 [clientcursormon]  connections:2
+2015-03-11T09:12:32.609-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T09:12:32.609-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T09:12:32.609-0700 [clientcursormon]  connections:2
+2015-03-11T09:17:32.889-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T09:17:32.889-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T09:17:32.889-0700 [clientcursormon]  connections:2
+2015-03-11T09:22:33.176-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T09:22:33.176-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T09:22:33.176-0700 [clientcursormon]  connections:2
+2015-03-11T09:27:33.449-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T09:27:33.449-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T09:27:33.449-0700 [clientcursormon]  connections:2
+2015-03-11T09:32:33.751-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T09:32:33.751-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T09:32:33.751-0700 [clientcursormon]  connections:2
+2015-03-11T09:37:34.036-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T09:37:34.036-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T09:37:34.036-0700 [clientcursormon]  connections:2
+2015-03-11T09:42:55.594-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T09:42:55.595-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T09:42:55.595-0700 [clientcursormon]  connections:2
+2015-03-11T10:11:15.905-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T10:11:15.905-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T10:11:15.906-0700 [clientcursormon]  connections:2
+2015-03-11T10:16:16.182-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T10:16:16.182-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T10:16:16.182-0700 [clientcursormon]  connections:2
+2015-03-11T10:21:16.479-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T10:21:16.479-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T10:21:16.479-0700 [clientcursormon]  connections:2
+2015-03-11T10:26:16.797-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T10:26:16.797-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T10:26:16.797-0700 [clientcursormon]  connections:2
+2015-03-11T10:31:17.121-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T10:31:17.121-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T10:31:17.121-0700 [clientcursormon]  connections:2
+2015-03-11T10:38:58.046-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T10:38:58.046-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T10:38:58.046-0700 [clientcursormon]  connections:2
+2015-03-11T10:43:58.365-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T10:43:58.365-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T10:43:58.365-0700 [clientcursormon]  connections:2
+2015-03-11T10:48:59.854-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T10:48:59.854-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T10:48:59.854-0700 [clientcursormon]  connections:2
+2015-03-11T10:54:00.143-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T10:54:00.143-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T10:54:00.143-0700 [clientcursormon]  connections:2
+2015-03-11T10:59:00.481-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T10:59:00.481-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T10:59:00.481-0700 [clientcursormon]  connections:2
+2015-03-11T11:26:29.432-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T11:26:29.432-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T11:26:29.432-0700 [clientcursormon]  connections:2
+2015-03-11T11:31:29.758-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T11:31:29.758-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T11:31:29.758-0700 [clientcursormon]  connections:2
+2015-03-11T11:36:30.065-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T11:36:30.065-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T11:36:30.065-0700 [clientcursormon]  connections:2
+2015-03-11T11:41:30.359-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T11:41:30.359-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T11:41:30.359-0700 [clientcursormon]  connections:2
+2015-03-11T11:46:30.638-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T11:46:30.638-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T11:46:30.638-0700 [clientcursormon]  connections:2
+2015-03-11T11:51:30.920-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T11:51:30.921-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T11:51:30.921-0700 [clientcursormon]  connections:2
+2015-03-11T11:56:31.221-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T11:56:31.221-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T11:56:31.221-0700 [clientcursormon]  connections:2
+2015-03-11T12:01:31.515-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T12:01:31.515-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T12:01:31.515-0700 [clientcursormon]  connections:2
+2015-03-11T12:06:32.133-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T12:06:32.133-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T12:06:32.133-0700 [clientcursormon]  connections:2
+2015-03-11T12:11:32.424-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T12:11:32.424-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T12:11:32.424-0700 [clientcursormon]  connections:2
+2015-03-11T12:16:32.717-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T12:16:32.717-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T12:16:32.717-0700 [clientcursormon]  connections:2
+2015-03-11T12:21:33.040-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T12:21:33.040-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T12:21:33.040-0700 [clientcursormon]  connections:2
+2015-03-11T12:26:33.288-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T12:26:33.288-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T12:26:33.288-0700 [clientcursormon]  connections:2
+2015-03-11T12:31:33.490-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T12:31:33.490-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T12:31:33.490-0700 [clientcursormon]  connections:2
+2015-03-11T12:36:33.691-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T12:36:33.691-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T12:36:33.691-0700 [clientcursormon]  connections:2
+2015-03-11T12:41:33.929-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T12:41:33.930-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T12:41:33.930-0700 [clientcursormon]  connections:2
+2015-03-11T12:46:34.161-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T12:46:34.161-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T12:46:34.162-0700 [clientcursormon]  connections:2
+2015-03-11T12:51:34.359-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T12:51:34.360-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T12:51:34.360-0700 [clientcursormon]  connections:2
+2015-03-11T12:56:34.596-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T12:56:34.597-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T12:56:34.597-0700 [clientcursormon]  connections:2
+2015-03-11T13:01:34.895-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T13:01:34.896-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T13:01:34.896-0700 [clientcursormon]  connections:2
+2015-03-11T13:06:35.183-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T13:06:35.183-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T13:06:35.183-0700 [clientcursormon]  connections:2
+2015-03-11T13:11:35.479-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T13:11:35.479-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T13:11:35.479-0700 [clientcursormon]  connections:2
+2015-03-11T13:16:35.809-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T13:16:35.809-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T13:16:35.809-0700 [clientcursormon]  connections:2
+2015-03-11T13:21:36.096-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T13:21:36.096-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T13:21:36.096-0700 [clientcursormon]  connections:2
+2015-03-11T13:26:36.379-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T13:26:36.379-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T13:26:36.379-0700 [clientcursormon]  connections:2
+2015-03-11T13:31:36.679-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T13:31:36.679-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T13:31:36.679-0700 [clientcursormon]  connections:2
+2015-03-11T13:36:36.928-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T13:36:36.929-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T13:36:36.929-0700 [clientcursormon]  connections:2
+2015-03-11T13:41:37.154-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T13:41:37.154-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T13:41:37.154-0700 [clientcursormon]  connections:2
+2015-03-11T13:46:37.364-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T13:46:37.365-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T13:46:37.365-0700 [clientcursormon]  connections:2
+2015-03-11T13:51:37.588-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T13:51:37.589-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T13:51:37.589-0700 [clientcursormon]  connections:2
+2015-03-11T15:03:50.650-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T15:03:50.650-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T15:03:50.650-0700 [clientcursormon]  connections:2
+2015-03-11T15:08:50.887-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T15:08:50.887-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T15:08:50.887-0700 [clientcursormon]  connections:2
+2015-03-11T16:06:16.214-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T16:06:16.214-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T16:06:16.214-0700 [clientcursormon]  connections:2
+2015-03-11T16:11:16.482-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T16:11:16.482-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T16:11:16.482-0700 [clientcursormon]  connections:2
+2015-03-11T18:06:46.276-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T18:06:46.276-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T18:06:46.276-0700 [clientcursormon]  connections:2
+2015-03-11T18:11:46.527-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T18:11:46.527-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T18:11:46.527-0700 [clientcursormon]  connections:2
+2015-03-11T18:16:46.759-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T18:16:46.759-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T18:16:46.759-0700 [clientcursormon]  connections:2
+2015-03-11T18:21:47.023-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T18:21:47.023-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T18:21:47.023-0700 [clientcursormon]  connections:2
+2015-03-11T18:26:47.306-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T18:26:47.306-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T18:26:47.307-0700 [clientcursormon]  connections:2
+2015-03-11T18:31:47.586-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T18:31:47.587-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T18:31:47.587-0700 [clientcursormon]  connections:2
+2015-03-11T18:36:47.818-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T18:36:47.819-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T18:36:47.819-0700 [clientcursormon]  connections:2
+2015-03-11T18:41:48.065-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T18:41:48.065-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T18:41:48.065-0700 [clientcursormon]  connections:2
+2015-03-11T18:46:48.386-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T18:46:48.387-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T18:46:48.387-0700 [clientcursormon]  connections:2
+2015-03-11T18:51:48.677-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T18:51:48.678-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T18:51:48.678-0700 [clientcursormon]  connections:2
+2015-03-11T18:56:51.936-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T18:56:51.936-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T18:56:51.936-0700 [clientcursormon]  connections:2
+2015-03-11T19:01:52.130-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T19:01:52.130-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T19:01:52.130-0700 [clientcursormon]  connections:2
+2015-03-11T19:06:52.363-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T19:06:52.363-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T19:06:52.364-0700 [clientcursormon]  connections:2
+2015-03-11T19:11:52.625-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T19:11:52.625-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T19:11:52.625-0700 [clientcursormon]  connections:2
+2015-03-11T19:16:52.879-0700 [clientcursormon] mem (MB) res:2 virt:2808
+2015-03-11T19:16:52.879-0700 [clientcursormon]  mapped (incl journal view):320
+2015-03-11T19:16:52.879-0700 [clientcursormon]  connections:2
+2015-03-11T19:17:37.322-0700 [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-03-11T19:17:37.323-0700 [signalProcessingThread] now exiting
+2015-03-11T19:17:37.323-0700 [signalProcessingThread] dbexit: 
+2015-03-11T19:17:37.323-0700 [signalProcessingThread] shutdown: going to close listening sockets...
+2015-03-11T19:17:37.324-0700 [signalProcessingThread] closing listening socket: 9
+2015-03-11T19:17:37.324-0700 [signalProcessingThread] closing listening socket: 11
+2015-03-11T19:17:37.324-0700 [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-03-11T19:17:37.324-0700 [signalProcessingThread] shutdown: going to flush diaglog...
+2015-03-11T19:17:37.324-0700 [signalProcessingThread] shutdown: going to close sockets...
+2015-03-11T19:17:37.325-0700 [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-03-11T19:17:37.325-0700 [signalProcessingThread] shutdown: lock for final commit...
+2015-03-11T19:17:37.325-0700 [signalProcessingThread] shutdown: final commit...
+2015-03-11T19:17:37.325-0700 [signalProcessingThread] shutdown: closing all files...
+2015-03-11T19:17:37.328-0700 [conn1] end connection 127.0.0.1:49334 (1 connection now open)
+2015-03-11T19:17:37.328-0700 [signalProcessingThread] closeAllFiles() finished
+2015-03-11T19:17:37.329-0700 [conn3] end connection 127.0.0.1:50128 (1 connection now open)
+2015-03-11T19:17:37.329-0700 [signalProcessingThread] journalCleanup...
+2015-03-11T19:17:37.329-0700 [signalProcessingThread] removeJournalFiles
+2015-03-11T19:17:37.333-0700 [signalProcessingThread] shutdown: removing fs lock...
+2015-03-11T19:17:37.334-0700 [signalProcessingThread] dbexit: really exiting now
