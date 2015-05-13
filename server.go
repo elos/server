@@ -3,13 +3,15 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 
+	"github.com/elos/app"
 	"github.com/elos/autonomous"
-	"github.com/elos/httpserver"
-	"github.com/elos/mongo"
-	"github.com/elos/stack"
+	"github.com/elos/data/builtin/mongo"
+	"github.com/elos/ehttp/serve"
+	"github.com/elos/models"
 )
 
 var (
@@ -36,14 +38,25 @@ func main() {
 	mongo.Runner.ConfigFile = "mongo.conf"
 	go hub.StartAgent(mongo.Runner)
 
-	store := stack.SetupStore("localhost")
+	db, err := models.MongoDB("localhost")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	server := httpserver.New(*addr, *port, store)
-	go hub.StartAgent(server)
-	server.WaitStart()
+	//api := api.New(db, hub)
+	//apiServer := serve.New(&serve.Opts{Handler: api})
 
-	stack.Sandbox(store)
-	stack.SetupAgents(store)
+	app := app.New(db, hub)
+	appServer := serve.New(&serve.Opts{Handler: app})
+
+	hub.StartAgent(appServer)
+
+	u := &models.User{}
+	u.SetID(db.NewID())
+	u.Key = "password"
+	if err := db.Save(u); err != nil {
+		log.Fatal(err)
+	}
 
 	go autonomous.HandleIntercept(hub.Stop)
 	hub.WaitStop()
