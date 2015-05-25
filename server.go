@@ -8,10 +8,15 @@ import (
 	"path/filepath"
 
 	"github.com/elos/app"
+	"github.com/elos/app/middleware"
+	"github.com/elos/app/routes"
 	"github.com/elos/autonomous"
 	"github.com/elos/data/builtin/mongo"
+	"github.com/elos/ehttp/builtin"
+	emiddleware "github.com/elos/ehttp/middleware"
 	"github.com/elos/ehttp/serve"
 	"github.com/elos/models"
+	"github.com/gorilla/context"
 )
 
 var (
@@ -46,8 +51,20 @@ func main() {
 	//api := api.New(db, hub)
 	//apiServer := serve.New(&serve.Opts{Handler: api})
 
-	app := app.New(db, hub)
-	appServer := serve.New(&serve.Opts{Handler: app})
+	sessions := builtin.NewSessions()
+	app := app.New(&app.Middleware{
+		Log:         emiddleware.LogRequest,
+		SessionAuth: middleware.NewSessionAuth(db, sessions, routes.SessionsSignIn),
+	}, &app.Services{
+		Agents:   hub,
+		DB:       db,
+		Sessions: sessions,
+	})
+
+	appServer := serve.New(&serve.Opts{
+		Handler: context.ClearHandler(app),
+		Port:    8080,
+	})
 
 	hub.StartAgent(appServer)
 
